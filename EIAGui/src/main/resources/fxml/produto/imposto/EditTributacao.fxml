@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" snapToPixel="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.net.eia.ui.produto.imposto.EditTributacaoController">
+  <children>
+    <FlowPane layoutX="14.0" layoutY="138.0" minHeight="302.0" prefHeight="331.0" prefWidth="593.0" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="118.0">
+      <children>
+        <TableView fx:id="clienteTable" blendMode="SRC_OVER" pickOnBounds="true" prefHeight="289.0" prefWidth="587.0" tableMenuButtonVisible="true">
+          <columns>
+            <TableColumn fx:id="destinoNameColumn" prefWidth="75.0" text="Destino" />
+            <TableColumn fx:id="stNameColumn" prefWidth="158.0" text="Situação Tributária" />
+            <TableColumn fx:id="icmsNameColumn" prefWidth="57.0" text="ICMS" />
+<TableColumn fx:id="ipiNameColumn" prefWidth="39.0" text="IPI" />
+<TableColumn fx:id="pisNameColumn" prefWidth="46.0" text="PIS" />
+<TableColumn fx:id="cofinsNameColumn" prefWidth="88.0" text="COFINS" />
+          </columns>
+        </TableView>
+      </children>
+    </FlowPane>
+    <HBox alignment="CENTER_RIGHT" layoutX="0.0" layoutY="449.0" prefHeight="37.0" prefWidth="587.0" spacing="10.0" AnchorPane.rightAnchor="7.0">
+      <children>
+        <Button mnemonicParsing="false" onAction="#handleBtSalvar" prefHeight="30.0" prefWidth="99.0" text="Gravar" />
+        <Button mnemonicParsing="false" onAction="#handleFechar" prefHeight="30.0" prefWidth="99.0" text="Fechar" />
+      </children>
+      <padding>
+        <Insets top="5.0" />
+      </padding>
+    </HBox><AnchorPane layoutX="6.0" layoutY="14.0" prefHeight="86.0" prefWidth="587.0">
+<children><TextField fx:id="tfNome" layoutX="91.0" layoutY="14.0" prefHeight="25.0" prefWidth="236.0" /><Label layoutX="14.0048828125" layoutY="18.0" text="Nome:" /><Label layoutX="14.0" layoutY="49.0" text="Descriçao:" /><TextField fx:id="tfDescricao" layoutX="91.0" layoutY="45.0" prefHeight="25.0" prefWidth="485.0" />
+</children></AnchorPane><HBox alignment="CENTER" layoutX="6.0" layoutY="412.0" prefHeight="37.0" prefWidth="587.0" spacing="10.0">
+<children>
+<Button id="btNovo" mnemonicParsing="false" onAction="#handleNew" prefHeight="30.0" prefWidth="99.0" text="Novo" />
+<Button mnemonicParsing="false" onAction="#handleEdit" prefHeight="30.0" prefWidth="99.0" text="Detalhar" />
+<Button mnemonicParsing="false" onAction="#handleDelete" prefHeight="30.0" prefWidth="99.0" text="Remover" />
+</children>
+<padding>
+<Insets top="5.0" />
+</padding>
+</HBox>
+  </children>
+</AnchorPane>

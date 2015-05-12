@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" snapToPixel="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.net.eia.ui.produto.imposto.CadastroTributacaoController">
+  <children>
+    <FlowPane minHeight="340.0" prefHeight="449.0" prefWidth="593.0" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <TableView fx:id="clienteTable" blendMode="SRC_OVER" pickOnBounds="true" prefHeight="449.0" prefWidth="587.0" tableMenuButtonVisible="true">
+          <columns>
+            <TableColumn fx:id="nomeNameColumn" prefWidth="75.0" text="Nome" />
+            <TableColumn fx:id="descricaoNameColumn" prefWidth="75.0" text="Descriçao" />
+          </columns>
+        </TableView>
+      </children>
+    </FlowPane>
+    <HBox alignment="CENTER" layoutX="0.0" layoutY="449.0" prefHeight="37.0" prefWidth="600.0" spacing="10.0">
+      <children>
+        <Button id="btTodos" mnemonicParsing="false" onAction="#handleTodos" prefHeight="30.0" prefWidth="99.0" text="Todos" />
+        <Button id="btNovo" mnemonicParsing="false" onAction="#handleNew" prefHeight="30.0" prefWidth="99.0" text="Novo" />
+        <Button mnemonicParsing="false" onAction="#handleEdit" prefHeight="30.0" prefWidth="99.0" text="Detalhar" />
+        <Button mnemonicParsing="false" onAction="#handleDelete" prefHeight="30.0" prefWidth="99.0" text="Remover" />
+        <Button mnemonicParsing="false" onAction="#handleFechar" prefHeight="30.0" prefWidth="99.0" text="Fechar" />
+      </children>
+      <padding>
+        <Insets top="5.0" />
+      </padding>
+    </HBox>
+  </children>
+</AnchorPane>

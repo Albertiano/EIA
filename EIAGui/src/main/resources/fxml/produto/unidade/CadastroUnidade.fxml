@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="407.0" prefWidth="446.0000999999975" snapToPixel="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.net.eia.ui.produto.unidade.CadastroUnidadeController">
+  <children>
+    <FlowPane prefHeight="424.0" prefWidth="446.0" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="354.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <TableView fx:id="clienteTable" blendMode="SRC_OVER" pickOnBounds="true" prefHeight="362.0" prefWidth="446.0" tableMenuButtonVisible="true">
+          <columns>
+            <TableColumn fx:id="siglaNameColumn" prefWidth="75.0" text="Sigla" />
+            <TableColumn fx:id="descricaoNameColumn" prefWidth="75.0" text="Descrição" />
+          </columns>
+        </TableView>
+        <HBox alignment="CENTER" prefHeight="37.0" prefWidth="446.0" spacing="10.0">
+          <children>
+          <Button id="btTodos" mnemonicParsing="false" onAction="#handleTodos" prefHeight="30.0" prefWidth="99.0" text="Todos" />
+            <Button id="btNovo" mnemonicParsing="false" onAction="#handleNew" prefHeight="30.0" prefWidth="99.0" text="Novo" />
+            <Button mnemonicParsing="false" onAction="#handleEdit" prefHeight="30.0" prefWidth="99.0" text="Detalhar" />
+            <Button mnemonicParsing="false" onAction="#handleDelete" prefHeight="30.0" prefWidth="99.0" text="Remover" />
+            <Button mnemonicParsing="false" onAction="#handleFechar" prefHeight="30.0" prefWidth="99.0" text="Fechar" />
+          </children>
+          <padding>
+            <Insets top="5.0" />
+          </padding>
+        </HBox>
+      </children>
+    </FlowPane>
+  </children>
+</AnchorPane>

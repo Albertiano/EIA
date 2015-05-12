@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.net.eia.ui.produto.imposto.EditDestinoController">
+  <!-- TODO Add Nodes -->
+  <bottom>
+    <HBox alignment="CENTER" prefHeight="34.0" prefWidth="800.0" spacing="10.0">
+      <children>
+        <Button fx:id="btSalvar" mnemonicParsing="false" onAction="#handleBtSalvar" prefHeight="25.0" prefWidth="100.0" text="Salvar" />
+        <Button fx:id="btCancelar" mnemonicParsing="false" onAction="#handleBtCancelar" prefHeight="25.0" prefWidth="100.0" text="Cancelar" />
+      </children>
+    </HBox>
+  </bottom>
+  <top>
+    <VBox prefHeight="561.0" prefWidth="800.0">
+      <children>
+        <AnchorPane prefHeight="70.00009999999747" prefWidth="800.0">
+          <children>
+            <Label layoutX="13.0" layoutY="21.0" prefHeight="21.0" prefWidth="57.0" text="Destino:">
+              <font>
+                <Font name="System Bold" size="12.0" fx:id="x1" />
+              </font>
+            </Label>
+            <TabPane layoutX="0.0" layoutY="66.0" prefHeight="500.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Tributos">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="566.0" prefWidth="800.0">
+                      <children>
+                        <TabPane layoutX="0.0" layoutY="0.0" prefHeight="468.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
+                          <tabs>
+                            <Tab text="ICMS">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="544.0" prefWidth="800.0">
+                                  <children>
+                                    <Label font="$x1" layoutX="14.0" layoutY="14.0" text="Situação Tributária:" />
+                                    <ComboBox fx:id="cbSTICMS" layoutX="137.0" layoutY="12.0" prefHeight="21.0" prefWidth="410.0">
+                                      <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                          <String fx:value="Item 1" />
+                                          <String fx:value="Item 2" />
+                                          <String fx:value="Item 3" />
+                                        </FXCollections>
+                                      </items>
+                                    </ComboBox>
+                                    <Label font="$x1" layoutX="561.0" layoutY="15.0" text="Origem:" />
+                                    <ComboBox fx:id="cbSOrigem" layoutX="622.0" layoutY="12.0" prefHeight="21.0" prefWidth="164.0">
+                                      <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                          <String fx:value="Item 1" />
+                                          <String fx:value="Item 2" />
+                                          <String fx:value="Item 3" />
+                                        </FXCollections>
+                                      </items>
+                                    </ComboBox>
+                                    <TitledPane animated="false" layoutX="14.0" layoutY="41.0" prefWidth="772.0" text="Exlusivamente Simples Nacional">
+                                      <content>
+                                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="30.0" prefWidth="768.0">
+                                          <children>
+                                            <Label layoutX="14.0" layoutY="6.0" text="Alíquota aplicável de cálculo do crédito:" />
+                                            <TextField id="tfCpfCnpj" fx:id="tfPercICMSAplicSN" layoutX="379.0" layoutY="4.0" prefWidth="100.0" />
+                                          </children>
+                                        </AnchorPane>
+                                      </content>
+                                    </TitledPane>
+                                    <TitledPane animated="false" layoutX="14.0" layoutY="99.0" prefHeight="146.0" prefWidth="772.0" text="ICMS">
+                                      <content>
+                                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="179.0" prefWidth="768.0">
+                                          <children>
+                                            <Label layoutX="14.0" layoutY="6.0" text="Modalidade da determinação da BC ICMS: " />
+                                            <ComboBox fx:id="cbTpBcICMS" layoutX="376.0" layoutY="4.0" prefHeight="21.0" prefWidth="378.0">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                            </ComboBox>
+                                            <Label layoutX="14.0" layoutY="30.0" text="Redução da Base de Calculo (%):" />
+                                            <TextField fx:id="tfPercRedICMS" layoutX="376.0" layoutY="27.0" prefWidth="100.0" />
+                                            <Label layoutX="14.0" layoutY="57.0" text="Alíquota ICMS:" />
+                                            <TextField fx:id="tfAliqICMS" layoutX="376.0" layoutY="54.0" prefWidth="100.0" />
+                                            <Label layoutX="14.0" layoutY="83.0" text="Motivo da desoneração do ICMS:" />
+                                            <ComboBox fx:id="cbMotDesICMS" layoutX="376.0" layoutY="81.0" prefHeight="21.0" prefWidth="378.0">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                            </ComboBox>
+                                          </children>
+                                        </AnchorPane>
+                                      </content>
+                                    </TitledPane>
+                                    <TitledPane animated="false" layoutX="14.0" layoutY="247.0" prefHeight="190.0" prefWidth="772.0" text="ICMS ST">
+                                      <content>
+                                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="179.0" prefWidth="768.0">
+                                          <children>
+                                            <Label layoutX="14.0" layoutY="6.0" text="Modalidade da determinação da BC ICMS: " />
+                                            <ComboBox fx:id="cbTpBcICMSST" layoutX="376.0" layoutY="4.0" prefHeight="21.0" prefWidth="378.0">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                            </ComboBox>
+                                            <TextField fx:id="tfPercRedICMSST" layoutX="376.0" layoutY="27.0" prefWidth="100.0" />
+                                            <Label layoutX="14.0" layoutY="29.0" text="Redução da Base de Calculo (%):" />
+                                            <TextField fx:id="tfPercAdicICMSST" layoutX="376.0" layoutY="54.0" prefWidth="100.0" />
+                                            <Label layoutX="15.0" layoutY="111.0" text="\% BC da operação própria:" />
+                                            <TextField fx:id="tfPercBCPropiaICMSST" layoutX="377.0" layoutY="108.0" prefWidth="100.0" />
+                                            <Label layoutX="15.0" layoutY="137.0" text="UF do ICMS ST devido na operação:" />
+                                            <ComboBox fx:id="cbUFICMSST" layoutX="377.0" layoutY="135.0" prefHeight="25.0" prefWidth="175.0">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                            </ComboBox>
+                                            <Label layoutX="14.0" layoutY="56.0" text="Valor Adicionado à Base de Calculo(%):" />
+                                            <TextField fx:id="tfAliqICMSST" layoutX="377.0" layoutY="81.0" prefWidth="100.0" />
+                                            <Label layoutX="15.0" layoutY="83.0" text="Alíquota ICMS:" />
+                                          </children>
+                                        </AnchorPane>
+                                      </content>
+                                    </TitledPane>
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </Tab>
+                            <Tab text="IPI">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                  <children>
+                                    <Label layoutX="14.0" layoutY="46.0" text="Classe de Enquadamento:" />
+                                    <TextField id="tfCpfCnpj" fx:id="tfClEnq" layoutX="177.0" layoutY="43.0" prefWidth="126.0" />
+                                    <Label layoutX="14.0" layoutY="67.0" text="*Codigo de Enquadamento:" />
+                                    <TextField id="tfCpfCnpj" fx:id="tfCodEnq" layoutX="177.0" layoutY="64.0" prefWidth="126.0" />
+                                    <Label layoutX="14.0" layoutY="88.0" text="CNPJ do Produtor:" />
+                                    <TextField id="tfCpfCnpj" fx:id="tfCNPJProd" layoutX="177.0" layoutY="85.0" prefWidth="126.0" />
+                                    <Label layoutX="14.0" layoutY="109.0" text="Codigo do selo de controle:" />
+                                    <TextField id="tfCpfCnpj" fx:id="tfCodSelo" layoutX="177.0" layoutY="106.0" prefWidth="126.0" />
+                                    <Label font="$x1" layoutX="14.0" layoutY="16.0" text="Situação Tributária:" />
+                                    <ComboBox fx:id="cbSTIPI" layoutX="178.0" layoutY="16.0" prefHeight="21.0" prefWidth="410.0">
+                                      <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                          <String fx:value="Item 1" />
+                                          <String fx:value="Item 2" />
+                                          <String fx:value="Item 3" />
+                                        </FXCollections>
+                                      </items>
+                                    </ComboBox>
+                                    <Label layoutX="14.0" layoutY="130.0" text="Qtd. do selo de controle:" />
+                                    <TextField id="tfCpfCnpj" fx:id="tfQtdSelo" layoutX="177.0" layoutY="127.0" prefWidth="126.0" />
+                                    <Label font="$x1" layoutX="14.0" layoutY="159.0" text="Tipo de Cálculo:" />
+                                    <ComboBox fx:id="cbTipoCalcIPI" layoutX="178.0" layoutY="157.0" prefHeight="21.0" prefWidth="234.0">
+                                      <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                          <String fx:value="Item 1" />
+                                          <String fx:value="Item 2" />
+                                          <String fx:value="Item 3" />
+                                        </FXCollections>
+                                      </items>
+                                    </ComboBox>
+                                    <Label layoutX="14.0" layoutY="190.0" text="Alíquota:" />
+                                    <TextField id="tfCpfCnpj" fx:id="tfAliqIPI" layoutX="177.0" layoutY="187.0" prefWidth="126.0" />
+                                    <Label layoutX="14.0" layoutY="211.0" text="Qtd. total unidade padrão:" />
+                                    <TextField id="tfCpfCnpj" fx:id="tfTotUniIPI" layoutX="177.0" layoutY="208.0" prefWidth="126.0" />
+                                    <Label layoutX="14.0" layoutY="232.0" text="Valor por unidade:" />
+                                    <TextField id="tfCpfCnpj" fx:id="tfValUnIPI" layoutX="177.0" layoutY="229.0" prefWidth="126.0" />
+                                    <CheckBox fx:id="ckValIPIBcICMSProp" layoutX="14.0" layoutY="267.0" mnemonicParsing="false" text="Incluir o Valor do IPI na Base de Cálculo do ICMS Próprio" />
+                                    <CheckBox fx:id="ckValIPIBcICMSST" layoutX="14.0" layoutY="290.0" mnemonicParsing="false" text="Incluir o Valor do IPI na Base de Cálculo do ICMS ST" />
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </Tab>
+                            <Tab text="PIS">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="544.0" prefWidth="800.0">
+                                  <children>
+                                    <TitledPane animated="false" layoutX="14.0" layoutY="14.0" prefHeight="146.0" prefWidth="772.0" text="PIS">
+                                      <content>
+                                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="179.0" prefWidth="768.0">
+                                          <children>
+                                            <Label layoutX="14.0" layoutY="6.0" text="Situação Tributária:" />
+                                            <ComboBox fx:id="cbSTPIS" layoutX="376.0" layoutY="4.0" prefHeight="21.0" prefWidth="378.0">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                            </ComboBox>
+                                            <Label layoutX="14.0" layoutY="29.0" text="Tipo de Cálculo:" />
+                                            <Label layoutX="14.0" layoutY="53.0" text="Alíquota(percentual):" />
+                                            <TextField fx:id="tfAliqPIS" layoutX="376.0" layoutY="50.0" prefWidth="100.0" />
+                                            <Label layoutX="14.0" layoutY="75.0" text="Alíquota(em reais):" />
+                                            <TextField fx:id="tfValUnPIS" layoutX="376.0" layoutY="72.0" prefWidth="100.0" />
+                                            <Label layoutX="14.0" layoutY="97.0" text="Fator Quantidade Vendida:" />
+                                            <TextField fx:id="tfFatorQtdVendPIS" layoutX="376.0" layoutY="94.0" prefWidth="100.0" />
+                                            <ComboBox fx:id="cbTipoCalcPIS" layoutX="376.0" layoutY="27.0" prefHeight="21.0" prefWidth="210.0">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                            </ComboBox>
+                                          </children>
+                                        </AnchorPane>
+                                      </content>
+                                    </TitledPane>
+                                    <TitledPane animated="false" layoutX="15.0" layoutY="174.0" prefHeight="146.0" prefWidth="772.0" text="PIS ST">
+                                      <content>
+                                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="179.0" prefWidth="768.0">
+                                          <children>
+                                            <Label layoutX="14.0" layoutY="14.0" text="Tipo de Cálculo:" />
+                                            <Label layoutX="14.0" layoutY="38.0" text="Alíquota(percentual):" />
+                                            <TextField fx:id="tfAliqPISST" layoutX="376.0" layoutY="35.0" prefWidth="100.0" />
+                                            <Label layoutX="14.0" layoutY="60.0" text="Alíquota(em reais):" />
+                                            <TextField fx:id="tfValUnPISST" layoutX="376.0" layoutY="57.0" prefWidth="100.0" />
+                                            <Label layoutX="14.0" layoutY="82.0" text="Fator Quantidade Vendida:" />
+                                            <TextField fx:id="tfFatorQtdVendPISST" layoutX="376.0" layoutY="79.0" prefWidth="100.0" />
+                                            <ComboBox fx:id="cbTipoCalcPISST" layoutX="376.0" layoutY="12.0" prefHeight="21.0" prefWidth="210.0">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                            </ComboBox>
+                                          </children>
+                                        </AnchorPane>
+                                      </content>
+                                    </TitledPane>
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </Tab>
+                            <Tab text="COFINS">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="544.0" prefWidth="800.0">
+                                  <children>
+                                    <TitledPane animated="false" layoutX="14.0" layoutY="14.0" prefHeight="146.0" prefWidth="772.0" text="COFINS">
+                                      <content>
+                                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="179.0" prefWidth="768.0">
+                                          <children>
+                                            <Label layoutX="14.0" layoutY="6.0" text="Situação Tributária:" />
+                                            <ComboBox fx:id="cbSTCOFINS" layoutX="376.0" layoutY="4.0" prefHeight="21.0" prefWidth="378.0">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                            </ComboBox>
+                                            <Label layoutX="14.0" layoutY="29.0" text="Tipo de Cálculo:" />
+                                            <Label layoutX="14.0" layoutY="53.0" text="Alíquota(percentual):" />
+                                            <TextField fx:id="tfAliqCOFINS" layoutX="376.0" layoutY="50.0" prefWidth="100.0" />
+                                            <Label layoutX="14.0" layoutY="75.0" text="Alíquota(em reais):" />
+                                            <TextField fx:id="tfValUnCOFINS" layoutX="376.0" layoutY="72.0" prefWidth="100.0" />
+                                            <Label layoutX="14.0" layoutY="97.0" text="Fator Quantidade Vendida:" />
+                                            <TextField fx:id="tfFatorQtdVendCOFINS" layoutX="376.0" layoutY="94.0" prefWidth="100.0" />
+                                            <ComboBox fx:id="cbTipoCalcCOFINS" layoutX="376.0" layoutY="27.0" prefHeight="21.0" prefWidth="210.0">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                            </ComboBox>
+                                          </children>
+                                        </AnchorPane>
+                                      </content>
+                                    </TitledPane>
+                                    <TitledPane animated="false" layoutX="15.0" layoutY="174.0" prefHeight="146.0" prefWidth="772.0" text="COFINS ST">
+                                      <content>
+                                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="179.0" prefWidth="768.0">
+                                          <children>
+                                            <Label layoutX="13.0" layoutY="14.0" text="Tipo de Cálculo:" />
+                                            <Label layoutX="13.0" layoutY="38.0" text="Alíquota(percentual):" />
+                                            <TextField fx:id="tfAliqCOFINSST" layoutX="375.0" layoutY="35.0" prefWidth="100.0" />
+                                            <Label layoutX="14.0" layoutY="61.0" text="Alíquota(em reais):" />
+                                            <TextField fx:id="tfValUnCOFINSST" layoutX="375.0" layoutY="58.0" prefWidth="100.0" />
+                                            <Label layoutX="14.0" layoutY="83.0" text="Fator Quantidade Vendida:" />
+                                            <TextField fx:id="tfFatorQtdVendCOFINSST" layoutX="375.0" layoutY="80.0" prefWidth="100.0" />
+                                            <ComboBox fx:id="cbTipoCalcCOFINSST" layoutX="375.0" layoutY="12.0" prefHeight="21.0" prefWidth="210.0">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                            </ComboBox>
+                                          </children>
+                                        </AnchorPane>
+                                      </content>
+                                    </TitledPane>
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </Tab>
+                          </tabs>
+                        </TabPane>
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+                  <ComboBox fx:id="cbDestino" layoutX="81.0" layoutY="19.0" prefHeight="25.0" prefWidth="226.0" />
+                  <Label layoutX="328.0" layoutY="20.0" prefHeight="21.0" prefWidth="57.0" text="CFOP:">
+                     <font>
+                        <Font name="System Bold" size="12.0" fx:id="x11" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tfCfop" layoutX="385.0" layoutY="19.0" prefHeight="25.0" prefWidth="115.0" />
+          </children>
+        </AnchorPane>
+      </children>
+    </VBox>
+  </top>
+</BorderPane>

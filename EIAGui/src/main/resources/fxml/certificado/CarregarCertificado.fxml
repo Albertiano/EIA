@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.net.eia.ui.certificado.CarregarCertificadoController">
+   <children>
+      <TitledPane alignment="CENTER" animated="false" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="222.0" prefWidth="600.0" text="Selecao de Certificado" textAlignment="CENTER">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Button layoutX="197.0" layoutY="156.0" mnemonicParsing="false" onAction="#handleOk" prefWidth="100.0" text="OK" />
+                  <Button layoutX="305.0" layoutY="156.0" mnemonicParsing="false" onAction="#handleCancela" prefWidth="100.0" text="Cancelar" />
+                  <ComboBox fx:id="cbAlias" layoutX="31.0" layoutY="8.0" onAction="#handleSeleciona" prefHeight="25.0" prefWidth="535.0" />
+                  <TextArea fx:id="taDet" layoutX="32.0" layoutY="35.0" prefHeight="119.0" prefWidth="533.0" />
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+   </children>
+</AnchorPane>

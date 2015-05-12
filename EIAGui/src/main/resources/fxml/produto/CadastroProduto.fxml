@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="584.0" prefWidth="800.0" snapToPixel="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.net.eia.ui.produto.CadastroProdutoController">
+  <children>
+    <FlowPane prefHeight="584.0" prefWidth="800.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <TitledPane animated="true" collapsible="true" expanded="true" prefWidth="798.0" text="Filtros de pesquisa" textOverrun="ELLIPSIS" underline="false">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="750.0">
+              <children>
+                <Label layoutX="14.0" layoutY="14.0" text="Código:" />
+                <Label layoutX="14.0" layoutY="42.0" text="Descrição:" />
+                <TextField id="id" fx:id="tfCodigo" layoutY="11.0" prefWidth="127.0" AnchorPane.leftAnchor="89.0" AnchorPane.rightAnchor="578.0" />
+                <TextField id="nome" fx:id="tfDescricao" layoutY="39.0" prefWidth="383.0" AnchorPane.leftAnchor="89.0" AnchorPane.rightAnchor="322.0" />
+                <Button layoutY="12.0" mnemonicParsing="false" onAction="#handleFiltrar" prefHeight="52.0" prefWidth="127.0" text="Filtrar" AnchorPane.rightAnchor="14.0" />
+                <Button layoutY="75.0" mnemonicParsing="false" onAction="#handleTodos" prefHeight="52.0" prefWidth="127.0" text="Todos" AnchorPane.rightAnchor="14.0" />
+                <Label layoutX="14.0" layoutY="71.0" text="Unidade:" />
+                <ComboBox fx:id="cbUnidade" layoutX="99.0" layoutY="69.0" prefHeight="21.0" prefWidth="90.0">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+              </children>
+            </AnchorPane>
+          </content>
+        </TitledPane>
+        <TableView fx:id="clienteTable" blendMode="SRC_OVER" pickOnBounds="true" prefHeight="376.0" prefWidth="798.0" tableMenuButtonVisible="true">
+          <columns>
+            <TableColumn fx:id="codigoNameColumn" prefWidth="75.0" text="Codigo" />
+            <TableColumn fx:id="descricaoNameColumn" prefWidth="75.0" text="Descrição" />
+            <TableColumn fx:id="unidadeNameColumn" prefWidth="75.0" text="Unidade" />
+            <TableColumn fx:id="precoNameColumn" prefWidth="75.0" text="Preço" />
+            <TableColumn fx:id="estoqueNameColumn" prefWidth="75.0" text="Estoque" />
+            <TableColumn fx:id="ncmNameColumn" prefWidth="75.0" text="NCM" />
+          </columns>
+        </TableView>
+        <HBox alignment="CENTER" prefHeight="37.0" prefWidth="798.0" spacing="10.0">
+          <children>
+                  <Button id="btNovo" mnemonicParsing="false" onAction="#handleSelecionar" prefHeight="30.0" prefWidth="99.0" text="Selecionar" />
+            <Button id="btNovo" mnemonicParsing="false" onAction="#handleNew" prefHeight="30.0" prefWidth="99.0" text="Novo" />
+            <Button mnemonicParsing="false" onAction="#handleEdit" prefHeight="30.0" prefWidth="99.0" text="Detalhar" />
+            <Button mnemonicParsing="false" onAction="#handleDelete" prefHeight="30.0" prefWidth="99.0" text="Remover" />
+            <Button mnemonicParsing="false" onAction="#handleFechar" prefHeight="30.0" prefWidth="99.0" text="Fechar" />
+            <Button mnemonicParsing="false" onAction="#visualiarRelatorio" prefHeight="30.0" prefWidth="99.0" text="Relatorio" />
+          </children>
+          <padding>
+            <Insets top="5.0" />
+          </padding>
+        </HBox>
+      </children>
+    </FlowPane>
+  </children>
+</AnchorPane>

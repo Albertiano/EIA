@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="668.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.net.eia.ui.notafiscal.CadastroNotaFiscalController">
+   <top>
+      <TitledPane animated="false" collapsible="false" text="Filtros de Pesquisa" BorderPane.alignment="CENTER">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="77.0" prefWidth="958.0">
+               <children>
+                  <Label layoutX="14.0" layoutY="49.0" text="Destinatario:" />
+                  <TextField fx:id="tfDest" editable="false" layoutX="109.0" layoutY="44.0" prefHeight="25.0" prefWidth="387.0" />
+                  <Button layoutX="497.0" layoutY="44.0" mnemonicParsing="false" onAction="#handleSelecionarDestinatario" text="..." />
+                  <Label layoutX="14.0" layoutY="14.0" text="Periodo:" />
+                  <TextField fx:id="tfDataIni" layoutX="109.0" layoutY="9.0" prefHeight="25.0" prefWidth="157.0" text="11/11/1111 00:00:00" />
+                  <TextField fx:id="tfDataFim" layoutX="340.0" layoutY="9.0" prefHeight="25.0" prefWidth="157.0" text="11/11/1111 00:00:00" />
+                  <Label layoutX="300.0" layoutY="14.0" text="a" />
+                  <Button layoutX="752.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleFiltrar" prefHeight="48.0" prefWidth="90.0" text="Pesquisar" />
+                  <Button layoutX="853.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleTodos" prefHeight="48.0" prefWidth="90.0" text="Todos" />
+                  <Label layoutX="535.0" layoutY="14.0" text="Numero:" />
+                  <TextField fx:id="tfnNF" layoutX="616.0" layoutY="9.0" prefHeight="26.0" prefWidth="112.0" />
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+   </top>
+   <center>
+      <TitledPane animated="false" collapsible="false" prefHeight="515.0" prefWidth="960.0" text="Registros" BorderPane.alignment="TOP_CENTER">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="426.0" prefWidth="958.0">
+               <children>
+                  <TableView fx:id="notaFiscalTable" layoutX="31.4" layoutY="1.4000000000000004" prefHeight="486.0" prefWidth="958.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn fx:id="nNFNameColumn" prefWidth="63.999998450279236" text="Numero" />
+                      <TableColumn fx:id="emissaoNameColumn" prefWidth="77.00000762939453" text="Emissao" />
+                        <TableColumn fx:id="nNFNameColumn1" prefWidth="212.00003051757812" text="Operaçao">
+                           <columns>
+                              <TableColumn fx:id="tipoNameColumn" prefWidth="31.000030517578125" text="E/S" />
+                              <TableColumn fx:id="naturezaNameColumn" prefWidth="108.0" text="Natureza" />
+                           </columns>
+                        </TableColumn>
+                        <TableColumn prefWidth="474.0" text="Cliente">
+                           <columns>
+                              <TableColumn fx:id="destNameColumn" prefWidth="126.0" text="Nome" />
+                              <TableColumn fx:id="nDocNameColumn" prefWidth="116.99996948242188" text="Num. Doc." />
+                              <TableColumn fx:id="municipioNameColumn" prefWidth="148.0" text="Municipio" />
+                              <TableColumn fx:id="ufNameColumn" prefWidth="53.0" text="UF" />
+                           </columns></TableColumn>
+                        <TableColumn fx:id="vTotalNameColumn" prefWidth="76.0" text="Total" />
+                        <TableColumn fx:id="sitNameColumn" minWidth="0.0" prefWidth="167.0" text="Situaçao" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+   </center>
+   <bottom>
+      <TitledPane animated="false" collapsible="false" prefHeight="53.0" prefWidth="960.0" text="Funções" BorderPane.alignment="CENTER">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="27.0" prefWidth="958.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#handleNew" prefWidth="90.0" text="Novo">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#handleEdit" prefWidth="90.0" text="Detalhar">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#handleDelete" prefWidth="90.0" text="Excluir">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#duplicar" prefWidth="90.0" text="Duplicar">
+                           <HBox.margin>
+                              <Insets right="25.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#transmitir" prefWidth="90.0" text="Transmitir">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#evento" prefWidth="90.0" text="Cancelar">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefWidth="90.0" text="CC-e">
+                           <HBox.margin>
+                              <Insets right="25.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#imprimir" prefWidth="90.0" text="Imprimir">
+                           <HBox.margin>
+                              <Insets right="25.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#handleFechar" prefWidth="90.0" text="Fechar" />
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+   </bottom>
+</BorderPane>

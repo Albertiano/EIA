@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<javafx.scene.layout.BorderPane id="app" prefHeight="680.0" prefWidth="980.0" stylesheets="@../styles/App.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.net.eia.ui.RootLayoutController">
+  <top>
+    <TabPane prefHeight="115.0" prefWidth="980.0" tabClosingPolicy="UNAVAILABLE">
+      <tabs>
+        <Tab closable="false" text="Cadastro">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="96.0" prefWidth="980.0">
+              <children>
+                <HBox id="container" prefHeight="79.0" prefWidth="980.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <children>
+                    <VBox id="" prefHeight="73.0" prefWidth="106.0" styleClass="toolbarContainer">
+                      <children>
+                        <HBox id="" prefHeight="44.0" prefWidth="262.0" spacing="5.0">
+                          <children>
+                            <Button alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#showCadCContato" prefHeight="50.0" prefWidth="120.0" styleClass="ribbonToggleButton" text="Contatos" textAlignment="CENTER" />
+                          </children>
+                          <VBox.margin>
+                            <Insets top="5.0" fx:id="x1" />
+                          </VBox.margin>
+                        </HBox>
+                        <Label id="" alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefWidth="300.0" styleClass="ribbonLabel" text="Contatos" textAlignment="CENTER">
+                          <VBox.margin>
+                            <Insets fx:id="x2" />
+                          </VBox.margin>
+                        </Label>
+                      </children>
+                    </VBox>
+                    <VBox id="" prefHeight="73.0" prefWidth="300.0" styleClass="toolbarContainer">
+                      <children>
+                        <HBox id="" prefHeight="44.0" prefWidth="185.0" spacing="5.0">
+                          <children>
+                            <Button alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#showCadUnidade" prefHeight="50.0" prefWidth="100.0" styleClass="ribbonToggleButton" text="Unidade" textAlignment="CENTER" />
+                            <Button id="btProduto" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#showCadProduto" prefHeight="50.0" prefWidth="100.0" styleClass="ribbonToggleButton" text="Produto" textAlignment="CENTER">
+                              <HBox.margin>
+                                <Insets fx:id="x2" />
+                              </HBox.margin>
+                            </Button>
+                            <Button alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#showCadTributos" prefHeight="50.0" prefWidth="100.0" styleClass="ribbonToggleButton" text="Tributos" textAlignment="CENTER" />
+                          </children>
+                          <VBox.margin>
+                            <Insets top="5.0" fx:id="x1" />
+                          </VBox.margin>
+                        </HBox>
+                        <Label id="" alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefWidth="270.0" styleClass="ribbonLabel" text="Estoque" textAlignment="CENTER" VBox.margin="$x2" />
+                      </children>
+                    </VBox>
+                    <VBox id="" prefHeight="79.0" prefWidth="100.0" styleClass="toolbarContainer">
+                      <children>
+                        <HBox id="" prefHeight="44.0" prefWidth="185.0" spacing="5.0">
+                          <children>
+                            <Button alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#showCadEmitente" prefHeight="50.0" prefWidth="85.0" styleClass="ribbonToggleButton" text="Dados" textAlignment="CENTER" />
+                          </children>
+                          <VBox.margin>
+                            <Insets top="5.0" fx:id="x1" />
+                          </VBox.margin>
+                        </HBox>
+                        <Label id="" alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefWidth="270.0" styleClass="ribbonLabel" text="Empresa" textAlignment="CENTER">
+                          <VBox.margin>
+                            <Insets fx:id="x2" />
+                          </VBox.margin>
+                        </Label>
+                      </children>
+                    </VBox>
+                  </children>
+                </HBox>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+            <Tab closable="false" text="Movimentos">
+               <content>
+                  <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="96.0" prefWidth="980.0">
+                     <children>
+                        <HBox id="container" prefHeight="79.0" prefWidth="980.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <VBox id="" prefHeight="73.0" prefWidth="300.0" styleClass="toolbarContainer">
+                                 <children>
+                                    <HBox id="" prefHeight="44.0" prefWidth="185.0" spacing="5.0">
+                                       <children>
+                                          <Button alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#showCadCompra" prefHeight="50.0" prefWidth="100.0" styleClass="ribbonToggleButton" text="Compras" textAlignment="CENTER" />
+                                          <Button alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#showCadNotaFiscal" prefHeight="50.0" prefWidth="100.0" styleClass="ribbonToggleButton" text="NF-e" textAlignment="CENTER" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="5.0" fx:id="x1" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <Label id="" alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefWidth="270.0" styleClass="ribbonLabel" text="Estoque" textAlignment="CENTER" VBox.margin="$x21" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Utilitarios">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox id="container" prefHeight="79.0" prefWidth="980.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <VBox id="" prefHeight="73.0" prefWidth="115.0" styleClass="toolbarContainer">
+                                 <children>
+                                    <HBox id="" prefHeight="44.0" prefWidth="230.0" spacing="5.0">
+                                       <children>
+                                          <Button alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#carregarXML" prefHeight="50.0" prefWidth="100.0" styleClass="ribbonToggleButton" text="Carregar XML" textAlignment="CENTER" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="5.0" fx:id="x11" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <Label id="" alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefWidth="270.0" styleClass="ribbonLabel" text="Cadastros Via XML" textAlignment="CENTER" VBox.margin="$x21" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+      </tabs>
+    </TabPane>
+  </top>
+</javafx.scene.layout.BorderPane>

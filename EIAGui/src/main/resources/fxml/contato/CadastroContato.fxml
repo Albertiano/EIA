@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="584.0" prefWidth="800.0" snapToPixel="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.net.eia.ui.contato.CadastroContatoController">
+  <children>
+    <FlowPane prefHeight="584.0" prefWidth="800.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <TitledPane animated="true" collapsible="true" expanded="true" prefWidth="798.0" text="Filtros de pesquisa" textOverrun="ELLIPSIS" underline="false">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="133.0" prefWidth="750.0">
+              <children>
+                <Label layoutX="14.0" layoutY="14.0" text="Tipo:" />
+                <Label layoutX="14.0" layoutY="42.0" text="Nome:" />
+                <Label layoutX="14.0" layoutY="69.0" text="País:" />
+                <Label layoutY="72.0" text="UF:" AnchorPane.rightAnchor="409.0" />
+                <Label layoutX="14.0" layoutY="101.0" text="Municipio:" />
+                <TextField fx:id="nome" layoutY="39.0" prefWidth="383.0" AnchorPane.leftAnchor="89.0" AnchorPane.rightAnchor="322.0" />
+                <Button layoutY="12.0" mnemonicParsing="false" onAction="#handleFiltrar" prefHeight="52.0" prefWidth="127.0" text="Filtrar" AnchorPane.rightAnchor="14.0" />
+                <Button layoutY="75.0" mnemonicParsing="false" onAction="#handleTodos" prefHeight="52.0" prefWidth="127.0" text="Todos" AnchorPane.rightAnchor="14.0" />
+                <ComboBox fx:id="cbUF" layoutY="70.0" onAction="#handleCbUF" prefHeight="21.0" prefWidth="78.0" AnchorPane.rightAnchor="322.0">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+                <ComboBox fx:id="cbPais" layoutY="67.0" prefHeight="21.0" prefWidth="268.0" AnchorPane.leftAnchor="89.0" AnchorPane.rightAnchor="437.0">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+                <ComboBox fx:id="cbMunicipios" layoutY="99.0" prefHeight="21.0" prefWidth="383.0" AnchorPane.leftAnchor="89.0" AnchorPane.rightAnchor="322.0">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+                        <ComboBox fx:id="cbTpContato" layoutX="99.0" layoutY="10.0" prefHeight="25.0" prefWidth="210.0" />
+              </children>
+            </AnchorPane>
+          </content>
+        </TitledPane>
+        <TableView fx:id="contatoTable" blendMode="SRC_OVER" pickOnBounds="true" prefHeight="376.0" prefWidth="798.0" tableMenuButtonVisible="true">
+          <columns>
+            <TableColumn fx:id="tpContatoNameColumn" prefWidth="85.0" text="Tipo" />
+            <TableColumn fx:id="nomeNameColumn" prefWidth="198.0" text="Nome" />
+            <TableColumn fx:id="municipioNameColumn" prefWidth="137.0" text="Municipio" />
+            <TableColumn fx:id="ufNameColumn" prefWidth="34.0" text="UF" />
+            <TableColumn fx:id="foneNameColumn" prefWidth="70.0" text="Fone" />
+            <TableColumn fx:id="celularNameColumn" prefWidth="73.0" text="Celular" />
+            <TableColumn fx:id="emailNameColumn" prefWidth="186.0" text="e-mail" />
+          </columns>
+        </TableView>
+        <HBox alignment="CENTER" prefHeight="37.0" prefWidth="798.0" spacing="10.0">
+          <children>
+                  <Button fx:id="btSelecionar" mnemonicParsing="false" onAction="#handleSelecionar" prefHeight="30.0" prefWidth="99.0" text="Selecionar" />
+            <Button mnemonicParsing="false" onAction="#handleNewCliente" prefHeight="30.0" prefWidth="99.0" text="Novo" />
+            <Button mnemonicParsing="false" onAction="#handleEditCliente" prefHeight="30.0" prefWidth="99.0" text="Detalhar" />
+            <Button mnemonicParsing="false" onAction="#handleDeleteCliente" prefHeight="30.0" prefWidth="99.0" text="Remover" />
+            <Button mnemonicParsing="false" onAction="#handleFechar" prefHeight="30.0" prefWidth="99.0" text="Fechar" />
+          </children>
+          <padding>
+            <Insets top="5.0" />
+          </padding>
+        </HBox>
+      </children>
+    </FlowPane>
+  </children>
+</AnchorPane>

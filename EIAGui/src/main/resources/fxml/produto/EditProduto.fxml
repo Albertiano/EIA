@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import br.com.atec.ui.dadosBasicos.*?>
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.net.eia.ui.produto.EditProdutoController">
+  <!-- TODO Add Nodes -->
+  <bottom>
+    <HBox alignment="CENTER" prefHeight="34.0" prefWidth="800.0" spacing="10.0">
+      <children>
+        <Button fx:id="btSalvar" mnemonicParsing="false" onAction="#handleBtSalvar" prefHeight="25.0" prefWidth="100.0" text="Salvar" />
+        <Button fx:id="btCancelar" mnemonicParsing="false" onAction="#handleBtCancelar" prefHeight="25.0" prefWidth="100.0" text="Cancelar" />
+      </children>
+    </HBox>
+  </bottom>
+  <top>
+    <VBox prefHeight="561.0" prefWidth="800.0">
+      <children>
+        <AnchorPane prefHeight="70.00009999999747" prefWidth="800.0">
+          <children>
+            <Label layoutX="18.0" layoutY="17.0" text="Código:">
+              <font>
+                <Font name="System Bold" size="12.0" fx:id="x1" />
+              </font>
+            </Label>
+            <Label font="$x1" layoutX="319.0" layoutY="17.0" text="Referência:" />
+            <Label font="$x1" layoutX="18.0" layoutY="45.0" text="Descrição:" />
+            <Label font="$x1" layoutX="626.0" layoutY="45.0" text="Unidade:" />
+            <TextField id="tfCpfCnpj" fx:id="tfCodigo" alignment="CENTER_RIGHT" layoutX="90.0" layoutY="13.0" prefWidth="140.0" promptText="&lt;Automático&gt;" text="" />
+            <TextField id="tfEndereco" fx:id="tfDescricao" layoutX="90.0" layoutY="39.0" prefWidth="525.0" />
+            <TextField id="tfCpfCnpj" fx:id="tfReferencia" layoutX="399.0" layoutY="13.0" prefWidth="140.0" />
+            <CheckBox fx:id="ckDesativado" font="$x1" layoutX="651.0" layoutY="14.0" mnemonicParsing="false" text="Desativado" />
+            <TabPane layoutX="0.0" layoutY="66.0" prefHeight="500.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Cadastro">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="464.0" prefWidth="800.0">
+                      <children>
+                        <Label layoutX="282.0" layoutY="17.0" text="NCM:" />
+                        <TextField id="tfCpfCnpj" fx:id="tfNCM" layoutX="393.0" layoutY="14.0" prefWidth="126.0" />
+                        <Label layoutX="14.0" layoutY="46.0" text="Estoque Minimo:" />
+                        <TextField id="tfCpfCnpj" fx:id="tfEstMin" layoutX="124.0" layoutY="43.0" prefWidth="126.0" />
+                        <Label layoutX="14.0" layoutY="75.0" text="Estoque Atual:" />
+                        <TextField id="tfCpfCnpj" fx:id="tfEstAtual" layoutX="124.0" layoutY="72.0" prefWidth="126.0" />
+                        <Label layoutX="281.0" layoutY="46.0" text="Peso Bruto (KG):" />
+                        <TextField id="tfCpfCnpj" fx:id="tfPesoBruto" layoutX="393.0" layoutY="43.0" prefWidth="126.0" />
+                        <Label layoutX="281.0" layoutY="75.0" text="Peso Liquido (KG):" />
+                        <TextField id="tfCpfCnpj" fx:id="tfPesoLiq" layoutX="393.0" layoutY="72.0" prefWidth="126.0" />
+                        <Label layoutX="14.0" layoutY="128.0" text="Preço de Custo:" />
+                        <TextField id="tfCpfCnpj" fx:id="tfPrecoCusto" layoutX="124.0" layoutY="125.0" prefWidth="126.0" />
+                        <Label layoutX="282.0" layoutY="128.0" text="Desconto Max. (%):" />
+                        <TextField id="tfCpfCnpj" fx:id="tfDescMax" layoutX="393.0" layoutY="125.0" prefWidth="126.0" />
+                        <Label layoutX="14.0" layoutY="157.0" text="Margem de Lucro:" />
+                        <TextField id="tfCpfCnpj" fx:id="tfMLucro" layoutX="124.0" layoutY="154.0" prefWidth="126.0" />
+                        <Label layoutX="14.0" layoutY="186.0" text="Preço de Venda:" />
+                        <TextField id="tfCpfCnpj" fx:id="tfPrecoVenda" layoutX="124.0" layoutY="183.0" prefWidth="126.0" />
+                        <Label layoutX="14.0" layoutY="219.0" text="Local do Estoque:" />
+                        <TextField id="tfCpfCnpj" fx:id="tfLocalEstoque" layoutX="124.0" layoutY="216.0" prefWidth="395.0" />
+                        <Label layoutX="14.0" layoutY="257.0" text="Fornecedores:" />
+                        <TableView fx:id="clienteTable" layoutX="124.0" layoutY="255.0" prefHeight="137.0" prefWidth="393.0">
+                          <columns>
+                            <TableColumn fx:id="nomeFornecedorNameColumn" prefWidth="75.0" text="Nome" />
+                            <TableColumn fx:id="codFornecedorNameColumn" prefWidth="75.0" text="Cod. Fornecedor" />
+                            <TableColumn fx:id="unidFornecedorNameColumn" prefWidth="75.0" text="Unidade" />
+                            <TableColumn fx:id="fatorConversaoNameColumn" prefWidth="75.0" text="Fator" />
+                          </columns>
+                        </TableView>
+                        <Button layoutX="527.0" layoutY="255.0" mnemonicParsing="false" onAction="#handleNew" prefHeight="34.000099999997474" prefWidth="97.0" text="Adicionar" />
+                        <Button layoutX="527.0" layoutY="306.0" mnemonicParsing="false" onAction="#handleEdit" prefHeight="34.000099999997474" prefWidth="97.0" text="Detalhar" />
+                        <Button layoutX="527.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleDelete" prefHeight="34.000099999997474" prefWidth="97.0" text="Remover" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Detalhes Fiscais">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="566.0" prefWidth="800.0">
+                                 <children>
+                                    <ComboBox fx:id="cbTrib" layoutX="104.0" layoutY="14.0" prefHeight="25.0" prefWidth="522.0">
+                                       <items>
+                                          <FXCollections fx:factory="observableArrayList">
+                                             <String fx:value="Item 1" />
+                                             <String fx:value="Item 2" />
+                                             <String fx:value="Item 3" />
+                                          </FXCollections>
+                                       </items>
+                                    </ComboBox>
+                                    <Label font="$x1" layoutX="16.0" layoutY="17.0" text="Tributaçao:" />
+                                    <Label layoutX="16.0" layoutY="53.0" text="Ex tipi" />
+                                    <TextField fx:id="tfExtipi" layoutX="104.0" layoutY="48.0" />
+                                    <TextField fx:id="tfGenero" layoutX="104.0" layoutY="80.0" />
+                                    <Label layoutX="16.0" layoutY="85.0" text="Genero" />
+                                    <Label layoutX="16.0" layoutY="118.0" text="cEan" />
+                                    <TextField fx:id="tfcEan" layoutX="104.0" layoutY="113.0" />
+                                    <TextField fx:id="tfcEanTrib" layoutX="104.0" layoutY="145.0" />
+                                    <Label layoutX="16.0" layoutY="150.0" text="cEanTrib" />
+                                    <Label layoutX="16.0" layoutY="183.0" text="Un Tirb." />
+                                    <TextField fx:id="tfVuntrib" layoutX="104.0" layoutY="211.0" />
+                                    <Label layoutX="16.0" layoutY="216.0" text="V. Un. Trib." />
+                                    <ComboBox fx:id="cbUtrib" layoutX="104.0" layoutY="178.0" prefHeight="25.0" prefWidth="90.0">
+                                       <items>
+                                          <FXCollections fx:factory="observableArrayList">
+                                             <String fx:value="Item 1" />
+                                             <String fx:value="Item 2" />
+                                             <String fx:value="Item 3" />
+                                          </FXCollections>
+                                       </items>
+                                    </ComboBox>
+                                 </children>
+                    </AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+            <ComboBox fx:id="cbUnidade" layoutX="696.0" layoutY="39.0" prefHeight="25.0" prefWidth="90.0">
+              <items>
+                <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="Item 1" />
+                  <String fx:value="Item 2" />
+                  <String fx:value="Item 3" />
+                </FXCollections>
+              </items>
+            </ComboBox>
+          </children>
+        </AnchorPane>
+      </children>
+    </VBox>
+  </top>
+</BorderPane>

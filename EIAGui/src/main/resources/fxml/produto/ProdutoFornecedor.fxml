@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="543.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.net.eia.ui.produto.ProdutoFornecedorController">
+  <children>
+    <HBox alignment="CENTER" layoutX="0.0" layoutY="156.0" prefHeight="34.0" prefWidth="543.0" spacing="10.0">
+      <children>
+        <Button id="btSalvar" mnemonicParsing="false" onAction="#handleBtSalvar" prefHeight="25.0" prefWidth="100.0" text="Salvar" />
+        <Button id="btCancelar" mnemonicParsing="false" onAction="#handleBtCancelar" prefHeight="25.0" prefWidth="100.0" text="Cancelar" />
+      </children>
+    </HBox>
+    <Label layoutX="14.0" layoutY="14.0" text="Fornecedor:" />
+    <Label layoutX="14.0" layoutY="38.0" text="Código no Fornecedor:" />
+    <Label layoutX="14.0" layoutY="66.0" text="Unidade de Compra:" />
+    <Label layoutX="14.0" layoutY="97.0" text="Fator para Conversão:" />
+    <Button layoutX="89.0" layoutY="10.0" mnemonicParsing="false" onAction="#handlePesquisa" text="..." />
+    <ComboBox fx:id="cbUnidFornecedor" layoutX="145.0" layoutY="64.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+    </ComboBox>
+    <TextField fx:id="tfFornecedor" disable="true" editable="true" layoutX="145.0" layoutY="11.0" prefWidth="384.0" />
+    <TextField fx:id="tfCodFornecedor" layoutX="145.0" layoutY="35.0" prefWidth="116.0" />
+    <TextField fx:id="tfFatorConversao" layoutX="145.0" layoutY="102.0" prefWidth="100.0" />
+  </children>
+</AnchorPane>

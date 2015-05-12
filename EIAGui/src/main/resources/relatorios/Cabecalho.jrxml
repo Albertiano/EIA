@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cabecalho" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="3b708271-6759-40ea-a992-02708c10cc2e">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="EMITENTE" class="br.com.atec.emitente.Loja"/>
+	<parameter name="LOGO" class="java.lang.String">
+		<defaultValueExpression><![CDATA["recursos/imagens/logo.jpg"]]></defaultValueExpression>
+	</parameter>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="55" splitType="Stretch">
+			<textField>
+				<reportElement uuid="1abb1ccf-f515-4582-afd3-65c5edf37e29" x="69" y="41" width="111" height="13"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{EMITENTE}.getTpDoc().toString()+": "+$P{EMITENTE}.getNumDoc()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3789f720-315a-4795-b406-51bdf56d6f10" x="190" y="41" width="81" height="13"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["IE: "+$P{EMITENTE}.getIE()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="60e913fc-44c5-41c6-9e87-8c1285020e31" x="69" y="31" width="293" height="14"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{EMITENTE}.getEndereco().getLogradouro()+", "+$P{EMITENTE}.getEndereco().getNumero()+" - "+$P{EMITENTE}.getEndereco().getBairro()+" - "+$P{EMITENTE}.getEndereco().getMunicipio().getxMun()+" - "+$P{EMITENTE}.getEndereco().getMunicipio().getUF()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="cee8082a-4cb0-434b-8448-45f51dc844fb" x="69" y="18" width="362" height="16"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{EMITENTE}.getNome()]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement uuid="a2f0b061-3327-40c1-a0aa-20925453aced" x="0" y="3" width="70" height="50"/>
+				<box rightPadding="2"/>
+				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement uuid="5e25f892-6dff-4a9d-b3a1-87af5a323e2c" x="271" y="41" width="91" height="13"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fone: "+$P{EMITENTE}.getFone()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="aaa8a5b2-3314-4152-87e8-0e09ce2099db" x="69" y="0" width="362" height="18"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{EMITENTE}.getFantasia()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
