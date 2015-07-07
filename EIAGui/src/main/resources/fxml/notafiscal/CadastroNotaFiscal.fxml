@@ -95,7 +95,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" prefWidth="90.0" text="CC-e">
+                        <Button mnemonicParsing="false" onAction="#exportar" prefWidth="90.0" text="Exportar">
                            <HBox.margin>
                               <Insets right="25.0" />
                            </HBox.margin>

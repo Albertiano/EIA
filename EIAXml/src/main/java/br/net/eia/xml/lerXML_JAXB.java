@@ -55,7 +55,7 @@ public class lerXML_JAXB {
     	        return name.endsWith("-procNfe.xml");   
     	    }  
     	};  
-    	String local = "D:/xml";
+        String local = "/home/albertiano/xml/autorizada";
     	File arquivos = new File(local);  
     	String[] nomeArquivos = arquivos.list(filtro);  
     	StringBuilder sb = new StringBuilder();
@@ -77,7 +77,7 @@ public class lerXML_JAXB {
                     .append(" | Valor: ")
                     .append(setLength(nfe.getNFe().getInfNFe().getTotal().getICMSTot().getVNF(), 8));
             
-            System.out.println(sbAcao);
+            //System.out.println(sbAcao);
             sb.append("\r\n");
             sb.append(sbAcao);
             switch (CFOP) {

@@ -1,6 +1,8 @@
 package br.net.eia.ui.notafiscal;
 
 import java.io.ByteArrayInputStream;
+import javafx.stage.DirectoryChooser;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -13,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
 import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.StackPane;
 import javafx.beans.value.ChangeListener;
@@ -863,112 +866,6 @@ public class CadastroNotaFiscalController implements Initializable {
         service.start();
     }
 
-    @FXML
-    private void imprimir() {    
-        if (PegarKs.getKS() == null) {
-                                CarregarCertificadoController cr = new CarregarCertificadoController();
-                                cr.setDialogStage(dialogStage);
-                                cr.setMainApp(mainApp);
-                                cr.show(null);
-                            }
-        final SwingNode swingNode = new SwingNode();
-        Service<Void> service = new Service<Void>() {
-            @Override
-            protected Task<Void> createTask() {
-                return new Task<Void>() {
-                    @Override
-                    protected Void call()
-                            throws InterruptedException {
-                    	NotaFiscal notaFiscal = notaFiscalTable.getSelectionModel().getSelectedItem();
-                    	InputStream stream = null;
-                        JRXmlDataSource xmlPath = null;
-                        
-                        	NFe nfe = new RestNFeManager().pesquisaChave(notaFiscal.getChave());
-                        	if(nfe!=null){
-							if (!notaFiscal.getSitNfe().equals(SitNFe.AUTORIZADA)
-									&& !notaFiscal.getSitNfe().equals(SitNFe.CANCELADA)) {
-								try {
-									notaFiscal.setSitNfe(SitNFe.AUTORIZADA);
-									notaFiscal = rest.atualizar(notaFiscal);
-								} catch (Exception e) {
-									updateMessage("Erro ao Mudar Situacão da Nota");
-								}
-							}
-                        		String xml = nfe.getXmlNFe();
-                        		try {
-                                     stream = new ByteArrayInputStream(xml.getBytes());
-                                     xmlPath = new JRXmlDataSource(stream, "/nfeProc/NFe/infNFe/det");
-                                     
-                                     HashMap<String, Object> parametros = new HashMap<String, Object>();
-                                     parametros.put("LOGO", MainApp.getProps().getProperty("logo"));
-                                     JasperPrint jp = JasperFillManager.fillReport(getClass().getResourceAsStream("/relatorios/danfeRetrato.jasper"), parametros, xmlPath);
-                                     
-                                     
-                                     swingNode.setContent(new JRViewer(jp));
-                                                                          
-                                 } catch (JRException e1) {
-                                	 updateMessage("Erro\n"
-                             				+ e1.getMessage());
-                             		Thread.sleep(5000);
-                                     e1.printStackTrace();
-                                 }
-                        	}else{
-                        		updateMessage("Não Localizada no Repositorio\n"
-                        				+ "Transmita Novamente.");
-                        		Thread.sleep(5000);
-                        		if (PegarKs.getKS() == null) {
-                                    CarregarCertificadoController cr = new CarregarCertificadoController();
-                                    cr.setDialogStage(dialogStage);
-                                    cr.setMainApp(mainApp);
-                                    cr.show(null);
-                                }
-                                try {
-                                 	TNFe Tnfe = ConversorNFe.getnFe(notaFiscal, MainApp.getProps().getProperty("ambiente"));
-                                     String xml = "";
-									try {
-										xml = new AssinaturaDigital().assinarDocumento(ConversorNFe.getXML(Tnfe));
-									} catch (Exception e) {
-										 updateMessage("Erro\n\r"+e.getMessage());
-				                            Thread.sleep(10000);
-									}
-                                     stream = new ByteArrayInputStream(xml.getBytes());
-                                     xmlPath = new JRXmlDataSource(stream, "/NFe/infNFe/det");
-
-                                     HashMap<String, Object> parametros = new HashMap<String, Object>();
-                                     parametros.put("LOGO", MainApp.getProps().getProperty("logo"));
-                                     JasperPrint jp = JasperFillManager.fillReport(getClass().getResourceAsStream("/relatorios/danfeRetrato.jasper"), parametros, xmlPath);
-                                     
-                                     swingNode.setContent(new JRViewer(jp));
-                                                                           
-                                 } catch (JRException e1) {
-                                     e1.printStackTrace();
-                                 }
-                        	}
-                        	               
-                        return null;
-                    }
-                };
-            }
-        };
-
-        Dialogs.create()
-                .owner(dialogStage)
-                .title("Abrindo Impressão")
-                .masthead("Carregando ...\nAguarde")
-                .showWorkerProgress(service);
-
-        service.start();
-        
-        Stage stage = new Stage();        
-        stage.setTitle("Danfe");
-        stage.initModality(Modality.WINDOW_MODAL);
-        StackPane pane = new StackPane();
-        pane.getChildren().add(swingNode);        
-        stage.setScene(new Scene(pane,960,668));
-        stage.initOwner(dialogStage); 
-        stage.showAndWait();
-
-    }
     
     @FXML
     private void evento(){
@@ -1039,164 +936,233 @@ public class CadastroNotaFiscalController implements Initializable {
 
     	
     	
-    }
+    }    
     
     @FXML
-    private void transmitir2() {
-        if (PegarKs.getKS() == null) {
+    public void exportar()
+    {
+    	if (PegarKs.getKS() == null) {
             CarregarCertificadoController cr = new CarregarCertificadoController();
             cr.setDialogStage(dialogStage);
             cr.setMainApp(mainApp);
             cr.show(null);
         }
-                        boolean servico = false;
-                        System.out.println("Verificando Status do Servico");
-                        try {
-                            TRetConsStatServ retConsStatServ = new ConsultarStatusServicos()
-                                    .consultaStatusServico(UF.PB, MainApp.getProps().getProperty("ambiente"), MainApp.getProps().getProperty("NfeStatusServico"));
-
-                            System.out.println(retConsStatServ.getXMotivo()
-                                    + "\nGerando o xml ...");
-                            servico = true;
-                        } catch (Exception e) {
-                        	System.out.println("Erro ao consultar\nVerifique a conexão com a Internet.\n\r"+e.getMessage());
-                            
-                        }
-                        if (servico) {
-                            NotaFiscal notaFiscal = notaFiscalTable.getSelectionModel().getSelectedItem();
-                            String ambiente = MainApp.getProps().getProperty("ambiente");
-                            TNFe nfe = ConversorNFe.getnFe(notaFiscal, ambiente);
-                            String xml = "";
-							try {
-								xml = new AssinaturaDigital().assinarDocumento(
-								        ConversorNFe.getXML(nfe));
-							} catch (Exception e1) {
-								System.out.println("Erro\n\r"+e1.getMessage());
-		                           
-							}
-                            StringBuilder xmlEnvi = new StringBuilder();
-                            xmlEnvi.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
-                                    .append("<enviNFe versao=\"3.10\" xmlns=\"http://www.portalfiscal.inf.br/nfe\">")
-                                    .append("<idLote>")
-                                    .append(notaFiscal.getChave().substring(29))
-                                    .append("</idLote>")
-                                    .append("<indSinc>1</indSinc>")
-                                    .append(xml.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""))
-                                    .append("</enviNFe>");    
-                            
-							boolean xmlOk = true;
-							
-                     if(xmlOk) {     
-							try {
-								Files.write(Paths.get(System.getProperty("user.home")+"/envioNFe.xml"),
-										xmlEnvi.toString().getBytes());
-							} catch (IOException ex) {
-								java.util.logging.Logger.getLogger(
-										CadastroNotaFiscalController.class
-												.getName()).log(
-										java.util.logging.Level.SEVERE, null,
-										ex);
-							}
-                            try {
-                            	System.out.println("Transmitindo a Nota Fiscal ...");
-                            	EnviarLote enviaLote = new EnviarLote();
-                                String retEnvi = enviaLote.enviar(xmlEnvi.toString(), UF.PB, MainApp.getProps().getProperty("NFeAutorizacao"));
-								TRetEnviNFe retEnvio = enviaLote.retEnviNFe(retEnvi);
-								System.out.println(retEnvio.getProtNFe().getInfProt().getXMotivo());									
-								String cStat = retEnvio.getProtNFe().getInfProt().getCStat();
-								switch (cStat) {
-								case "100":
-									System.out.println("Enviando ao Repositorio ...");
-									notaFiscal.setSitNfe(SitNFe.AUTORIZADA);	
-										String xmlProc = new GerarProcNFe().gerarProcNFeEnvi(xmlEnvi.toString(), retEnvi);
-										NFe nfeRep = new NFe();
-										nfeRep.setChave(notaFiscal.getChave());
-										nfeRep.setXmlNFe(xmlProc);
-										try {
-											Files.write(Paths.get(System.getProperty("user.home")+"/procNFe"
-													+ notaFiscal.getNumero() + ".xml"),
-													xmlProc.toString().getBytes());
-										} catch (IOException ex) {
-											java.util.logging.Logger.getLogger(
-													CadastroNotaFiscalController.class
-															.getName()).log(
-													java.util.logging.Level.SEVERE, null,
-													ex);
-										}
-										new RestNFeManager().inserir(nfeRep);
-									
+    	String pathAux = System.getProperty("user.home");
+    	DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = 
+                directoryChooser.showDialog(dialogStage);
+        
+        if(selectedDirectory!=null){
+        	pathAux= selectedDirectory.getAbsolutePath();
+        }
+        
+        final String path = pathAux;
+        
+        Service<Void> service = new Service<Void>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call()
+                            throws InterruptedException {
+                    	List<NotaFiscal> notas = notaFiscalTable.getSelectionModel().getSelectedItems();
+                    	int nNotas = notas.size();
+                    	int currentNota = 1;
+                        for(NotaFiscal notaFiscal : notas){
+                        
+                        	NFe nfe = new RestNFeManager().pesquisaChave(notaFiscal.getChave());
+                        	if(nfe!=null){
+							if (!notaFiscal.getSitNfe().equals(SitNFe.AUTORIZADA)
+									&& !notaFiscal.getSitNfe().equals(SitNFe.CANCELADA)) {
+								try {
+									notaFiscal.setSitNfe(SitNFe.AUTORIZADA);
 									notaFiscal = rest.atualizar(notaFiscal);
-									break;
-								case "301":
-									System.out.println("Uso Denegado");
-	                                Thread.sleep(3000);
-									notaFiscal.setSitNfe(SitNFe.DENEGADA);
-									notaFiscal = rest.atualizar(notaFiscal);
-									Thread.sleep(5000);
-									break;
-								case "302":
-									System.out.println("Uso Denegado");
-	                                Thread.sleep(3000);
-									notaFiscal.setSitNfe(SitNFe.DENEGADA);
-									notaFiscal = rest.atualizar(notaFiscal);
-									Thread.sleep(5000);
-									break;
-								case "204":
-									System.out.println("Codigo: "+retEnvio.getProtNFe().getInfProt().getCStat()+"\n"+retEnvio.getProtNFe().getInfProt().getXMotivo());
-	                                Thread.sleep(3000);
-									TRetConsSitNFe ret = new ConsultarNFe().consultar(
-											UF.valueOf(MainApp.getProps().getProperty("UF")),
-											MainApp.getProps().getProperty("ambiente"), 
-											MainApp.getProps().getProperty("NfeConsultaProtocolo"), 
-											notaFiscal.getChave());
-									if(ret.getCStat().equals("100")){
-										try {
-											System.out.println("Nota já Autorizada\nRecuperando XML");
-								            JAXBContext context = JAXBContext.newInstance(TRetConsSitNFe.class);
-								            Marshaller marshaller = context.createMarshaller();
-								            JAXBElement<TRetConsSitNFe> element = new ObjectFactory().createRetConsSitNFe(ret);
-								            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.FALSE);
-								            marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
-
-								            StringWriter sw = new StringWriter();
-								            marshaller.marshal(element, sw);
-
-								            String xmlRet = sw.toString();
-								            String procNFe = new GerarProcNFe().gerarProcNFeEnvi(xmlEnvi.toString(), xmlRet);
-								            System.out.println("Verificando Existencia no Repositorio");
-								            NFe nfePes = new RestNFeManager().pesquisaChave(notaFiscal.getChave());
-								            if(nfePes==null){
-								            	nfeRep = new NFe();
-								            	nfeRep.setChave(notaFiscal.getChave());
-									    		nfeRep.setXmlNFe(procNFe);	    		
-									    		nfeRep = new RestNFeManager().inserir(nfeRep);
-									    		System.out.println("Não Existia\n Inserida com sucesso.");
-								            }else{
-								            	System.out.println("Já Localizado no Repositorio");
-								            }
-								            notaFiscal.setSitNfe(SitNFe.AUTORIZADA);
-											notaFiscal = rest.atualizar(notaFiscal);
-											
-								        } catch (JAXBException ex) {
-								            Logger.getLogger(ConversorNFe.class.getName()).log(Level.FATAL, null, ex);
-								        }
-									}
-									break;
-									
-								default:
-									System.out.println("Codigo: "+retEnvio.getProtNFe().getInfProt().getCStat()+"\n"+retEnvio.getProtNFe().getInfProt().getXMotivo());
-									notaFiscal.setSitNfe(SitNFe.DIGITACAO);
-									notaFiscal = rest.atualizar(notaFiscal);
-									Thread.sleep(5000);
-									break;
+								} catch (Exception e) {
+									updateMessage("Erro ao Mudar Situacão da Nota");
 								}
-							} catch (Exception e) {
-								System.out.println("Erro ao Enviar Nota Fiscal\n\r"+e.getMessage());
-	                            
-	                            e.printStackTrace();
 							}
-                        }
-                        handleFiltrar();                       
+                        		String xml = nfe.getXmlNFe();
+                        		try {
+        								Files.write(Paths.get(path+"/"
+        										+ notaFiscal.getNumero()+".xml"),
+        										xml.getBytes());
+        								updateMessage("Exportado: "+path+"/"
+        										+ notaFiscal.getNumero()+".xml");
+        								updateProgress(currentNota, nNotas);
+        								currentNota++;
+        							                                  
+                                 } catch (Exception e1) {
+                                	 updateMessage("Erro\n"
+                             				+ e1.getMessage());
+                                     e1.printStackTrace();
+                                 }
+                        	}else{
+                        		updateMessage("Não Localizada no Repositorio\n"
+                        				+ "Transmita Novamente.");
+                        		
+                                try {
+                                 	TNFe Tnfe = ConversorNFe.getnFe(notaFiscal, MainApp.getProps().getProperty("ambiente"));
+                                     String xml = "";
+									try {
+										xml = new AssinaturaDigital().assinarDocumento(ConversorNFe.getXML(Tnfe));
+									} catch (Exception e) {
+										updateMessage("Erro\n\r"+e.getMessage());
+				                            Thread.sleep(10000);
+									}
+									try {
+										Files.write(Paths.get(path+"/"
+        										+ notaFiscal.getNumero()+".xml"),
+        										xml.getBytes());
+        								updateMessage("Exportado: "+path+"/"
+        										+ notaFiscal.getNumero()+".xml");
+        								updateProgress(currentNota, nNotas);
+        								currentNota++;
+        							                                  
+                                 } catch (Exception e1) {
+                                	 updateMessage("Erro\n"
+                             				+ e1.getMessage());
+                             		Thread.sleep(5000);
+                                     e1.printStackTrace();
+                                 }
+                                                                           
+                                 } catch (Exception e1) {
+                                     e1.printStackTrace();
+                                 }
+                        	}
+                        	}                 
+                 return null;
                     }
+                };
+            }
+        };
+        
+        Dialogs.create()
+        .owner(dialogStage)
+        .title("Exportando Nota")
+        .masthead("Carregando ...\nAguarde")
+        .showWorkerProgress(service);
+
+        service.start();
+    }
+
+    @FXML
+    public void imprimir(){
+    	if (PegarKs.getKS() == null) {
+            CarregarCertificadoController cr = new CarregarCertificadoController();
+            cr.setDialogStage(dialogStage);
+            cr.setMainApp(mainApp);
+            cr.show(null);
+        }
+    	final SwingNode swingNode = new SwingNode();
+        
+        Service<Void> service = new Service<Void>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call()
+                            throws InterruptedException {
+                    	List<NotaFiscal> notas = notaFiscalTable.getSelectionModel().getSelectedItems();
+                    	int nNotas = notas.size();
+                    	int currentNota = 1;
+                    	InputStream stream = null;
+                        JRXmlDataSource xmlPath = null;
+                        for(NotaFiscal notaFiscal : notas){
+                        
+                        	NFe nfe = new RestNFeManager().pesquisaChave(notaFiscal.getChave());
+                        	if(nfe!=null){
+							if (!notaFiscal.getSitNfe().equals(SitNFe.AUTORIZADA)
+									&& !notaFiscal.getSitNfe().equals(SitNFe.CANCELADA)) {
+								try {
+									notaFiscal.setSitNfe(SitNFe.AUTORIZADA);
+									notaFiscal = rest.atualizar(notaFiscal);
+								} catch (Exception e) {
+									updateMessage("Erro ao Mudar Situacão da Nota");
+								}
+							}
+							String xml = nfe.getXmlNFe();
+                    		try {
+                    			updateMessage("Processando: "+notaFiscal.getNumero());
+								updateProgress(currentNota, nNotas);
+								currentNota++;
+								
+                                 stream = new ByteArrayInputStream(xml.getBytes());
+                                 xmlPath = new JRXmlDataSource(stream, "/nfeProc/NFe/infNFe/det");
+                                 
+                                 HashMap<String, Object> parametros = new HashMap<String, Object>();
+                                 parametros.put("LOGO", MainApp.getProps().getProperty("logo"));
+                                 JasperPrint jp = JasperFillManager.fillReport(getClass().getResourceAsStream("/relatorios/danfeRetrato.jasper"), parametros, xmlPath);
+                                 
+                                 
+                                 swingNode.setContent(new JRViewer(jp));
+                                                                      
+                             } catch (JRException e1) {
+                            	 updateMessage("Erro\n"
+                         				+ e1.getMessage());
+                         		Thread.sleep(5000);
+                                 e1.printStackTrace();
+                             }
+                        	}else{
+                        		updateMessage("Não Localizada no Repositorio\n"
+                        				+ "Transmita Novamente.");
+                        		
+                                try {
+                                 	TNFe Tnfe = ConversorNFe.getnFe(notaFiscal, MainApp.getProps().getProperty("ambiente"));
+                                     String xml = "";
+									try {
+										xml = new AssinaturaDigital().assinarDocumento(ConversorNFe.getXML(Tnfe));
+									} catch (Exception e) {
+										updateMessage("Erro\n\r"+e.getMessage());
+				                            Thread.sleep(10000);
+									}
+									try {
+										updateMessage("Processando: "+notaFiscal.getNumero());
+										updateProgress(currentNota, nNotas);
+										currentNota++;
+										
+		                                 stream = new ByteArrayInputStream(xml.getBytes());
+		                                 xmlPath = new JRXmlDataSource(stream, "/nfeProc/NFe/infNFe/det");
+		                                 
+		                                 HashMap<String, Object> parametros = new HashMap<String, Object>();
+		                                 parametros.put("LOGO", MainApp.getProps().getProperty("logo"));
+		                                 JasperPrint jp = JasperFillManager.fillReport(getClass().getResourceAsStream("/relatorios/danfeRetrato.jasper"), parametros, xmlPath);
+		                                 
+		                                 
+		                                 swingNode.setContent(new JRViewer(jp));
+        							                                  
+                                 } catch (Exception e1) {
+                                	 updateMessage("Erro\n"
+                             				+ e1.getMessage());
+                             		Thread.sleep(5000);
+                                     e1.printStackTrace();
+                                 }
+                                                                           
+                                 } catch (Exception e1) {
+                                     e1.printStackTrace();
+                                 }
+                        	}
+                        	}                 
+                 return null;
+                    }
+                };
+            }
+        };
+        
+        Dialogs.create()
+        .owner(dialogStage)
+        .title("Impressão de Notas")
+        .masthead("Carregando ...\nAguarde")
+        .showWorkerProgress(service);
+
+        service.start();
+        
+        Stage stage = new Stage();        
+        stage.setTitle("Danfe");
+        stage.initModality(Modality.WINDOW_MODAL);
+        StackPane pane = new StackPane();
+        pane.getChildren().add(swingNode);        
+        stage.setScene(new Scene(pane,960,668));
+        stage.initOwner(dialogStage); 
+        stage.showAndWait();
     }
 }
