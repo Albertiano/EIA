@@ -48,7 +48,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import javafx.stage.Screen;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
@@ -763,17 +765,6 @@ public class CadastroNotaFiscalController implements Initializable {
 										NFe nfeRep = new NFe();
 										nfeRep.setChave(notaFiscal.getChave());
 										nfeRep.setXmlNFe(xmlProc);
-										try {
-											Files.write(Paths.get(System.getProperty("user.home")+"/procNFe"
-													+ notaFiscal.getNumero() + ".xml"),
-													xmlProc.toString().getBytes());
-										} catch (IOException ex) {
-											java.util.logging.Logger.getLogger(
-													CadastroNotaFiscalController.class
-															.getName()).log(
-													java.util.logging.Level.SEVERE, null,
-													ex);
-										}
 										new RestNFeManager().inserir(nfeRep);
 									
 										notaFiscal = rest.atualizar(notaFiscal);
@@ -1054,7 +1045,7 @@ public class CadastroNotaFiscalController implements Initializable {
             cr.show(null);
         }
     	final SwingNode swingNode = new SwingNode();
-        
+    	
         Service<Void> service = new Service<Void>() {
             @Override
             protected Task<Void> createTask() {
@@ -1067,6 +1058,18 @@ public class CadastroNotaFiscalController implements Initializable {
                     	int currentNota = 1;
                     	InputStream stream = null;
                         JRXmlDataSource xmlPath = null;
+                        
+                        HashMap<String, Object> parametros = new HashMap<String, Object>();
+                        parametros.put("LOGO", MainApp.getProps().getProperty("logo"));
+                        
+                        JasperPrint paginas = null;
+						try {
+							paginas = JasperFillManager.fillReport(getClass().getResourceAsStream("/relatorios/danfeRetrato.jasper"), parametros,new JREmptyDataSource());
+							paginas.removePage(0);
+						} catch (JRException e2) {
+							e2.printStackTrace();
+						}                        
+                        
                         for(NotaFiscal notaFiscal : notas){
                         
                         	NFe nfe = new RestNFeManager().pesquisaChave(notaFiscal.getChave());
@@ -1082,19 +1085,19 @@ public class CadastroNotaFiscalController implements Initializable {
 							}
 							String xml = nfe.getXmlNFe();
                     		try {
-                    			updateMessage("Processando: "+notaFiscal.getNumero());
+                    			updateMessage("Processando: Nota Fiscal "+notaFiscal.getNumero());
 								updateProgress(currentNota, nNotas);
 								currentNota++;
 								
                                  stream = new ByteArrayInputStream(xml.getBytes());
                                  xmlPath = new JRXmlDataSource(stream, "/nfeProc/NFe/infNFe/det");
                                  
-                                 HashMap<String, Object> parametros = new HashMap<String, Object>();
-                                 parametros.put("LOGO", MainApp.getProps().getProperty("logo"));
                                  JasperPrint jp = JasperFillManager.fillReport(getClass().getResourceAsStream("/relatorios/danfeRetrato.jasper"), parametros, xmlPath);
                                  
-                                 
-                                 swingNode.setContent(new JRViewer(jp));
+                                 List<JRPrintPage> pgs = jp.getPages();                                 
+                                 for (JRPrintPage pg : pgs) {
+                                     paginas.addPage(pg);
+                                 }                                 
                                                                       
                              } catch (JRException e1) {
                             	 updateMessage("Erro\n"
@@ -1116,19 +1119,19 @@ public class CadastroNotaFiscalController implements Initializable {
 				                            Thread.sleep(10000);
 									}
 									try {
-										updateMessage("Processando: "+notaFiscal.getNumero());
+										updateMessage("Processando: Nota Fiscal"+notaFiscal.getNumero());
 										updateProgress(currentNota, nNotas);
 										currentNota++;
 										
 		                                 stream = new ByteArrayInputStream(xml.getBytes());
 		                                 xmlPath = new JRXmlDataSource(stream, "/nfeProc/NFe/infNFe/det");
 		                                 
-		                                 HashMap<String, Object> parametros = new HashMap<String, Object>();
-		                                 parametros.put("LOGO", MainApp.getProps().getProperty("logo"));
 		                                 JasperPrint jp = JasperFillManager.fillReport(getClass().getResourceAsStream("/relatorios/danfeRetrato.jasper"), parametros, xmlPath);
-		                                 
-		                                 
-		                                 swingNode.setContent(new JRViewer(jp));
+
+		                                 List<JRPrintPage> pgs = jp.getPages();                                 
+		                                 for (JRPrintPage pg : pgs) {
+		                                     paginas.addPage(pg);
+		                                 } 
         							                                  
                                  } catch (Exception e1) {
                                 	 updateMessage("Erro\n"
@@ -1141,7 +1144,8 @@ public class CadastroNotaFiscalController implements Initializable {
                                      e1.printStackTrace();
                                  }
                         	}
-                        	}                 
+                        	}
+                        swingNode.setContent(new JRViewer(paginas));
                  return null;
                     }
                 };
