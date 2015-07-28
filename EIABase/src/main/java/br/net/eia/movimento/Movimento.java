@@ -88,6 +88,7 @@ public class Movimento extends BaseEntity implements HATEOASEntity {
 	private Situacao situacao;
 	@Enumerated(EnumType.STRING)
 	private TpMovimento tpMovimento;
+	private Integer serie;
 	private Long numero;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dhEmi;
@@ -106,9 +107,17 @@ public class Movimento extends BaseEntity implements HATEOASEntity {
 	private Transporte transp;
 	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	private Cobranca cobr;	
-	@OneToOne(cascade=CascadeType.ALL)
-	private Pagamento pag;	
+	@Enumerated(EnumType.STRING)
+	private IndPag indPag;
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@JoinColumn
+	private FormaPagamento pag;	
 	private String obs;
+	@Enumerated(EnumType.STRING)
+	private IndPres indPres;
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@JoinColumn
+	private List<NFref> NFRef;
 	
 	public Situacao getSituacao() {
 		return situacao;
@@ -124,6 +133,14 @@ public class Movimento extends BaseEntity implements HATEOASEntity {
 
 	public void setTpMovimento(TpMovimento tpMovimento) {
 		this.tpMovimento = tpMovimento;
+	}
+
+	public Integer getSerie() {
+		return serie;
+	}
+
+	public void setSerie(Integer serie) {
+		this.serie = serie;
 	}
 
 	public Long getNumero() {
@@ -198,11 +215,19 @@ public class Movimento extends BaseEntity implements HATEOASEntity {
 		this.cobr = cobr;
 	}
 
-	public Pagamento getPag() {
+	public IndPag getIndPag() {
+		return indPag;
+	}
+
+	public void setIndPag(IndPag indPag) {
+		this.indPag = indPag;
+	}
+
+	public FormaPagamento getPag() {
 		return pag;
 	}
 
-	public void setPag(Pagamento pag) {
+	public void setPag(FormaPagamento pag) {
 		this.pag = pag;
 	}
 
@@ -213,5 +238,19 @@ public class Movimento extends BaseEntity implements HATEOASEntity {
 	public void setObs(String obs) {
 		this.obs = obs;
 	}
-	
-}
+
+	public IndPres getIndPres() {
+		return indPres;
+	}
+
+	public void setIndPres(IndPres indPres) {
+		this.indPres = indPres;
+	}
+
+	public List<NFref> getNFRef() {
+		return NFRef;
+	}
+
+	public void setNFRef(List<NFref> nFRef) {
+		NFRef = nFRef;
+	}}

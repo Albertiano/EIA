@@ -70,6 +70,7 @@ import br.net.eia.enums.UF;
 import br.net.eia.nfe.NFe;
 import br.net.eia.nfe.evento.retEnvEvento.TRetEnvEvento;
 import br.net.eia.nfe.v310.TNFe;
+import br.net.eia.nfe.v310.enviNFe.TNFe.InfNFe.Transp.Vol;
 import br.net.eia.nfe.v310.retConsSitNFe.ObjectFactory;
 import br.net.eia.nfe.v310.retConsSitNFe.TRetConsSitNFe;
 import br.net.eia.nfe.v310.retConsStatServ.TRetConsStatServ;
@@ -90,6 +91,7 @@ import br.net.eia.notafiscal.ide.Versao;
 import br.net.eia.notafiscal.item.ItemNotaFiscal;
 import br.net.eia.notafiscal.total.Total;
 import br.net.eia.notafiscal.transporte.Transporte;
+import br.net.eia.notafiscal.transporte.Veiculo;
 import br.net.eia.notafiscal.transporte.Volume;
 import br.net.eia.ui.MainApp;
 import br.net.eia.ui.certificado.CarregarCertificadoController;
@@ -399,6 +401,7 @@ public class CadastroNotaFiscalController implements Initializable {
                 }
             }
         });
+        
         Date data = new Date();        
         tfDataIni.setText(ConversorDate.retornaData(data)+" 00:00:00");
         tfDataFim.setText(ConversorDate.retornaData(data)+" 23:59:59");
@@ -450,6 +453,7 @@ public class CadastroNotaFiscalController implements Initializable {
         if (okClicked) {   
             rest.inserir(nf);
             dados.add(nf);
+            handleFiltrar();
 			Notifications
 					.create()
 					.position(Pos.CENTER)
@@ -458,7 +462,7 @@ public class CadastroNotaFiscalController implements Initializable {
 					.text(nf.getDest().getNome() + "\n"
 							+ nf.getTotal().getVnf()
 							+ "\nInserido com sucesso.").showInformation();
-
+		
         }
     }
 
@@ -486,7 +490,7 @@ public class CadastroNotaFiscalController implements Initializable {
 
             // Show the dialog and wait until the user closes it
             dialogStage2.showAndWait();
-
+            
             return controller.isOkClicked();
          
         } catch (IOException e) {
@@ -662,25 +666,51 @@ public class CadastroNotaFiscalController implements Initializable {
     	nf.setVerProc(Versao.VERSAO_3_1);
     	nf.setTpImp(TpImp.RETRATO);
     	nf.setMod(notaFiscal.getMod());
-    	nf.setDhEmi(new Date());
-    	nf.setDhSaiEnt(new Date());
-    	nf.setTransp(notaFiscal.getTransp());
-    	nf.setInfAdic(notaFiscal.getInfAdic());
-    	
-    	nf.setItens(new ArrayList<ItemNotaFiscal>());
-    	
-    	nf.setDest(notaFiscal.getDest());
-		if(notaFiscal.getItens()!=null){
-			for(ItemNotaFiscal i : notaFiscal.getItens()){
-	    		i.setId(null);
-	    		i.getItem().getDetFiscal().setId(null);
-	    		nf.getItens().add(i);
-	    	}
-		}  		
+		nf.setDhEmi(new Date());
+		nf.setDhSaiEnt(new Date());
+
+		Transporte t = notaFiscal.getTransp();
+		t.setId(null);
+		t.getVeicTransp().setId(null);
+		
+		List<Veiculo> reboques = t.getReboque();
+		if (reboques != null) {
+			for (Veiculo v : reboques) {
+				v.setId(null);
+			}
+			t.setReboque(reboques);
+		}
+		for (Volume v : t.getVol()) {
+			v.setId(null);
+		}
+		
+		
+		nf.setTransp(t);
+		
+		nf.setDest(notaFiscal.getDest());
+		
+		InfAdicionais infAdic = notaFiscal.getInfAdic();
+		infAdic.setId(null);
+		nf.setInfAdic(infAdic);
+		
+		nf.setItens(new ArrayList<ItemNotaFiscal>());		
+		if (notaFiscal.getItens() != null) {
+			for (ItemNotaFiscal i : notaFiscal.getItens()) {
+				i.setId(null);
+				i.getItem().getDetFiscal().setId(null);
+				nf.getItens().add(i);
+			}
+		}
+		
+		Total total = notaFiscal.getTotal();
+		total.setId(null);
+		nf.setTotal(total);
+		
 		nf.setEmitente(MainApp.getEmitente());
-    	nf = rest.inserir(nf);
-    	dados.add(nf);
-    }
+		
+		nf = rest.inserir(nf);
+		handleFiltrar();
+	}
 
     @FXML
     private void transmitir() {
@@ -712,10 +742,13 @@ public class CadastroNotaFiscalController implements Initializable {
                         if (servico) {
                             String ambiente = MainApp.getProps().getProperty("ambiente");
                             List<NotaFiscal> notas = notaFiscalTable.getSelectionModel().getSelectedItems();
+                        	int nNotas = notas.size();
+                        	int currentNota = 1;
                             for(NotaFiscal notaFiscal : notas){
-                            	updateProgress(1, 4);
-                                updateTitle("Nota Fiscal "+notaFiscal.getNumero());
-                                updateMessage("Gerando o xml ...");
+                            	updateMessage("Processando: Nota Fiscal "+notaFiscal.getNumero()
+                            	+"\n Gerando o xml ...");
+								updateProgress(currentNota, nNotas);
+								currentNota++;
                             TNFe nfe = ConversorNFe.getnFe(notaFiscal, ambiente);
                             String xml = "";
 							try {
@@ -749,8 +782,8 @@ public class CadastroNotaFiscalController implements Initializable {
 										ex);
 							}
                             try {
-                            	updateProgress(2, 4);
-                                updateMessage("Transmitindo a Nota Fiscal ...");
+                            	updateMessage("Processando: Nota Fiscal "+notaFiscal.getNumero()
+                            	+"\n Transmitindo a Nota Fiscal ...");
                             	EnviarLote enviaLote = new EnviarLote();
                                 String retEnvi = enviaLote.enviar(xmlEnvi.toString(), UF.PB, MainApp.getProps().getProperty("NFeAutorizacao"));
 								TRetEnviNFe retEnvio = enviaLote.retEnviNFe(retEnvi);
@@ -758,8 +791,8 @@ public class CadastroNotaFiscalController implements Initializable {
 								String cStat = retEnvio.getProtNFe().getInfProt().getCStat();
 								switch (cStat) {
 								case "100":
-									updateProgress(3, 4);
-	                                updateMessage("Enviando ao Repositorio ...");
+									updateMessage("Processando: Nota Fiscal "+notaFiscal.getNumero()
+	                            					+"\n Enviando ao Repositorio ...");
 									notaFiscal.setSitNfe(SitNFe.AUTORIZADA);	
 										String xmlProc = new GerarProcNFe().gerarProcNFeEnvi(xmlEnvi.toString(), retEnvi);
 										NFe nfeRep = new NFe();
@@ -770,24 +803,24 @@ public class CadastroNotaFiscalController implements Initializable {
 										notaFiscal = rest.atualizar(notaFiscal);
 									break;
 								case "301":
-									updateProgress(3, 4);
-	                                updateMessage("Uso Denegado");
+									updateMessage("Processando: Nota Fiscal "+notaFiscal.getNumero()
+                					+"\n Uso Denegado");
 	                                Thread.sleep(3000);
 									notaFiscal.setSitNfe(SitNFe.DENEGADA);
 									notaFiscal = rest.atualizar(notaFiscal);
 									Thread.sleep(5000);
 									break;
 								case "302":
-									updateProgress(3, 4);
-	                                updateMessage("Uso Denegado");
+									updateMessage("Processando: Nota Fiscal "+notaFiscal.getNumero()
+                					+"\n Uso Denegado");
 	                                Thread.sleep(3000);
 									notaFiscal.setSitNfe(SitNFe.DENEGADA);
 									notaFiscal = rest.atualizar(notaFiscal);
 									Thread.sleep(5000);
 									break;
 								case "204":
-									updateProgress(3, 4);
-									updateMessage("Codigo: "+retEnvio.getProtNFe().getInfProt().getCStat()+"\n"+retEnvio.getProtNFe().getInfProt().getXMotivo());
+									updateMessage("Processando: Nota Fiscal "+notaFiscal.getNumero()
+                									+"\n Codigo: "+retEnvio.getProtNFe().getInfProt().getCStat()+"\n"+retEnvio.getProtNFe().getInfProt().getXMotivo());
 	                                Thread.sleep(3000);
 									TRetConsSitNFe ret = new ConsultarNFe().consultar(
 											UF.valueOf(MainApp.getProps().getProperty("UF")),
@@ -796,7 +829,8 @@ public class CadastroNotaFiscalController implements Initializable {
 											notaFiscal.getChave());
 									if(ret.getCStat().equals("100")){
 										try {
-											updateMessage("Nota já Autorizada\nRecuperando XML");
+											updateMessage("Processando: Nota Fiscal "+notaFiscal.getNumero()
+		                					+"\n Nota já Autorizada\nRecuperando XML");
 								            JAXBContext context = JAXBContext.newInstance(TRetConsSitNFe.class);
 								            Marshaller marshaller = context.createMarshaller();
 								            JAXBElement<TRetConsSitNFe> element = new ObjectFactory().createRetConsSitNFe(ret);
@@ -808,16 +842,19 @@ public class CadastroNotaFiscalController implements Initializable {
 
 								            String xmlRet = sw.toString();
 								            String procNFe = new GerarProcNFe().gerarProcNFeEnvi(xmlEnvi.toString(), xmlRet);
-								            updateMessage("Verificando Existencia no Repositorio");
+								            updateMessage("Processando: Nota Fiscal "+notaFiscal.getNumero()
+		                					+"\n Verificando Existencia no Repositorio");
 								            NFe nfePes = new RestNFeManager().pesquisaChave(notaFiscal.getChave());
 								            if(nfePes==null){
 								            	nfeRep = new NFe();
 								            	nfeRep.setChave(notaFiscal.getChave());
 									    		nfeRep.setXmlNFe(procNFe);	    		
 									    		nfeRep = new RestNFeManager().inserir(nfeRep);
-									    		updateMessage("Não Existia\n Inserida com sucesso.");
+									    		updateMessage("Processando: Nota Fiscal "+notaFiscal.getNumero()
+			                					+"\n Não Existia\n Inserida com sucesso.");
 								            }else{
-								            	updateMessage("Já Localizado no Repositorio");
+								            	updateMessage("Processando: Nota Fiscal "+notaFiscal.getNumero()
+			                					+"\n Já Localizado no Repositorio");
 								            }
 								            notaFiscal.setSitNfe(SitNFe.AUTORIZADA);
 											notaFiscal = rest.atualizar(notaFiscal);
@@ -829,20 +866,21 @@ public class CadastroNotaFiscalController implements Initializable {
 									break;
 									
 								default:
-									updateProgress(4, 4);
-									updateMessage("Codigo: "+retEnvio.getProtNFe().getInfProt().getCStat()+"\n"+retEnvio.getProtNFe().getInfProt().getXMotivo());
-									notaFiscal.setSitNfe(SitNFe.DIGITACAO);
+									updateMessage("Processando: Nota Fiscal "+notaFiscal.getNumero()
+									+"\n Codigo: "+retEnvio.getProtNFe().getInfProt().getCStat()+"\n"+retEnvio.getProtNFe().getInfProt().getXMotivo());
+                    				notaFiscal.setSitNfe(SitNFe.DIGITACAO);
 									notaFiscal = rest.atualizar(notaFiscal);
 									Thread.sleep(3000);
 									break;
 								}
 							} catch (Exception e) {
-								updateMessage("Erro ao Enviar Nota Fiscal\n\r"+e.getMessage());
+								updateMessage("Processando: Nota Fiscal "+notaFiscal.getNumero()
+								+"\n Erro ao Enviar Nota Fiscal\n\r"+e.getMessage());
 	                            Thread.sleep(5000);
 	                            e.printStackTrace();
+									}
+								}
 							}
-                        }
-                            }
                         handleFiltrar();                       
                     }
                         return null;
@@ -852,7 +890,7 @@ public class CadastroNotaFiscalController implements Initializable {
             }
         };
         Dialogs.create().owner(dialogStage).owner(dialogStage)
-                .title("Transmitindo Nota").showWorkerProgress(service);
+                .title("Transmitindo Notas").showWorkerProgress(service);
 
         service.start();
     }

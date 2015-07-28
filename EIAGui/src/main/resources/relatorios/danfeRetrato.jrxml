@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.0.3.final using JasperReports Library version 6.0.3  -->
-<!-- 2015-04-08T15:12:19 -->
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2015-07-23T12:41:59 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="danfe" pageWidth="595" pageHeight="842" columnWidth="565" leftMargin="14" rightMargin="16" topMargin="14" bottomMargin="14" uuid="3e94cae6-f6e8-441e-9475-fd29089a8fde">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="521"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="XML"/>
+	<fontFamily name="DejaVu Sans">
+    <normal>net/sf/jasperreports/fonts/dejavu/DejaVuSans.ttf</normal>
+    <bold>net/sf/jasperreports/fonts/dejavu/DejaVuSans-Bold.ttf</bold>
+    <italic>net/sf/jasperreports/fonts/dejavu/DejaVuSans-Oblique.ttf</italic>
+    <boldItalic>net/sf/jasperreports/fonts/dejavu/DejaVuSans-BoldOblique.ttf</boldItalic>
+    <pdfEncoding>Identity-H</pdfEncoding>
+    <pdfEmbedded>true</pdfEmbedded>
+    <exportFonts>
+      <export key="net.sf.jasperreports.html">'DejaVu Sans', Arial, Helvetica, sans-serif</export>
+      <export key="net.sf.jasperreports.xhtml">'DejaVu Sans', Arial, Helvetica, sans-serif</export>
+    </exportFonts>
+    <!--
+    <locales>
+      <locale>en_US</locale>
+      <locale>de_DE</locale>
+    </locales>
+    -->
+  </fontFamily>
 	<style name="campoPequeno" hTextAlign="Left" hImageAlign="Left" vTextAlign="Top" vImageAlign="Top" markup="styled" pattern="" fontName="Arial" fontSize="4" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Arial"/>
 	<style name="borda" mode="Transparent" forecolor="#000000" fill="Solid" radius="3" scaleImage="Clip" hTextAlign="Left" hImageAlign="Left" vTextAlign="Top" vImageAlign="Top" markup="none" pattern="" fontName="Arial" fontSize="5" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="true" pdfFontName="Arial">
 		<pen lineWidth="0.25"/>

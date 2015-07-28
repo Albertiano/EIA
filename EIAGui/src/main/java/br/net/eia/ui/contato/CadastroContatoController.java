@@ -6,7 +6,9 @@ import java.util.ResourceBundle;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialogs;
+import org.controlsfx.dialog.Dialog.Actions;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -239,26 +241,21 @@ public class CadastroContatoController implements Initializable {
 	private void handleDeleteCliente() {
 		int selectedIndex = contatoTable.getSelectionModel().getSelectedIndex();
 		if (selectedIndex >= 0) {
-			Contato selectedPerson = contatoTable.getSelectionModel()
-					.getSelectedItem();
-			boolean deletado = cM.remover(selectedPerson);
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead(selectedPerson.getNome() + "\n" + selectedPerson.getMunicipio())
-			.message("Removido Inserido com sucesso.")
-			.showInformation();
-			if (deletado) {
-				contatoTable.getItems().remove(selectedIndex);
-				refreshPersonTable();
+			Contato selectedPerson = contatoTable.getSelectionModel().getSelectedItem();
+			Action response2 = Dialogs.create().owner(dialogStage).title("Exclusão em andamento.")
+					.message("Tem certesa que deseja remover?").actions(Actions.YES, Actions.NO).showConfirm();
+
+			if (response2.equals(Actions.YES)) {
+
+				boolean deletado = cM.remover(selectedPerson);
+				Dialogs.create().owner(dialogStage).title("Aviso")
+						.masthead(selectedPerson.getNome() + "\n" + selectedPerson.getMunicipio())
+						.message("Removido Inserido com sucesso.").showInformation();
+				if (deletado) {
+					contatoTable.getItems().remove(selectedIndex);
+					refreshPersonTable();
+				}
 			}
-		} else {
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead("Item não selecionado")
-			.message("Selecione um item na tabela.")
-			.showInformation();
 		}
 	}
 

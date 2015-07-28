@@ -159,9 +159,7 @@ public class ItemManager {
 	}
 
 	public Item gerarItem(Produto p, BigDecimal quant, BigDecimal vUn,UF uf){
-		System.out.println(nItem);
 		nItem++;
-		System.out.println(nItem);
 		Item i = new Item();
 		i.setnItem(nItem);
 		i.setProduto(p);		

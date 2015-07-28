@@ -1,7 +1,7 @@
 package br.net.eia.movimento;
 
 public enum Situacao {
-	FINALIZADO("Finalizado"), CANCELADO("Cancelado"),ABERTO("Em Aberto");
+	FINALIZADO("Finalizado"), CANCELADO("Cancelado"),ABERTO("Em Aberto"),ENVIADO("Enviado");
 String txt;
 	
 Situacao(String string){
