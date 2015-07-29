@@ -25,27 +25,27 @@ public class DesenvolvimentoDatabaseConfig implements IDatabaseConfig {
 	/** 
 	 * Postgressql
 	 *
-	 */
+	 
 	 static String DRIVER_CLASS = "org.postgresql.Driver"; 
 	 static String URL = "jdbc:postgresql://localhost:5432/postgres?tcpkeepalive=true";
 	 static String USERNAME = "postgres"; 
 	 static String PASSWD = "2010";
 	 static String DIALECT = "org.hibernate.dialect.PostgreSQLDialect";
 	 static Database DATABASE = Database.POSTGRESQL;
-	 
+	 */
 	
 	/**
 	 * H2 
 	 *  
 	 * 
-	 *  	
+	 *  */	
 	static String DRIVER_CLASS = "org.h2.Driver";
-	static String URL = "jdbc:h2:D:/database/eia";
+	static String URL = "jdbc:h2:eia";
 	static String USERNAME = "eia";
 	static String PASSWD = "2010";	
 	static String DIALECT = "org.hibernate.dialect.H2Dialect";
 	static Database DATABASE = Database.H2;
-	*/
+	
 	 
 	 /** 
 		 * MySql

@@ -6,10 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import br.net.eia.entities.BaseEntity;
 import br.net.eia.notafiscal.pagamento.TpPag;
 
 @Entity
-public class FormaPagamento {
+public class FormaPagamento extends BaseEntity{
 	@Enumerated(EnumType.STRING)
 	private TpPag tpPag;
 	private BigDecimal vPag;

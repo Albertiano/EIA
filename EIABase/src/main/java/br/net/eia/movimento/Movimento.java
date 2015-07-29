@@ -111,13 +111,13 @@ public class Movimento extends BaseEntity implements HATEOASEntity {
 	private IndPag indPag;
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@JoinColumn
-	private FormaPagamento pag;	
+	private List<FormaPagamento> pag;	
 	private String obs;
 	@Enumerated(EnumType.STRING)
 	private IndPres indPres;
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@JoinColumn
-	private List<NFref> NFRef;
+	private List<NF> NFRef;
 	
 	public Situacao getSituacao() {
 		return situacao;
@@ -223,14 +223,6 @@ public class Movimento extends BaseEntity implements HATEOASEntity {
 		this.indPag = indPag;
 	}
 
-	public FormaPagamento getPag() {
-		return pag;
-	}
-
-	public void setPag(FormaPagamento pag) {
-		this.pag = pag;
-	}
-
 	public String getObs() {
 		return obs;
 	}
@@ -247,10 +239,18 @@ public class Movimento extends BaseEntity implements HATEOASEntity {
 		this.indPres = indPres;
 	}
 
-	public List<NFref> getNFRef() {
+	public List<NF> getNFRef() {
 		return NFRef;
 	}
 
-	public void setNFRef(List<NFref> nFRef) {
+	public void setNFRef(List<NF> nFRef) {
 		NFRef = nFRef;
+	}
+
+	public List<FormaPagamento> getPag() {
+		return pag;
+	}
+
+	public void setPag(List<FormaPagamento> pag) {
+		this.pag = pag;
 	}}
