@@ -55,7 +55,7 @@ public class lerXML_JAXB {
     	        return name.endsWith("-procNfe.xml");   
     	    }  
     	};  
-        String local = "/home/albertiano/xml/autorizada";
+        String local = "/home/albertiano/xml";
     	File arquivos = new File(local);  
     	String[] nomeArquivos = arquivos.list(filtro);  
     	StringBuilder sb = new StringBuilder();

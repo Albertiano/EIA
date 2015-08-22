@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -68,25 +69,58 @@ public class NotaFiscalDAO extends JpaDAO<NotaFiscal>{
 	}
 	
 	private int getMaxSerie(Integer xEmitente){
-		int max = 0;		
-		List<NotaFiscal> nfs = filtrar(xEmitente);		
-		for(NotaFiscal nf : nfs){
-			if(nf.getNumero()>max){
-				max=nf.getSerie();
-			}
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Integer> query = builder.createQuery(Integer.class);
+        Root<NotaFiscal> from = query.from(NotaFiscal.class);
+        query.select(builder.max(from.get(NotaFiscal_.serie)));
+		List<Predicate> predicados = new ArrayList<Predicate>();
+		
+		Predicate pAtivo = builder.equal(from.get(NotaFiscal_.active), true);
+		predicados.add(pAtivo);
+		
+		try{			
+			Emitente emitente = EDao.carregar(xEmitente);
+			Predicate pEmitente = builder.equal(from.<Emitente> get(NotaFiscal_.emitente), emitente);
+			predicados.add(pEmitente);
+		}catch(Exception e){
+			Logger.getLogger(getClass().getName()).log(
+					Level.ERROR, e.getLocalizedMessage(), e);
 		}		
-		return max;
+
+		
+		 // cria o where com as clausulas de filtro da select  
+        if (predicados.size() > 0) {  
+            query.where(builder.and(predicados.toArray(new Predicate[]{})));  
+        }
+        Integer maxAge = em.createQuery(query).getSingleResult();
+        return maxAge;
 	}
-	
 	private int getMaxNumero(Integer xEmitente){
-		int max = 0;		
-		List<NotaFiscal> nfs = filtrar(xEmitente);		
-		for(NotaFiscal nf : nfs){
-			if(nf.getNumero()>max){
-				max=nf.getNumero();
-			}
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Integer> query = builder.createQuery(Integer.class);
+        Root<NotaFiscal> from = query.from(NotaFiscal.class);
+        query.select(builder.max(from.get(NotaFiscal_.numero)));
+		List<Predicate> predicados = new ArrayList<Predicate>();
+		
+		Predicate pAtivo = builder.equal(from.get(NotaFiscal_.active), true);
+		predicados.add(pAtivo);
+		
+		try{			
+			Emitente emitente = EDao.carregar(xEmitente);
+			Predicate pEmitente = builder.equal(from.<Emitente> get(NotaFiscal_.emitente), emitente);
+			predicados.add(pEmitente);
+		}catch(Exception e){
+			Logger.getLogger(getClass().getName()).log(
+					Level.ERROR, e.getLocalizedMessage(), e);
 		}		
-		return max;
+
+		
+		 // cria o where com as clausulas de filtro da select  
+        if (predicados.size() > 0) {  
+            query.where(builder.and(predicados.toArray(new Predicate[]{})));  
+        }
+        Integer maxAge = em.createQuery(query).getSingleResult();
+        return maxAge;
 	}
 	
 public List<NotaFiscal> filtrar(Integer xEmitente){

@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EIA</title>
+<link rel="stylesheet" type="text/css" href="_css/estilo.css">
+<link rel="stylesheet" type="text/css" href="_css/form.css">
+</head>
+<script src="_javascript/funcoes.js"></script>
+<body>
+	<div id="interface">
+		<header id="cabecalho">
+			<hgroup>
+				<h1>Google Glass</h1>
+				<h2>A revolução do Google está chegando</h2>
+			</hgroup>
+			<figure>
+				<img id="icone" alt="Óculos preto"
+					src="_imagens/glass-oculos-preto-peq.png">
+			</figure>
+
+			<nav id="menu">
+				<script>
+                function retornaFoto(){
+                    document.getElementById("icone").src = "_imagens/contato.png";
+                }
+                </script>
+				<h1>Menu Principal</h1>
+				<ul type="disc">
+					<li onmousemove="mudaFoto('_imagens/home.png')"
+						onmouseout="retornaFoto()"><a href="index.html">Home</a></li>
+					<li onmousemove="mudaFoto('_imagens/especificacoes.png')"
+						onmouseout="retornaFoto()"><a href="specs.html">Especificações</a></li>
+					<li onmousemove="mudaFoto('_imagens/fotos.png')"
+						onmouseout="retornaFoto()"><a href="fotos.html">Fotos</a></li>
+					<li onmousemove="mudaFoto('_imagens/multimidia.png')"
+						onmouseout="retornaFoto()"><a href="multimidia.html">Multimídia</a></li>
+					<li onmousemove="mudaFoto('_imagens/contato.png')"
+						onmouseout="retornaFoto()"><a href="fale-conosco.html">Fale
+							conosco</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<section>
+			<article id="artigoPrincipal">
+				<header id="cabecalho-artigo">
+					<hgroup>
+						<h3>Fale Conosco &gt; Contato</h3>
+						<h1>Formulário de Contato</h1>
+					</hgroup>
+				</header>
+				<form jsf:id="form" method="post" action="#">
+					<fieldset>
+						<legend>Identificação do Usuário</legend>
+						<p>
+							<label for="name">Nome:</label> <input type="text" id="name"
+								placeholder="Digite seu nome"></input>
+						</p>
+						<p>
+							<label for="fone">Fone:</label> <input type="tel" jsf:id="fone"
+								placeholder="Digite seu Telefone"></input>
+						</p>
+						<p>
+							<label for="email">E-mail:</label> <input type="email"
+								jsf:id="email" placeholder="Digite seu e-mail"></input>
+						</p>
+					</fieldset>
+					<fieldset>
+						<legend>Mensagem do Usuário</legend>
+						<p>
+							<label for="urg">Grau de Urgência:</label> <input jsf:id="urg"
+								type="range" />
+						</p>
+						<p>
+							<label for="assunto">Assunto:</label> <input jsf:id="assunto"
+								type="text" placeholder="Digite o assunto" />
+						</p>
+						<p>
+							<label for="msg">Mensagem:</label>
+							<textarea jsf:id="msg" rows="5" cols="45"
+								placeholder="Deixe aqui sua mensagem"></textarea>
+						</p>
+					</fieldset>
+					<input type="image" src="_imagens/botao-enviar.png">
+				</form>
+			</article>
+		</section>
+		<footer id="rodape">
+			<p>
+				Todos os direito reservadors &copy; 2013 - by Gustavo Guanabara <br />Facebook
+				| Twitter
+			</p>
+		</footer>
+	</div>
+</body>
+</html>

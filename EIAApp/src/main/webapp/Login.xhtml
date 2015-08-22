@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" 
+	xmlns:p="http://primefaces.org/ui">
+	
+	<f:metadata>
+		<f:viewAction action="#{paisBean.listar}" />
+	</f:metadata>
+
+<head jsf:id="head">
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>EIA</title>
+
+<link jsf:library="css" jsf:name="login.css" rel="stylesheet"
+	type="text/css" />
+<link jsf:library="bootstrap" jsf:name="css/bootstrap.min.css"
+	rel="stylesheet" type="text/css" />
+
+<script jsf:target="body" jsf:library="bootstrap"
+	jsf:name="js/jquery.min.js"></script>
+<script jsf:target="body" jsf:library="bootstrap"
+	jsf:name="js/bootstrap.min.js"></script>
+
+</head>
+
+<body jsf:id="body">
+
+	<div class="container">
+
+		<p:growl id="growl" showDetail="true" />
+
+		<form class="form-signin" jsf:prependId="false">
+			<h2 class="form-signin-heading">Login</h2>
+			<label for="inputEmail" class="sr-only">Email</label> <input
+				type="text" id="inputEmail" class="form-control"
+				placeholder="Email" required="required" autofocus="autofocus"
+				value="#{loginBean.nomeUsuario}" /> <label for="inputPassword"
+				class="sr-only">Senha</label> <input type="password"
+				id="inputPassword" class="form-control" placeholder="Senha"
+				required="required" value="#{loginBean.senha}" />
+			<button class="btn btn-lg btn-primary btn-block" type="submit"
+				jsf:action="#{loginBean.login}">Entrar</button>
+		</form>
+
+	</div>
+	<!-- /container -->
+</body>
+
+</html>

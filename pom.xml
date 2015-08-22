@@ -16,5 +16,6 @@
     <module>EIAXml</module>
     <module>EIAServer</module>
     <module>EIAGui</module>
+    <module>EIAApp</module>
   </modules>
 </project>

@@ -451,6 +451,9 @@
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
+					<compilerArguments>
+            <processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
+        </compilerArguments>
 				</configuration>
 				<dependencies>
 					<dependency>

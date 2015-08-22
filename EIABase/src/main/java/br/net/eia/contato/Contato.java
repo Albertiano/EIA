@@ -3,7 +3,6 @@ package br.net.eia.contato;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,8 +15,6 @@ import javax.persistence.Transient;
 import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import br.net.eia.contato.IContato;
 import br.net.eia.contato.campoextra.CampoExtra;
 import br.net.eia.emitente.Emitente;
 import br.net.eia.entities.BaseEntity;
@@ -33,7 +30,7 @@ import br.net.eia.pais.Pais;
 @Entity
 @XmlRootElement
 public class Contato extends BaseEntity implements
-        HATEOASEntity, IContato {
+        HATEOASEntity{
 
     @Transient
     private Collection<Link> links = new HashSet<Link>();
