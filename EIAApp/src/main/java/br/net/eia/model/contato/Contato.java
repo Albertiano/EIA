@@ -1,8 +1,8 @@
 package br.net.eia.model.contato;
 
 import java.util.List;
-
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,10 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.validator.constraints.NotEmpty;
-
 import br.net.eia.model.BaseEntity;
 import br.net.eia.model.emitente.Emitente;
 import br.net.eia.model.municipio.Municipio;
@@ -23,14 +22,17 @@ import br.net.eia.model.pais.Pais;
 @Entity
 @XmlRootElement
 public class Contato extends BaseEntity{
-
-    @Enumerated(EnumType.STRING)
-    @NotEmpty
+	
+	private static final long serialVersionUID = 1L;
+	
+	@Enumerated(EnumType.STRING)
+    @Column(name="tp_dest")
     private TpDestinatario tpDest;
     private String codigo;
     @Enumerated(EnumType.STRING)
-    @NotEmpty
+    @Column(name="tp_doc")
     private TpDoc tpDoc;
+    @Column(name="num_doc")
     private String numDoc;
     private String IE;
     @NotEmpty
@@ -44,29 +46,35 @@ public class Contato extends BaseEntity{
     private String bairro;
     private String cep;
     @Enumerated(EnumType.STRING)
-    @NotEmpty
+    @NotNull
     private UF uf;
     @ManyToOne
-    @NotEmpty
+    @NotNull
+    @JoinColumn(name="municipio")
     private Municipio municipio;
     @ManyToOne
-    @NotEmpty
+    @NotNull
+    @JoinColumn(name="pais")
     private Pais pais;
     private String contato;
     private boolean desabilitado;
     private boolean bloqueado;
+    @Column(name="fone_res")
     private String foneRes;
     private String celular;
     private String fantasia;
     private String ISUF;
     @ManyToOne
+    @JoinColumn(name="emitente")
     private Emitente emitente;
     @Enumerated(EnumType.STRING)
+    @Column(name="tp_contato")
     private TpContato tpContato;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn
     private List<CampoExtra> camposExtras;
     @Enumerated(EnumType.STRING)
+    @Column(name="indiedest")
     private IndIEDest indIEDest;
 
     public Contato() {

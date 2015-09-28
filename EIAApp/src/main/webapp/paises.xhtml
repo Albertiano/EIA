@@ -15,33 +15,36 @@
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <title>EIA</title>
 
-<link jsf:library="css" jsf:name="login.css" rel="stylesheet"
-	type="text/css" />
-<link jsf:library="bootstrap" jsf:name="css/bootstrap.min.css"
-	rel="stylesheet" type="text/css" />
+<link jsf:library="css" jsf:name="login.css" rel="stylesheet" type="text/css" />
+<link jsf:library="bootstrap" jsf:name="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 
-<script jsf:target="body" jsf:library="bootstrap"
-	jsf:name="js/jquery.min.js"></script>
-<script jsf:target="body" jsf:library="bootstrap"
-	jsf:name="js/bootstrap.min.js"></script>
+<script jsf:target="body" jsf:library="bootstrap" jsf:name="js/jquery.min.js"></script>
+<script jsf:target="body" jsf:library="bootstrap" jsf:name="js/bootstrap.min.js"></script>
 
 </head>
 
 <body jsf:id="body">
 
-	<p:dataTable var="pa" value="#{paisBean.paises}">
-		<p:column headerText="Id">
-        "#{pa.xPais}"
-    </p:column>
-	</p:dataTable>
+<h:form enctype="multipart/form-data">
+    <h:panelGrid columns="3">
+        Arquivo: <h:inputFile value="#{paisBean.arquivo}"/>
+        <h:commandButton value="Salvar" action="#{paisBean.install}"/>
+    </h:panelGrid>
+</h:form>
 
-	<h:dataTable value="#{paisBean.paises}" var="o">
+	<h:dataTable value="#{paisBean.paises}" var="o" styleClass="table table-hover">
+		<h:column>
+			<f:facet name="header">
+				<h:outputText value="Código" />
+			</f:facet>
+			<h:outputText value="#{o.cPais}" styleClass="success"/>
+		</h:column>
 		<h:column>
 			<f:facet name="header">
 				<h:outputText value="Nome" />
 			</f:facet>
-		<h:outputText value="#{o.xPais}" />
-	</h:column>
+			<h:outputText value="#{o.xPais}" />
+		</h:column>
 	</h:dataTable>
 
 </body>

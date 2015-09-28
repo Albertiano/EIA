@@ -1,11 +1,14 @@
 package br.net.eia.repository.persistence;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import br.net.eia.model.BaseEntity;
 
-public abstract class GenericDao<T extends BaseEntity> {
-
+public abstract class GenericDao<T extends BaseEntity> implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
 	private int pageSize = 20;
 
 	public abstract T create(T entity);

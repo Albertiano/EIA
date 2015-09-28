@@ -22,7 +22,7 @@ public class EmitenteDAO extends JpaDAO<Emitente>{
 	@Inject
 	Paises paisDAO;
 	@Inject
-	MunicipioDAO mDao;
+	Municipios mDao;
 
 	public EmitenteDAO() {
 		super(Emitente.class);

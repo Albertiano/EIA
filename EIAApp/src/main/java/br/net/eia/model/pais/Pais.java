@@ -1,6 +1,8 @@
 package br.net.eia.model.pais;
 
 import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -11,7 +13,10 @@ import br.net.eia.model.BaseEntity;
 public class Pais extends BaseEntity implements Serializable{
   
 	private static final long serialVersionUID = 1L;
+	
+	@Column(name="c_pais")
 	private int cPais;
+	@Column(name="x_pais")
     private String xPais;
 
     public Pais(){

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import br.net.eia.app.security.Usuario;
 
 
-@WebFilter("/*")
+//@WebFilter("/*")
 public class AutorizacaoFilter implements Filter {
 
 	@Inject

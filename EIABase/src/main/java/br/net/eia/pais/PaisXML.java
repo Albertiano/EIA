@@ -1,5 +1,6 @@
 package br.net.eia.pais;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
@@ -39,6 +40,34 @@ public class PaisXML {
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document document = db.parse(getClass().getResourceAsStream(
 					"/paises.xml"));
+			Element raiz = document.getDocumentElement();
+			NodeList listaContatos = raiz.getElementsByTagName("pais");
+
+			for (int i = 0; i < listaContatos.getLength(); i++) {
+				Pais p = new Pais();
+				Element contato = (Element) listaContatos.item(i);
+
+				if (obterValorElemento(contato, "codigo") != null) {
+					p.setcPais(Integer.parseInt(obterValorElemento(contato,
+							"codigo")));
+				}
+				if (obterValorElemento(contato, "nome") != null) {
+					p.setxPais(obterValorElemento(contato, "nome"));
+				}
+				paises.add(p);
+			}
+		} catch (Exception e) {
+
+		}
+		return paises;
+	}
+	
+	public List<Pais> realizaLeituraXML(InputStream stream) {
+		List<Pais> paises = new ArrayList<Pais>();
+		try {
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document document = db.parse(stream);
 			Element raiz = document.getDocumentElement();
 			NodeList listaContatos = raiz.getElementsByTagName("pais");
 

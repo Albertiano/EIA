@@ -37,13 +37,14 @@
 
 		<form class="form-signin" jsf:prependId="false">
 			<h2 class="form-signin-heading">Login</h2>
-			<label for="inputEmail" class="sr-only">Email</label> <input
-				type="text" id="inputEmail" class="form-control"
+			<label for="inputEmail" class="sr-only">Email</label>
+			<input type="text" id="inputEmail" class="form-control"
 				placeholder="Email" required="required" autofocus="autofocus"
-				value="#{loginBean.nomeUsuario}" /> <label for="inputPassword"
-				class="sr-only">Senha</label> <input type="password"
-				id="inputPassword" class="form-control" placeholder="Senha"
-				required="required" value="#{loginBean.senha}" />
+				value="#{loginBean.nomeUsuario}" />
+			<label for="inputPassword" class="sr-only">Senha</label> 
+			<input type="password" id="inputPassword" class="form-control" placeholder="Senha"
+				required="required"
+				value="#{loginBean.senha}" />
 			<button class="btn btn-lg btn-primary btn-block" type="submit"
 				jsf:action="#{loginBean.login}">Entrar</button>
 		</form>

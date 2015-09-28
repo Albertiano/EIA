@@ -1,5 +1,7 @@
 package br.net.eia.model.emitente;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,7 +17,9 @@ import br.net.eia.model.pais.Pais;
 
 @Entity
 @XmlRootElement
-public class Emitente extends BaseEntity{
+public class Emitente extends BaseEntity implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	@Column(unique = true)
 	private String codigo;
@@ -43,7 +47,6 @@ public class Emitente extends BaseEntity{
 	private boolean bloqueado;
 	private String foneRes;
 	private String celular;
-	private boolean clienteFonte;
 	private String fantasia;
 	private String ISUF;  
 	@Enumerated(EnumType.STRING)
@@ -220,14 +223,6 @@ public class Emitente extends BaseEntity{
 
 	public void setCelular(String celular) {
 		this.celular = celular;
-	}
-
-	public boolean isClienteFonte() {
-		return clienteFonte;
-	}
-
-	public void setClienteFonte(boolean clienteFonte) {
-		this.clienteFonte = clienteFonte;
 	}
 
 	public String getFantasia() {

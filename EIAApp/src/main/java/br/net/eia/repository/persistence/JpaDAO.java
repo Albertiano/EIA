@@ -48,7 +48,6 @@ public abstract class JpaDAO<T extends BaseEntity> extends GenericDao<T> {
 		StringBuilder query = new StringBuilder("select entity from ").append(
 				managedClass.getSimpleName()).append(
 				" entity where entity.active=true");
-		System.out.println("----------------------------------------------");
 		return this.em.createQuery(query.toString()).getResultList();
 	}
 

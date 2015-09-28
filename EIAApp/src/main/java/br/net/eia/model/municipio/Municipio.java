@@ -1,6 +1,8 @@
 package br.net.eia.model.municipio;
 
 import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -11,10 +13,12 @@ import br.net.eia.model.BaseEntity;
 @Entity
 @XmlRootElement
 public class Municipio extends BaseEntity implements Serializable{
-   
-	private static final long serialVersionUID = 229805288694101112L;
     
+	private static final long serialVersionUID = 1L;
+	
+	@Column(name="c_mun")
     private int cMun;
+	@Column(name="x_mun")
     private String xMun;
     @Enumerated(EnumType.STRING)
     private UF UF;

@@ -47,9 +47,14 @@ public class ConversorDate {
 	}
 	
 	public static String retornaData(Date data){
-		SimpleDateFormat formatadorData = new SimpleDateFormat("dd/MM/yyyy");
-		String dataFormatada = formatadorData.format(data);        
-        return dataFormatada;
+		try{
+			SimpleDateFormat formatadorData = new SimpleDateFormat("dd/MM/yyyy");
+			String dataFormatada = formatadorData.format(data);        
+	        return dataFormatada;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return "";
 	}
 	
 	public static String retornaDataNFe(Date data){

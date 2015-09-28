@@ -1,5 +1,6 @@
 package br.net.eia.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -13,17 +14,20 @@ import javax.persistence.TemporalType;
 
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class BaseEntity {
+public abstract class BaseEntity implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(updatable = false)
+	@Column(updatable = false, name="creation_date")
 	private Date creationDate = new Date();
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="update_date")
 	private Date updateDate = new Date();
 
 	private Boolean active = Boolean.TRUE;

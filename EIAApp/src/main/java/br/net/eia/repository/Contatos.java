@@ -20,16 +20,17 @@ import br.net.eia.model.municipio.UF;
 import br.net.eia.model.pais.Pais;
 import br.net.eia.repository.persistence.JpaDAO;
 
-public class ContatoDAO extends JpaDAO<Contato>{
+public class Contatos extends JpaDAO<Contato>{
 	
+	private static final long serialVersionUID = 1L;
 	@Inject
 	Paises pDao;
 	@Inject
-	MunicipioDAO mDao;
+	Municipios mDao;
 	@Inject
 	EmitenteDAO EDao;
 
-	public ContatoDAO() {
+	public Contatos() {
 		super(Contato.class);
 	}
 	

@@ -15,7 +15,8 @@ public class TransactionInterceptor implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private @Inject EntityManager manager;
+	@Inject
+	private EntityManager manager;
 	
 	@AroundInvoke
 	public Object invoke(InvocationContext context) throws Exception {

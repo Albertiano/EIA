@@ -23,8 +23,9 @@ public class LoginBean {
 		if ("1".equals(this.nomeUsuario) && "1".equals(this.senha)) {
 			this.usuario.setNome(this.nomeUsuario);
 			this.usuario.setDataLogin(new Date());
-			
-			return "paises.xhtml";
+			System.out.println("Nome: "+usuario.getNome());
+			System.out.println("Data: "+usuario.getDataLogin());
+			return "/paises.xhtml";
 		} else {
 			FacesMessage mensagem = new FacesMessage();
 			mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);

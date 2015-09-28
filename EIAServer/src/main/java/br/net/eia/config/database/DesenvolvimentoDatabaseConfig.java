@@ -88,7 +88,7 @@ public class DesenvolvimentoDatabaseConfig implements IDatabaseConfig {
 		p.setProperty("hibernate.ejb.naming_strategy","org.hibernate.cfg.ImprovedNamingStrategy");
 		p.setProperty("hibernate.connection.charSet","UTF-8");
 		p.setProperty("hibernate.session_factory_name","atec");
-		p.setProperty("hibernate.show_sql","true");
+		p.setProperty("hibernate.show_sql","false");
 		p.setProperty("hibernate.format_sql","true");
 		return p;
 	}

@@ -14,8 +14,8 @@ import br.net.eia.model.municipio.Municipio_;
 import br.net.eia.model.municipio.UF;
 import br.net.eia.repository.persistence.JpaDAO;
 
-public class MunicipioDAO extends JpaDAO<Municipio> {
-	public MunicipioDAO() {
+public class Municipios extends JpaDAO<Municipio> {
+	public Municipios() {
 		super(Municipio.class);
 	}
 

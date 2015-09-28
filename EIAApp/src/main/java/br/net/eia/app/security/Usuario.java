@@ -2,11 +2,8 @@ package br.net.eia.app.security;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
 
-@Named
 @SessionScoped
 public class Usuario implements Serializable {
 
