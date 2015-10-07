@@ -14,20 +14,19 @@ import br.net.eia.produto.imposto.ipi.IPI;
 import br.net.eia.produto.imposto.pis.CST_PIS;
 import br.net.eia.produto.imposto.pis.PIS;
 import br.net.eia.ui.MainApp;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -36,10 +35,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.controlsfx.dialog.Dialogs;
 
 public class CadastroTributacaoController implements Initializable {
 
@@ -102,9 +99,14 @@ public class CadastroTributacaoController implements Initializable {
         boolean okClicked = showProdutoEditDialog(temp);
         if (okClicked) {
             Tributacao trib = cM.inserir(temp);
-            Dialogs.create().owner(dialogStage).title("Aviso")
-                    .masthead(trib.getNome() + "\n" + trib.getDescricao())
-                    .message("Inserido com sucesso.").showInformation();
+            
+            Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+            dialog.setHeaderText("Inserido com sucesso.");
+            dialog.setContentText(trib.getNome() + "\n" + trib.getDescricao());
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            
             produtoData.add(trib);
             refreshPersonTable();
         }
@@ -191,20 +193,24 @@ public class CadastroTributacaoController implements Initializable {
             boolean okClicked = showProdutoEditDialog(selectedPerson);
             if (okClicked) {
                 Tributacao client = cM.atualizar(selectedPerson);
-                Dialogs.create().owner(mainApp.getPrimaryStage()).title("Aviso")
-                        .masthead(client.getNome() + "\n" + client.getDescricao())
-                        .message("Alterado com sucesso.").showInformation();
-
+                
+                Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+                dialog.setHeaderText("Alterado com sucesso.");
+                dialog.setContentText(client.getNome() + "\n" + client.getDescricao());
+                dialog.setResizable(true);
+                dialog.getDialogPane().setPrefSize(480, 320);
+                dialog.showAndWait();
+                
                 refreshPersonTable();
             }
 
         } else {
-            Dialogs.create()
-                    .owner(dialogStage)
-                    .title("Aviso")
-                    .masthead("Item não selecionado")
-                    .message("Selecione um item na tabela.")
-                    .showInformation();
+        	Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Item não selecionado");
+            dialog.setContentText("Selecione um item na tabela.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
         }
     }
 
@@ -220,17 +226,20 @@ public class CadastroTributacaoController implements Initializable {
             if (deletado) {
                 clienteTable.getItems().remove(selectedIndex);
                 refreshPersonTable();
-                Dialogs.create().owner(dialogStage).title("Aviso")
-                        .masthead(selectedPerson.getNome() + "\n" + selectedPerson.getDescricao())
-                        .message("Removido com sucesso.").showInformation();
+                Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+	            dialog.setHeaderText("Removido com sucesso.");
+	            dialog.setContentText(selectedPerson.getNome() + "\n" + selectedPerson.getDescricao());
+	            dialog.setResizable(true);
+	            dialog.getDialogPane().setPrefSize(480, 320);
+	            dialog.showAndWait();
             }
         } else {
-            Dialogs.create()
-                    .owner(dialogStage)
-                    .title("Aviso")
-                    .masthead("Item não selecionado")
-                    .message("Selecione um item na tabela.")
-                    .showInformation();
+        	Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Item não selecionado");
+            dialog.setContentText("Selecione um item na tabela.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
         }
     }
 

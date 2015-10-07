@@ -3,17 +3,15 @@ package br.net.eia.ui.produto;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.controlsfx.dialog.Dialogs;
-
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -95,13 +93,14 @@ public class ProdutoFornecedorController implements Initializable {
 		if (errorMessage.length() == 0) {
 			return true;
 		} else {
-			Dialogs.create()
-			.owner(mainApp.getPrimaryStage())
-			.title("Aviso")
-			.masthead(errorMessage)
-			.message("Por Favor Corrija os Campos Inválidos")
-			.showInformation();
-			return false;
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Por Favor Corrija os Campos Inválidos");
+            dialog.setContentText(errorMessage);
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            
+            return false;
 		}
 	}
 	
@@ -145,12 +144,12 @@ public class ProdutoFornecedorController implements Initializable {
 			}
 
 		} else {
-			Dialogs.create()
-			.owner(mainApp.getPrimaryStage())
-			.title("Aviso")
-			.masthead("Item não selecionado")
-			.message("Selecione um item na tabela.")
-			.showInformation();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Item não selecionado");
+            dialog.setContentText("Selecione um item na tabela.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
 		}
 	}
 

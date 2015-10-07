@@ -9,8 +9,6 @@ import br.net.eia.nfe.v310.TNfeProc;
 import br.net.eia.produto.FornecedorProduto;
 import br.net.eia.produto.Produto;
 import br.net.eia.ui.certificado.CarregarCertificadoController;
-import br.net.eia.ui.compra.CadastroCompraController;
-import br.net.eia.ui.compra.ConverterNfeCompra;
 import br.net.eia.ui.contato.CadastroContatoController;
 import br.net.eia.ui.contato.EditContatoController;
 import br.net.eia.ui.contato.RestContatoManager;
@@ -33,12 +31,16 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
@@ -48,9 +50,6 @@ import javafx.stage.Stage;
 import org.apache.commons.collections.functors.ExceptionFactory;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialogs;
-import org.controlsfx.dialog.Dialog.Actions;
 
 @SuppressWarnings("restriction")
 public class RootLayoutController extends BorderPane {
@@ -171,33 +170,6 @@ public class RootLayoutController extends BorderPane {
 	@FXML
 	public void showCadCompra(ActionEvent event) {
 
-		try {
-			// Load the fxml file and set into the center of the main layout
-			FXMLLoader loader = new FXMLLoader(
-					MainApp.class
-							.getResource("/fxml/compra/CadastroCompra.fxml"));
-			AnchorPane overviewPage = (AnchorPane) loader.load();
-			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Cadastro de Compras");
-			dialogStage.initModality(Modality.WINDOW_MODAL);
-			// dialogStage.getIcons().add(new
-			// Image("file:resources/images/edit.png"));
-			dialogStage.initOwner(mainApp.getPrimaryStage());
-			Scene scene = new Scene(overviewPage);
-			dialogStage.setScene(scene);
-
-			// Give the controller access to the main app
-			CadastroCompraController controller = loader.getController();
-			controller.setDialogStage(dialogStage);
-			controller.setMainApp(mainApp);
-
-			dialogStage.showAndWait();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			Logger.getLogger(getClass().getName()).log(Level.ERROR,
-					e.getLocalizedMessage(), e);
-		}
 
 	}
 
@@ -236,10 +208,14 @@ public class RootLayoutController extends BorderPane {
 
 	@FXML
 	public void showCadEmitente(ActionEvent event) {
-		if (mainApp.getEmitente() == null) {
-			Dialogs.create().title("Aviso")
-					.masthead(true ? "Nenhuma Empresa Encontrada." : null)
-					.message("Nenhuma Empresa Encontrada.").showWarning();
+		if (MainApp.getEmitente() == null) {
+			Alert dialog = new Alert(Alert.AlertType.ERROR);
+            dialog.setHeaderText("Connection Failed");
+            dialog.setContentText("Nenhuma Empresa Encontrada.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+
+            dialog.showAndWait();
 			mainApp.userLogout();
 		} else {
 			try {
@@ -278,17 +254,23 @@ public class RootLayoutController extends BorderPane {
 
 					Emitente client = new RestEmitenteManager()
 							.atualizarCliente(mainApp.getEmitente());
-					Dialogs.create().title("Aviso")
-							.message("Dados Alterados com sucesso")
-							.showWarning();
-
+					Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+		            dialog.setHeaderText("Connection Failed");
+		            dialog.setContentText("Alterado com sucesso.");
+		            dialog.setResizable(true);
+		            dialog.getDialogPane().setPrefSize(480, 320);
+		            dialog.showAndWait();
 				}
 
 			} catch (IOException e) {
 				Logger.getLogger(getClass().getName()).log(Level.ERROR,
 						e.getLocalizedMessage(), e);
-				Dialogs.create().title("Aviso").masthead(true ? "Erro" : null)
-						.message("Erro").showException(e);
+				Alert dialog = new Alert(Alert.AlertType.ERROR);
+	            dialog.setHeaderText("Connection Failed");
+	            dialog.setContentText(e.getMessage());
+	            dialog.setResizable(true);
+	            dialog.getDialogPane().setPrefSize(480, 320);
+	            dialog.showAndWait();
 			}
 
 		}
@@ -363,26 +345,35 @@ public class RootLayoutController extends BorderPane {
 			try {
 				fornecedor = new RestContatoManager().pesquisaNumDoc(mainApp.getEmitente().getToken().toString(),nfe
 						.getNFe().getInfNFe().getDest().getCNPJ().replaceAll("[^0-9]", ""));
-				Dialogs.create()
-						.owner(dialogStage)
-						.title("Aviso")
-						.masthead(
-								fornecedor.getNome() + "\n"
-										+ fornecedor.getMunicipio())
-						.message("Já Cadastrado com sucesso.")
-						.showInformation();
+				
+				Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+	            dialog.setHeaderText(fornecedor.getNome() + "\n"
+						+ fornecedor.getMunicipio());
+	            dialog.setContentText("Cadastrado com sucesso.");
+	            dialog.setResizable(true);
+	            dialog.getDialogPane().setPrefSize(480, 320);
+	            dialog.showAndWait();
 			} catch (Exception e) {
 				e.printStackTrace();
-				Action response = Dialogs
-						.create()
-						.owner(dialogStage)
-						.title("Em andamento.")
-						.masthead(
-								nfe.getNFe().getInfNFe().getDest().getXNome()
-										+ "\nNão Encontrado")
-						.message("Deseja Fazer o Cadastramento?")
-						.actions(Actions.YES, Actions.NO).showConfirm();
-				if (response.equals(Actions.YES)) {
+								
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+			    alert.setTitle("Em andamento.");
+			    alert.setHeaderText(nfe.getNFe().getInfNFe().getDest().getXNome()
+						+ "\nNão Encontrado");
+			    alert.setContentText("Deseja Fazer o Cadastramento?");
+
+			    alert.getButtonTypes().clear();
+			    alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.NO);
+			    //Deactivate Defaultbehavior for yes-Button:
+			    Button yesButton = (Button) alert.getDialogPane().lookupButton( ButtonType.YES );
+			    yesButton.setDefaultButton( false );
+
+			    //Activate Defaultbehavior for no-Button:
+			    Button noButton = (Button) alert.getDialogPane().lookupButton( ButtonType.NO );
+			    noButton.setDefaultButton( true );
+			    
+			    Optional<ButtonType> result = alert.showAndWait();
+				if (result.isPresent() && result.get() == ButtonType.YES) {
 					Contato client = new ConversorNFe().forContato(nfe);
 					Municipio mun = new MunicipioClientRest().carregar(Integer
 							.parseInt(nfe.getNFe().getInfNFe().getDest()
@@ -394,14 +385,13 @@ public class RootLayoutController extends BorderPane {
 					if (okClicked) {
 						RestContatoManager cM = new RestContatoManager();
 						fornecedor = cM.inserir(client);
-						Dialogs.create()
-								.owner(dialogStage)
-								.title("Aviso")
-								.masthead(
-										client.getNome() + "\n"
-												+ client.getMunicipio())
-								.message("Inserido com sucesso.")
-								.showInformation();
+						Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+			            dialog.setHeaderText(fornecedor.getNome() + "\n"
+								+ fornecedor.getMunicipio());
+			            dialog.setContentText("Inserido com sucesso.");
+			            dialog.setResizable(true);
+			            dialog.getDialogPane().setPrefSize(480, 320);
+			            dialog.showAndWait();
 					}
 
 				}
@@ -413,31 +403,36 @@ public class RootLayoutController extends BorderPane {
 					produto = new RestProdutoManager().pesquisar(
 							MainApp.getEmitente(), nfe.getNFe().getInfNFe()
 									.getDet().get(i).getProd().getCProd());
-					Dialogs.create()
-							.owner(dialogStage)
-							.title("Aviso")
-							.masthead(
-									produto.getCodigo() + "\n"
-											+ produto.getDescricao())
-							.message("Já Cadastrado.").showInformation();
+					
+					Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+		            dialog.setHeaderText(produto.getCodigo() + "\n"
+							+ produto.getDescricao());
+		            dialog.setContentText("Já Cadastrado.");
+		            dialog.setResizable(true);
+		            dialog.getDialogPane().setPrefSize(480, 320);
+		            dialog.showAndWait();
 				} catch (Exception e) {
-					Action response = Dialogs
-							.create()
-							.owner(dialogStage)
-							.title("Em andamento.")
-							.masthead(
-									"Produto Não Encontrado.\n"
-											+ nfe.getNFe().getInfNFe().getDet()
-													.get(i).getProd()
-													.getCProd()
-											+ "\n"
-											+ nfe.getNFe().getInfNFe().getDet()
-													.get(i).getProd()
-													.getXProd())
-							.message("Deseja Fazer o Cadastramento?")
-							.actions(Actions.YES, Actions.NO).showConfirm();
-					if (response.equals(Actions.YES)) {
-						Produto tempPerson = new ConversorNFe()
+					Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+					alert.setTitle("Em andamento.");
+					String s = "Produto Não Encontrado.\n"
+							+ nfe.getNFe().getInfNFe().getDet().get(i).getProd().getCProd() + "\n"
+							+ nfe.getNFe().getInfNFe().getDet().get(i).getProd().getXProd() + "\n"
+							+ "Deseja Fazer o Cadastramento?";
+					alert.setContentText(s);
+
+					alert.getButtonTypes().clear();
+				    alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.NO);
+
+				    Button yesButton = (Button) alert.getDialogPane().lookupButton( ButtonType.YES );
+				    yesButton.setDefaultButton( true );
+
+				    Button noButton = (Button) alert.getDialogPane().lookupButton( ButtonType.NO );
+				    noButton.setDefaultButton( false );
+
+				    final Optional<ButtonType> result = alert.showAndWait();
+				    
+				    if (result.isPresent() && result.get() == ButtonType.OK) {
+				    	Produto tempPerson = new ConversorNFe()
 								.forProduto(((nfe.getNFe().getInfNFe().getDet()
 										.get(i))));
 						new RestUnidadeManager();
@@ -445,17 +440,15 @@ public class RootLayoutController extends BorderPane {
 						if (okClicked) {
 							produto = new RestProdutoManager()
 									.inserir(tempPerson);
-							Dialogs.create()
-									.owner(dialogStage)
-									.title("Aviso")
-									.masthead(
-											produto.getDescricao() + "\n"
-													+ produto.getCodigo())
-									.message("Inserido com sucesso.")
-									.showInformation();
+							Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+				            dialog.setHeaderText(produto.getCodigo() + "\n"
+									+ produto.getDescricao());
+				            dialog.setContentText("Inserido com Sucesso.");
+				            dialog.setResizable(true);
+				            dialog.getDialogPane().setPrefSize(480, 320);
+				            dialog.showAndWait();
 						}
-
-					}
+				    }
 				}
 
 			}
@@ -624,8 +617,13 @@ public class RootLayoutController extends BorderPane {
 			Logger.getLogger(getClass().getName()).log(Level.ERROR,
 					e.getLocalizedMessage(), e);
 			e.printStackTrace();
-			Dialogs.create().owner(mainApp).title("Erro").showException(e);
-			return false;
+			Alert dialog = new Alert(Alert.AlertType.ERROR);
+            dialog.setHeaderText("Erro");
+            dialog.setContentText(e.getMessage());
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            return false;
 		}
 	}
 

@@ -3,17 +3,15 @@ package br.net.eia.ui.produto.unidade;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.controlsfx.dialog.Dialogs;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -87,13 +85,15 @@ public class CadastroUnidadeController implements Initializable {
 		Unidade tempPerson = new Unidade();
 		boolean okClicked = showEditDialog(tempPerson);
 		if (okClicked) {
-			Unidade client = cM.inserir(tempPerson);			
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead(client.getDescricao() + "\n" + client.getSigla())
-			.message("Inserido com sucesso.")
-			.showInformation();
+			Unidade client = cM.inserir(tempPerson);	
+			
+			Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+            dialog.setHeaderText("Inserido com sucesso.");
+            dialog.setContentText(client.getDescricao() + "\n" + client.getSigla());
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            
 			produtoData.add(client);
 			refreshPersonTable();
 		}
@@ -141,23 +141,24 @@ public class CadastroUnidadeController implements Initializable {
 			boolean okClicked = showEditDialog(selectedPerson);
 			if (okClicked) {
 				Unidade client = cM.atualizar(selectedPerson);
-				Dialogs.create()
-				.owner(dialogStage)
-				.title("Aviso")
-				.masthead(client.getDescricao() + "\n" + client.getSigla())
-				.message("Alterado com sucesso.")
-				.showInformation();
-
+				
+				Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+	            dialog.setHeaderText("Alterado com sucesso.");
+	            dialog.setContentText(client.getDescricao() + "\n" + client.getSigla());
+	            dialog.setResizable(true);
+	            dialog.getDialogPane().setPrefSize(480, 320);
+	            dialog.showAndWait();
+	            
 				refreshPersonTable();
 			}
 
 		} else {
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead("Item não selecionado")
-			.message("Selecione um item na tabela.")
-			.showInformation();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Item não selecionado");
+            dialog.setContentText("Selecione um item na tabela.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
 		}
 	}
 
@@ -168,23 +169,25 @@ public class CadastroUnidadeController implements Initializable {
 			Unidade selectedPerson = clienteTable.getSelectionModel()
 					.getSelectedItem();
 			boolean deletado = cM.remover(selectedPerson);
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead(selectedPerson.getDescricao() + "\n" + selectedPerson.getSigla())
-			.message("Removido com sucesso.")
-			.showInformation();
+			
 			if (deletado) {
 				clienteTable.getItems().remove(selectedIndex);
 				refreshPersonTable();
+				
+				Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+	            dialog.setHeaderText("Removido com sucesso.");
+	            dialog.setContentText(selectedPerson.getDescricao() + "\n" + selectedPerson.getSigla());
+	            dialog.setResizable(true);
+	            dialog.getDialogPane().setPrefSize(480, 320);
+	            dialog.showAndWait();
 			}
 		} else {
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead("Item não selecionado")
-			.message("Selecione um item na tabela.")
-			.showInformation();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Item não selecionado");
+            dialog.setContentText("Selecione um item na tabela.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
 		}
 	}
 

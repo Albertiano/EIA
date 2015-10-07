@@ -4,11 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.controlsfx.dialog.Dialogs;
-
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
@@ -162,13 +160,14 @@ public class EditTributacaoController implements Initializable {
 		if (errorMessage.length() == 0) {
 			return true;
 		} else {
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead(errorMessage)
-			.message("Por Favor Corrija os Campos Inválidos")
-			.showInformation();
-			return false;
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Por Favor Corrija os Campos Inválidos");
+            dialog.setContentText(errorMessage);
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            
+            return false;
 		}
 	}
 	
@@ -202,12 +201,13 @@ public class EditTributacaoController implements Initializable {
 		tempPerson.setEstado(UF.PB);
 		boolean okClicked2 = showEditDialog(tempPerson);
 		if (okClicked2) {
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead(tempPerson.getEstado().getNomeUF())
-			.message("Inserido com sucesso.")
-			.showInformation();
+			Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+            dialog.setHeaderText("Inserido com sucesso.");
+            dialog.setContentText(tempPerson.getEstado().getNomeUF());
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            
 			if(trib.getDestino()==null){
 				trib.setDestino(new ArrayList<Destino>());
 			}
@@ -258,23 +258,24 @@ public class EditTributacaoController implements Initializable {
 		if (tempPerson != null) {
 			boolean okClicked = showEditDialog(tempPerson);
 			if (okClicked) {
-				Dialogs.create()
-				.owner(dialogStage)
-				.title("Aviso")
-				.masthead(tempPerson.getEstado().getNomeUF())
-				.message("Alterado com sucesso.")
-				.showInformation();
 				
+				Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+	            dialog.setHeaderText("Alterado com sucesso.");
+	            dialog.setContentText(tempPerson.getEstado().getNomeUF());
+	            dialog.setResizable(true);
+	            dialog.getDialogPane().setPrefSize(480, 320);
+	            dialog.showAndWait();
+	            
 				refreshPersonTable();
 			}
 
 		} else {
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead("Item não selecionado")
-			.message("Selecione um item na tabela.")
-			.showInformation();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Item não selecionado");
+            dialog.setContentText("Selecione um item na tabela.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
 		}
 	}
 
@@ -284,22 +285,25 @@ public class EditTributacaoController implements Initializable {
 		if (selectedIndex >= 0) {
 			Destino tempPerson = clienteTable.getSelectionModel()
 					.getSelectedItem();
-
-			Dialogs.create().owner(mainApp.getPrimaryStage()).title("Aviso")
-					.masthead(tempPerson.getEstado().getNomeUF())
-					.message("Removido com sucesso.").showInformation();
-
+			
+			Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+            dialog.setHeaderText("Removido com sucesso.");
+            dialog.setContentText(tempPerson.getEstado().getNomeUF());
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            
 			clienteTable.getItems().remove(selectedIndex);
 			trib.getDestino().remove(selectedIndex);
 			refreshPersonTable();
 
 		} else {
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead("Item não selecionado")
-			.message("Selecione um item na tabela.")
-			.showInformation();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Item não selecionado");
+            dialog.setContentText("Selecione um item na tabela.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
 		}
 	}
 

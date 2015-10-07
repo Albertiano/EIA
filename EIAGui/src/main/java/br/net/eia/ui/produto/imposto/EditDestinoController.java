@@ -8,17 +8,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.controlsfx.dialog.Dialogs;
-
 import br.net.eia.enums.UF;
 import br.net.eia.produto.imposto.Destino;
 import br.net.eia.produto.imposto.Tributo;
@@ -217,13 +215,14 @@ public class EditDestinoController implements Initializable {
 		if (errorMessage.length() == 0) {
 			return true;
 		} else {
-			Dialogs.create()
-			.owner(mainApp.getPrimaryStage())
-			.title("Aviso")
-			.masthead(errorMessage)
-			.message("Por Favor Corrija os Campos Inválidos")
-			.showInformation();
-			return false;
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Por Favor Corrija os Campos Inválidos");
+            dialog.setContentText(errorMessage);
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            
+            return false;
 		}
 	}
 	

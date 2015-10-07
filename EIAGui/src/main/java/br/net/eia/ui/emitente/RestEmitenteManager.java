@@ -3,13 +3,13 @@ package br.net.eia.ui.emitente;
 import javax.ws.rs.core.Response.Status;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.controlsfx.dialog.Dialogs;
 import com.sun.jersey.api.client.ClientResponse;
 import br.net.eia.emitente.Emitente;
 import br.net.eia.emitente.Emitentes;
 import br.net.eia.ui.BaseClientService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 @SuppressWarnings("restriction")
 public class RestEmitenteManager extends BaseClientService {
@@ -99,9 +99,12 @@ public class RestEmitenteManager extends BaseClientService {
 		} catch (Exception e) {
 			Logger.getLogger(RestEmitenteManager.class.getName()).log(
 					Level.ERROR, "Erro ao Carregar o Emitente", e);
-			Dialogs.create()			
-            .title("Erro ao Carregar o Emitente")
-            .message("Erro ao Carregar o Emitente").showException(e);
+			
+			Alert dialog = new Alert(Alert.AlertType.ERROR);
+            dialog.setHeaderText("Erro ao Carregar o Emitente");
+            dialog.setContentText(e.getMessage());
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
 		}
 		return results;
 	}

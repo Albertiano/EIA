@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.controlsfx.dialog.Dialogs;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -107,12 +107,11 @@ public class PesquisaContatoController implements Initializable {
 			okClicked = true;
 			dialogStage.close();
 		} else {
-			Dialogs.create()
-			.owner(mainApp.getPrimaryStage())
-			.title("Aviso")
-			.masthead("Item não selecionado")
-			.message("Selecione um item na tabela.")
-			.showError();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Item não selecionado");
+            dialog.setContentText("Selecione um item na tabela.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
 		}
 	}
 	
@@ -203,15 +202,15 @@ public class PesquisaContatoController implements Initializable {
 		tempPerson.setUf(UF.PB);
 		boolean okClicked = showEditDialog(tempPerson);
 		if (okClicked) {
-			Contato client = cM.inserir(tempPerson);
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead(client.getNome() + "\n" + client.getMunicipio())
-			.message("Inserido com sucesso.")
-			.showInformation();
+			Contato client = cM.inserir(tempPerson);			
 			clientData.add(client);
 			refreshPersonTable();
+			
+			Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+            dialog.setHeaderText(tempPerson.getNome() + "\n" + tempPerson.getMunicipio());
+            dialog.setContentText("Removido com sucesso.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
 		}
 	}
 
@@ -257,23 +256,22 @@ public class PesquisaContatoController implements Initializable {
 			boolean okClicked = showEditDialog(selectedPerson);
 			if (okClicked) {
 				Contato client = cM.atualizar(selectedPerson);
-				Dialogs.create()
-				.owner(dialogStage)
-				.title("Aviso")
-				.masthead(client.getNome() + "\n" + client.getMunicipio())
-				.message("Alterado Inserido com sucesso.")
-				.showInformation();
+				
+				Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+	            dialog.setHeaderText(client.getNome() + "\n" + client.getMunicipio());
+	            dialog.setContentText("Removido com sucesso.");
+	            dialog.setResizable(true);
+	            dialog.getDialogPane().setPrefSize(480, 320);
 
 				refreshPersonTable();
 			}
 
 		} else {
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead("Item não selecionado")
-			.message("Selecione um item na tabela.")
-			.showInformation();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Item não selecionado");
+            dialog.setContentText("Selecione um item na tabela.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
 		}
 	}
 
@@ -284,23 +282,24 @@ public class PesquisaContatoController implements Initializable {
 			Contato selectedPerson = contatoTable.getSelectionModel()
 					.getSelectedItem();
 			boolean deletado = cM.remover(selectedPerson);
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead(selectedPerson.getNome() + "\n" + selectedPerson.getMunicipio())
-			.message("Removido Inserido com sucesso.")
-			.showInformation();
+			
+			Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+			dialog.setTitle("Aviso");
+            dialog.setHeaderText(selectedPerson.getNome() + "\n" + selectedPerson.getMunicipio());
+            dialog.setContentText("Removido com sucesso.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            
 			if (deletado) {
 				contatoTable.getItems().remove(selectedIndex);
 				refreshPersonTable();
 			}
 		} else {
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead("Item não selecionado")
-			.message("Selecione um item na tabela.")
-			.showInformation();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Item não selecionado");
+            dialog.setContentText("Selecione um item na tabela.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
 		}
 	}
 

@@ -2,12 +2,10 @@ package br.net.eia.ui.produto.unidade;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import org.controlsfx.dialog.Dialogs;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import br.net.eia.produto.unidade.Unidade;
@@ -71,13 +69,14 @@ public class EditUnidadeController implements Initializable {
 		if (errorMessage.length() == 0) {
 			return true;
 		} else {
-			Dialogs.create()
-			.owner(mainApp.getPrimaryStage())
-			.title("Aviso")
-			.masthead(errorMessage)
-			.message("Por Favor Corrija os Campos Inválidos")
-			.showInformation();
-			return false;
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Por Favor Corrija os Campos Inválidos");
+            dialog.setContentText(errorMessage);
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            
+            return false;
 		}
 	}
 	

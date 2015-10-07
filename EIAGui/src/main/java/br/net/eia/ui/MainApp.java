@@ -4,10 +4,11 @@
 package br.net.eia.ui;
 
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.controlsfx.dialog.Dialogs;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -27,8 +28,12 @@ import br.net.eia.ui.emitente.RestEmitenteManager;
 import br.net.eia.ui.login.LoginController;
 import br.net.eia.util.Config;
 
+import java.awt.Label;
 import java.io.IOException;
 import java.util.Properties;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * Main Application. This class handles navigation and user session.
@@ -112,9 +117,15 @@ public class MainApp extends Application {
         	Logger.getLogger(RestEmitenteManager.class.getName()).log(
 					Level.ERROR, ex.getLocalizedMessage(), ex);
                 ex.printStackTrace();
-        	Dialogs.create()
-            .title("Aviso")
-            .message("Erro").showException(ex);
+                Alert dialog = new Alert(Alert.AlertType.ERROR);
+                dialog.setHeaderText("Connection Failed");
+                dialog.setContentText(ex.getMessage());
+
+                //FIXME: Remove after release 8u40
+                dialog.setResizable(true);
+                dialog.getDialogPane().setPrefSize(480, 320);
+
+                dialog.showAndWait();
         }
     }
 

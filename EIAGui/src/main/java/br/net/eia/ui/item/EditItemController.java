@@ -6,7 +6,6 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -16,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -26,11 +26,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.controlsfx.dialog.Dialogs;
-
 import br.net.eia.contato.Contato;
 import br.net.eia.enums.UF;
 import br.net.eia.item.DetalheFiscal;
@@ -326,11 +323,13 @@ public class EditItemController implements Initializable {
 		if (errorMessage.length() == 0) {
 			return true;
 		} else {
-			Dialogs.create().owner(dialogStage).title("Aviso")
-					.masthead(errorMessage)
-					.message("Por Favor Corrija os Campos Inválidos")
-					.showError();
-			return false;
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Por favor corrija os campos inválidos");
+            dialog.setContentText(errorMessage);
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            return false;
 		}
 	}
 
@@ -851,8 +850,12 @@ public class EditItemController implements Initializable {
 			}
 
 		} else {
-			Dialogs.create().owner(dialogStage).title("Aviso")
-					.message("Nenhum registro selecionado").showWarning();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Item não selecionado");
+            dialog.setContentText("Selecione um item na tabela.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
 		}
 	}
 

@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -33,7 +34,6 @@ import javafx.util.Callback;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.controlsfx.dialog.Dialogs;
 import br.net.eia.contato.Contato;
 import br.net.eia.contato.TpContato;
 import br.net.eia.enums.UF;
@@ -175,14 +175,13 @@ public class EditNotaFiscalController implements Initializable {
 				}
 				
 			}
-		} else {
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.message(
-					"Nenhum registro selecionado")
-			.showWarning();
-		}
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Atenção.");
+            dialog.setContentText("Destinatario não selecionado.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+    	}
     }
 	
 	private void exibirDest(Contato iDest) {
@@ -253,12 +252,20 @@ public class EditNotaFiscalController implements Initializable {
 				refreshPersonTable();
 				atualizarTotais();				
 			} else {
-				Dialogs.create().owner(dialogStage).title("Aviso")
-						.message("Selecione um Destinatário").showWarning();
+				Alert dialog = new Alert(Alert.AlertType.WARNING);
+	            dialog.setHeaderText("Atenção.");
+	            dialog.setContentText("Destinatario não selecionado.");
+	            dialog.setResizable(true);
+	            dialog.getDialogPane().setPrefSize(480, 320);
+	            dialog.showAndWait();
 			}
 		} else {
-			Dialogs.create().owner(dialogStage).title("Aviso").message("Selecione um Produto")
-					.showWarning();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Atenção.");
+            dialog.setContentText("Produto não selecionado.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
 		}
 	}
 	
@@ -478,12 +485,12 @@ public class EditNotaFiscalController implements Initializable {
 			}
 
 		} else {
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.message(
-					"Nenhum registro selecionado")
-			.showWarning();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Atenção.");
+            dialog.setContentText("Produto não selecionado.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
 		}
     }
 	
@@ -518,8 +525,12 @@ public class EditNotaFiscalController implements Initializable {
 			atualizarTotais();
 
 		} else {
-			Dialogs.create().title("Aviso")
-					.message("Nenhum registro selecionado").showWarning();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Atenção.");
+            dialog.setContentText("Nenhum registro selecionado.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
 		}
 	}
 	
@@ -534,10 +545,13 @@ public class EditNotaFiscalController implements Initializable {
 			}
 
 		} else {
-			Dialogs.create().owner(dialogStage).title("Aviso")
-					.masthead("Nenhum registro selecionado")
-					.message("Nenhum registro selecionado").showWarning();
-		}
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Atenção.");
+            dialog.setContentText("Nenhum item selecionado.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+           }
 	}
 	
 	public boolean showEditDialog(Item person, Stage dialogStageMain) {
@@ -759,8 +773,12 @@ public class EditNotaFiscalController implements Initializable {
 			reboques.remove(selectedIndex);
 			refreshPersonTableReboques();
 		} else {
-			Dialogs.create().owner(dialogStage).title("Aviso")
-					.message("Nenhum registro selecionado").showWarning();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Atenção.");
+            dialog.setContentText("Nenhum reboque selecionado.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
 		}
 	}
 	
@@ -811,12 +829,12 @@ public class EditNotaFiscalController implements Initializable {
 			}
 
 		} else {
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.message(
-					"Nenhum registro selecionado")
-			.showWarning();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Atenção.");
+            dialog.setContentText("Transportado não selecionado.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
 		}
     }
 	
@@ -903,8 +921,12 @@ public class EditNotaFiscalController implements Initializable {
 			nfsRef.remove(selectedIndex);
 			refreshTableRefNF();;
 		} else {
-			Dialogs.create().owner(dialogStage).title("Aviso")
-					.message("Nenhum registro selecionado").showWarning();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Atenção.");
+            dialog.setContentText("Nenhum registro selecionado.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
 		}
 	}
 	
@@ -1067,8 +1089,12 @@ public class EditNotaFiscalController implements Initializable {
 			exibirDuplicatas();
 
 		} else {
-			Dialogs.create().title("Aviso")
-					.message("Nenhum registro selecionado").showWarning();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Atenção.");
+            dialog.setContentText("Nenhuma duplicata selecionado.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
 		}
 	}
 		
@@ -1159,14 +1185,14 @@ public class EditNotaFiscalController implements Initializable {
 		if (errorMessage.length() == 0) {
 			return true;
 		} else {
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead(errorMessage)
-			.message(
-					"Por Favor Corrija os Campos Inválidos")
-			.showError();
-			return false;
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Por Favor Corrija os Campos Inválidos");
+            dialog.setContentText(errorMessage);
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            
+            return false;
 		}
 	}
 

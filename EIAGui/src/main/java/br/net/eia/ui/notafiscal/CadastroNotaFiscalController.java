@@ -15,7 +15,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.StackPane;
 import javafx.beans.value.ChangeListener;
@@ -40,7 +43,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.geometry.Rectangle2D;
-
+import javafx.scene.control.TextInputDialog;
 import javax.swing.SwingUtilities;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -56,14 +59,8 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.swing.JRViewer;
 import net.sf.jasperreports.view.JasperViewer;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.controlsfx.control.Notifications;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialog.Actions;
-import org.controlsfx.dialog.Dialogs;
-
 import br.net.eia.contato.Contato;
 import br.net.eia.contato.TpContato;
 import br.net.eia.enums.UF;
@@ -94,6 +91,7 @@ import br.net.eia.notafiscal.transporte.Transporte;
 import br.net.eia.notafiscal.transporte.Veiculo;
 import br.net.eia.notafiscal.transporte.Volume;
 import br.net.eia.ui.MainApp;
+import br.net.eia.ui.ProgressDialog;
 import br.net.eia.ui.certificado.CarregarCertificadoController;
 import br.net.eia.ui.contato.ContatoManager;
 import br.net.eia.ui.nfe.RestNFeManager;
@@ -453,15 +451,14 @@ public class CadastroNotaFiscalController implements Initializable {
         if (okClicked) {   
             rest.inserir(nf);
             dados.add(nf);
+            
+            Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+            dialog.setHeaderText("Inserido com sucesso.");
+            dialog.setContentText(nf.getDest().getNome() + "\n"+ nf.getTotal().getVnf());
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
             handleFiltrar();
-			Notifications
-					.create()
-					.position(Pos.CENTER)
-					.owner(dialogStage)
-					.title("Aviso")
-					.text(nf.getDest().getNome() + "\n"
-							+ nf.getTotal().getVnf()
-							+ "\nInserido com sucesso.").showInformation();
 		
         }
     }
@@ -510,32 +507,31 @@ public class CadastroNotaFiscalController implements Initializable {
             if (okClicked) {
                 if (nf.getSitNfe() != SitNFe.AUTORIZADA && nf.getSitNfe() != SitNFe.CANCELADA) {
                     NotaFiscal nota = rest.atualizar(nf);
-                    Dialogs.create().owner(dialogStage)
-                            .title("Aviso")
-                            .masthead(
-                            		nota.getDest().getNome() + "\n")
-                            .message(
-                            		nota.getTotal().getVnf()
-                                    + "Alterado com sucesso.")
-                            .showInformation();
-
+                    Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+                    dialog.setHeaderText("Alterado com sucesso.");
+                    dialog.setContentText(nf.getDest().getNome() + "\n"+ nf.getTotal().getVnf());
+                    dialog.setResizable(true);
+                    dialog.getDialogPane().setPrefSize(480, 320);
+                    dialog.showAndWait();
                 }else{
-                	Dialogs.create().owner(dialogStage)
-                    .title("Aviso")
-                    .masthead("Não pode ser alterado")
-                    .showInformation();
-                }
+                	Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+                    dialog.setHeaderText("Não pode ser modificada.");
+                    dialog.setContentText(nf.getDest().getNome() + "\n"+ nf.getTotal().getVnf());
+                    dialog.setResizable(true);
+                    dialog.getDialogPane().setPrefSize(480, 320);
+                    dialog.showAndWait();
+                    }
                 handleFiltrar();
             }
 
         } else {
-            Dialogs.create().owner(dialogStage)
-                    .title("Aviso")
-                    .masthead("Nenhum registro selecionado")
-                    .message(
-                            "Nenhum registro selecionado")
-                    .showWarning();
-        }
+            Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Item não selecionado");
+            dialog.setContentText("Selecione um item na tabela.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            }
     }
 
     @FXML
@@ -547,42 +543,55 @@ public class CadastroNotaFiscalController implements Initializable {
 
             if (selected.getSitNfe().equals(SitNFe.AUTORIZADA) 
             	|| selected.getSitNfe().equals(SitNFe.CANCELADA)) {
-            	Dialogs.create()	
-                        .owner(dialogStage)
-                        .title("Operação não permitida.")
-                        .message("Nota Fiscal não permite edição?")
-                        .showInformation();
-            } else {
-                Action response2 = Dialogs
-                        .create().owner(dialogStage)
-                        .title("Exclusão em andamento.")
-                        .message("Tem certesa que deseja remover?")
-                        .actions(Actions.YES, Actions.NO)
-                        .showConfirm();
+            	Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+                dialog.setHeaderText("Não pode ser modificada.");
+                dialog.setContentText(selected.getDest().getNome() + "\n"+ selected.getTotal().getVnf());
+                dialog.setResizable(true);
+                dialog.getDialogPane().setPrefSize(480, 320);
+                dialog.showAndWait();
+               } else {
+            	
+            	
+            	Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    		    alert.setTitle("Exclusão?");
+    		    alert.setHeaderText("Tem certesa que deseja remover?");
+    		    alert.setContentText(selected.getDest().getNome() + "\n"+ selected.getTotal().getVnf());
 
-                if (response2.equals(Actions.YES)) {
+    		    alert.getButtonTypes().clear();
+    		    alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.NO);
+    		    //Deactivate Defaultbehavior for yes-Button:
+    		    Button yesButton = (Button) alert.getDialogPane().lookupButton( ButtonType.YES );
+    		    yesButton.setDefaultButton( false );
 
-                    boolean deletado = rest.remover(selected);
-                    Dialogs.create()
-                            .owner(dialogStage)
-                            .title("Aviso")
-                            .masthead(selected.getChave())
-                            .message("Removido com sucesso")
-                            .showInformation();
-                    if (deletado) {
-                        handleFiltrar();
-                    }
-                }
+    		    //Activate Defaultbehavior for no-Button:
+    		    Button noButton = (Button) alert.getDialogPane().lookupButton( ButtonType.NO );
+    		    noButton.setDefaultButton( true );
+    		    
+    		    Optional<ButtonType> result = alert.showAndWait();
+    			if (result.isPresent() && result.get() == ButtonType.YES) {
+    				 boolean deletado = rest.remover(selected);		
+    				if (deletado) {
+    					handleFiltrar();
+    					
+    					Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+    		            dialog.setHeaderText(selected.getDest().getNome() + "\n"+ selected.getTotal().getVnf());
+    		            dialog.setContentText("Removido com sucesso.");
+    		            dialog.setResizable(true);
+    		            dialog.getDialogPane().setPrefSize(480, 320);
+    		            dialog.showAndWait();
+    				}
+
+    			}            	
+            	
 
             }
         } else {
-            Dialogs.create()
-                    .owner(dialogStage)
-                    .title("Aviso")
-                    .masthead("Nenhum registro selecionado")
-                    .message(
-                            "Nenhum registro selecionado")
-                    .showWarning();
+        	Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Item não selecionado");
+            dialog.setContentText("Selecione um item na tabela.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
         }
 
     }
@@ -634,15 +643,18 @@ public class CadastroNotaFiscalController implements Initializable {
     	if (contato != null) {			
 			if (okClicked) {
 				tfDest.setText(contato.getNome());
+			}else{
+				tfDest.setText("");
 			}
 
 		} else {
-			Dialogs.create()
-			.title("Aviso")
-			.message(
-					"Nenhum registro selecionado")
-                    .showWarning();
-        }
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Destinatario não Selecionado");
+            dialog.setContentText("Selecione um destinatario");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+		}
     }
     
     @FXML
@@ -729,12 +741,20 @@ public class CadastroNotaFiscalController implements Initializable {
                     protected Void call() throws InterruptedException {
                         boolean servico = false;
                         updateProgress(0, 4);
+                        updateTitle("Verificando Status do Servico");
                         updateMessage("Verificando Status do Servico");
                         try {
                             TRetConsStatServ retConsStatServ = new ConsultarStatusServicos()
                                     .consultaStatusServico(UF.PB, MainApp.getProps().getProperty("ambiente"), MainApp.getProps().getProperty("NfeStatusServico"));
-                            updateMessage(retConsStatServ.getXMotivo());
-                            servico = true;
+                            updateMessage(retConsStatServ.getCStat() +" - "+retConsStatServ.getXMotivo());
+                            
+                            if(retConsStatServ.getCStat().equals("107")){
+                            	servico = true;
+                            }else{
+                            	updateMessage(retConsStatServ.getCStat() +" - "+retConsStatServ.getXMotivo());
+                                Thread.sleep(5000);
+                            }
+                            
                         } catch (Exception e) {
                             updateMessage("Erro ao consultar\nVerifique a conexão com a Internet.\n\r"+e.getMessage());
                             Thread.sleep(5000);
@@ -889,9 +909,16 @@ public class CadastroNotaFiscalController implements Initializable {
                 };
             }
         };
-        Dialogs.create().owner(dialogStage).owner(dialogStage)
-                .title("Transmitindo Notas").showWorkerProgress(service);
 
+        ProgressBar bar = new ProgressBar();
+        bar.progressProperty().bind(service.progressProperty());
+       // service.start();
+       
+        ProgressDialog progDiag = new ProgressDialog(service);
+        progDiag.setTitle("Transmitindo NF-e...");
+        progDiag.initOwner(dialogStage);
+        progDiag.setHeaderText("Iniciando...");
+        progDiag.initModality(Modality.WINDOW_MODAL);
         service.start();
     }
 
@@ -905,14 +932,14 @@ public class CadastroNotaFiscalController implements Initializable {
             cr.show(null);
         }
     	
-    	Optional<String> response = Dialogs.create()
-    	        .owner(dialogStage)
-    	        .title("Cancelamento")
-    	        .masthead("Informações para Cancelamento")
-    	        .message("Motivo:")
-    	        .showTextInput("");
+    	TextInputDialog dialog = new TextInputDialog("");
+    	dialog.setTitle("Cancelamento");
+    	dialog.setHeaderText("Informações para Cancelamento");
+    	dialog.setContentText("Motivo:");
 
-    	// One way to get the response value.
+    	// Traditional way to get the response value.
+    	Optional<String> response = dialog.showAndWait();
+    	
     	if (response.isPresent()) {
     	    if(!response.get().isEmpty() && response.get().length()>14){
     	    	NotaFiscal notaFiscal = notaFiscalTable.getSelectionModel().getSelectedItem();
@@ -938,6 +965,13 @@ public class CadastroNotaFiscalController implements Initializable {
     				System.out.println("Proc -------------------------------");
     				System.out.println(proc);
     				
+    				Alert dialogOut = new Alert(Alert.AlertType.INFORMATION);
+    				dialogOut.setHeaderText("Resultado!");
+    				dialogOut.setContentText(retEvento.getCStat()+" - "+retEvento.getXMotivo());
+    				dialogOut.setResizable(true);
+    				dialogOut.getDialogPane().setPrefSize(480, 320);
+    				dialogOut.showAndWait();
+    				
     				notaFiscal.setSitNfe(SitNFe.CANCELADA);
     				notaFiscal = rest.atualizar(notaFiscal);
     				refreshPersonTable();
@@ -956,10 +990,29 @@ public class CadastroNotaFiscalController implements Initializable {
     				notaFiscal.setSitNfe(SitNFe.CANCELADA);
     				notaFiscal = rest.atualizar(notaFiscal);	
     				refreshPersonTable();
+    				Alert dialogOut = new Alert(Alert.AlertType.INFORMATION);    				
+    				dialogOut.setHeaderText("Resultado!");
+    				dialogOut.setContentText(ret.getCStat()+" - "+ret.getXMotivo());
+    				dialogOut.setResizable(true);
+    				dialogOut.getDialogPane().setPrefSize(480, 320);
+    				dialogOut.showAndWait();
     			}else{
     				System.out.println(ret.getCStat());
     				System.out.println(ret.getXMotivo());
+    				Alert dialogOut = new Alert(Alert.AlertType.INFORMATION);    				
+    				dialogOut.setHeaderText("Resultado!");
+    				dialogOut.setContentText(ret.getCStat()+" - "+ret.getXMotivo());
+    				dialogOut.setResizable(true);
+    				dialogOut.getDialogPane().setPrefSize(480, 320);
+    				dialogOut.showAndWait();
     			}
+    	    }else{
+    	    	Alert dialogOut = new Alert(Alert.AlertType.INFORMATION);    				
+				dialogOut.setHeaderText("Resultado!");
+				dialogOut.setContentText("Motivo abaixo de 15 caracteres ou não informado.");
+				dialogOut.setResizable(true);
+				dialogOut.getDialogPane().setPrefSize(480, 320);
+				dialogOut.showAndWait();
     	    }
     	}
 
@@ -1064,13 +1117,8 @@ public class CadastroNotaFiscalController implements Initializable {
                 };
             }
         };
-        
-        Dialogs.create()
-        .owner(dialogStage)
-        .title("Exportando Nota")
-        .masthead("Carregando ...\nAguarde")
-        .showWorkerProgress(service);
-
+        ProgressBar bar = new ProgressBar();
+        bar.progressProperty().bind(service.progressProperty());
         service.start();
     }
 
@@ -1190,12 +1238,9 @@ public class CadastroNotaFiscalController implements Initializable {
             }
         };
         
-        Dialogs.create()
-        .owner(dialogStage)
-        .title("Impressão de Notas")
-        .masthead("Carregando ...\nAguarde")
-        .showWorkerProgress(service);
-
+        
+        ProgressBar bar = new ProgressBar();
+        bar.progressProperty().bind(service.progressProperty());
         service.start();
         
         Stage stage = new Stage();        

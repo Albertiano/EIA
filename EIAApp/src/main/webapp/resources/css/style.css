@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+
+body {
+	background-color: #eee;
+}
+#main{
+	margin-top: 50px
+}
+
+.modal.modal-wide .modal-dialog {
+  width: 90%;
+}
+.modal-wide .modal-body {
+  overflow-y: auto;
+}
+
+.ui-datatable thead th,
+.ui-datatable tbody,
+.ui-datatable tbody tr,
+.ui-datatable tbody td {
+    border-style: none !important;
+}
+
+.oculta {
+	display: none;
+}
+.mostra{
+	display: block;
+}
+
+.tab-content {
+	margin-top: 5px;
+}

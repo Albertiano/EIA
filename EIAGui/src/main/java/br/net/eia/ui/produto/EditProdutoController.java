@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -16,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -26,11 +26,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.controlsfx.dialog.Dialogs;
-
 import br.net.eia.contato.Contato;
 import br.net.eia.produto.FornecedorProduto;
 import br.net.eia.produto.Produto;
@@ -180,9 +177,14 @@ public class EditProdutoController implements Initializable {
 		FornecedorProduto tempPerson = new FornecedorProduto();
 		boolean okClicked2 = showEditDialog(tempPerson);
 		if (okClicked2) {
-			Dialogs.create().owner(dialogStage).title("Aviso")
-					.masthead(tempPerson.getFornecedor().getNome())
-					.message("Inserido com sucesso.").showInformation();
+			
+			Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+            dialog.setHeaderText("Inserido com sucesso.");
+            dialog.setContentText(tempPerson.getFornecedor().getNome());
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            
 			produtoData.add(tempPerson);
 			if (produto.getFornecedores() == null) {
 				produto.setFornecedores(new ArrayList<FornecedorProduto>());
@@ -235,17 +237,23 @@ public class EditProdutoController implements Initializable {
 		if (tempPerson != null) {
 			boolean okClicked = showEditDialog(tempPerson);
 			if (okClicked) {
-				Dialogs.create().owner(dialogStage).title("Aviso")
-						.masthead(tempPerson.getFornecedor().getNome())
-						.message("Alterado com sucesso.").showInformation();
-
+				Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+	            dialog.setHeaderText("Alterado com sucesso.");
+	            dialog.setContentText(tempPerson.getFornecedor().getNome());
+	            dialog.setResizable(true);
+	            dialog.getDialogPane().setPrefSize(480, 320);
+	            dialog.showAndWait();
+	            
 				refreshPersonTable();
 			}
 
 		} else {
-			Dialogs.create().owner(dialogStage).title("Aviso")
-					.masthead("Item não selecionado")
-					.message("Selecione um item na tabela.").showInformation();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Item não selecionado");
+            dialog.setContentText("Selecione um item na tabela.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
 		}
 	}
 
@@ -255,19 +263,25 @@ public class EditProdutoController implements Initializable {
 		if (selectedIndex >= 0) {
 			FornecedorProduto tempPerson = clienteTable.getSelectionModel()
 					.getSelectedItem();
-
-			Dialogs.create().owner(dialogStage).title("Aviso")
-					.masthead(tempPerson.getFornecedor().getNome())
-					.message("Removido com sucesso.").showInformation();
-
+			
+			Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+            dialog.setHeaderText("Removido com sucesso.");
+            dialog.setContentText(tempPerson.getFornecedor().getNome());
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            
 			clienteTable.getItems().remove(selectedIndex);
 			produto.getFornecedores().remove(selectedIndex);
 			refreshPersonTable();
 
 		} else {
-			Dialogs.create().owner(dialogStage).title("Aviso")
-					.masthead("Item não selecionado")
-					.message("Selecione um item na tabela.").showInformation();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Item não selecionado");
+            dialog.setContentText("Selecione um item na tabela.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
 		}
 	}
 
@@ -302,11 +316,14 @@ public class EditProdutoController implements Initializable {
 		if (errorMessage.length() == 0) {
 			return true;
 		} else {
-			Dialogs.create().owner(dialogStage).title("Aviso")
-					.masthead(errorMessage)
-					.message("Por Favor Corrija os Campos Inválidos")
-					.showInformation();
-			return false;
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Por Favor Corrija os Campos Inválidos");
+            dialog.setContentText(errorMessage);
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            
+            return false;
 		}
 	}
 
@@ -328,11 +345,14 @@ public class EditProdutoController implements Initializable {
 			cbTrib.getItems().addAll(tribs);
 			cbTrib.setPromptText("-- Selecione --");
 		} catch (Exception e) {
-			Dialogs.create().owner(dialogStage).title("Aviso")
-					.masthead("Sem Tributação cadastrada.")
-					.message("Cadastre uma tributação antes.")
-					.showInformation();
-			cbTrib.getItems().clear();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Sem Tributação cadastrada.");
+            dialog.setContentText("Cadastre uma tributação antes.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            
+            cbTrib.getItems().clear();
 			cbTrib.setPromptText("-- Cadastre --");
 		}
 

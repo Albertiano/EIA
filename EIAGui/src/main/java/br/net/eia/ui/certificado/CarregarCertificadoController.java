@@ -22,12 +22,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import org.apache.commons.httpclient.protocol.Protocol;
-import org.controlsfx.dialog.Dialogs;
-
 import br.net.eia.ui.MainApp;
-import br.net.eia.ui.produto.CadastroProdutoController;
 import br.net.eia.util.Config;
 import br.net.eia.util.SocketFactoryDinamico;
 import br.net.eia.util.certificado.PegarKs;

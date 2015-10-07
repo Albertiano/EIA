@@ -2,17 +2,15 @@ package br.net.eia.ui.emitente;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.controlsfx.dialog.Dialogs;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -352,13 +350,13 @@ public class EditEmitenteController implements Initializable {
 		if (errorMessage.length() == 0) {
 			return true;
 		} else {
-			Dialogs.create()
-			.owner(mainApp.getPrimaryStage())
-			.title("Aviso")
-			.masthead(errorMessage)
-			.message("Por Favor Corrija os Campos Inválidos")
-			.showError();
-			return false;
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText(errorMessage);
+            dialog.setContentText("Por Favor Corrija os Campos Inválidos");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            return false;
 		}
 	}
 

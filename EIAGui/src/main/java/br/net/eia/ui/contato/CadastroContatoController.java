@@ -2,14 +2,10 @@ package br.net.eia.ui.contato;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialogs;
-import org.controlsfx.dialog.Dialog.Actions;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,7 +13,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -35,6 +33,7 @@ import br.net.eia.pais.Pais;
 import br.net.eia.ui.MainApp;
 import br.net.eia.ui.MunicipioClientRest;
 import br.net.eia.ui.PaisClientRest;
+import br.net.eia.util.nfe.ConversorNFe;
 
 @SuppressWarnings("restriction")
 public class CadastroContatoController implements Initializable {
@@ -164,12 +163,13 @@ public class CadastroContatoController implements Initializable {
 		boolean okClicked = showEditDialog(tempPerson);
 		if (okClicked) {
 			Contato client = cM.inserir(tempPerson);
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead(client.getNome() + "\n" + client.getMunicipio())
-			.message("Inserido com sucesso.")
-			.showInformation();
+			Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+            dialog.setHeaderText(client.getNome() + "\n" + client.getMunicipio());
+            dialog.setContentText("Inserido com sucesso.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
+            
 			clientData.add(client);
 			refreshPersonTable();
 		}
@@ -217,23 +217,24 @@ public class CadastroContatoController implements Initializable {
 			boolean okClicked = showEditDialog(selectedPerson);
 			if (okClicked) {
 				Contato client = cM.atualizar(selectedPerson);
-				Dialogs.create()
-				.owner(dialogStage)
-				.title("Aviso")
-				.masthead(client.getNome() + "\n" + client.getMunicipio())
-				.message("Alterado Inserido com sucesso.")
-				.showInformation();
-
+				
+				Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+	            dialog.setHeaderText(client.getNome() + "\n" + client.getMunicipio());
+	            dialog.setContentText("Alterado Inserido com sucesso.");
+	            dialog.setResizable(true);
+	            dialog.getDialogPane().setPrefSize(480, 320);
+	            dialog.showAndWait();
+	            
 				refreshPersonTable();
 			}
 
 		} else {
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead("Item não selecionado")
-			.message("Selecione um item na tabela.")
-			.showInformation();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Item não selecionado");
+            dialog.setContentText("Selecione um item na tabela.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
 		}
 	}
 
@@ -242,19 +243,36 @@ public class CadastroContatoController implements Initializable {
 		int selectedIndex = contatoTable.getSelectionModel().getSelectedIndex();
 		if (selectedIndex >= 0) {
 			Contato selectedPerson = contatoTable.getSelectionModel().getSelectedItem();
-			Action response2 = Dialogs.create().owner(dialogStage).title("Exclusão em andamento.")
-					.message("Tem certesa que deseja remover?").actions(Actions.YES, Actions.NO).showConfirm();
+			
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		    alert.setTitle("Exclusão?");
+		    alert.setHeaderText("Tem certesa que deseja remover?");
+		    alert.setContentText(selectedPerson.getNome() + "\n" + selectedPerson.getMunicipio());
 
-			if (response2.equals(Actions.YES)) {
+		    alert.getButtonTypes().clear();
+		    alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.NO);
+		    //Deactivate Defaultbehavior for yes-Button:
+		    Button yesButton = (Button) alert.getDialogPane().lookupButton( ButtonType.YES );
+		    yesButton.setDefaultButton( false );
 
-				boolean deletado = cM.remover(selectedPerson);
-				Dialogs.create().owner(dialogStage).title("Aviso")
-						.masthead(selectedPerson.getNome() + "\n" + selectedPerson.getMunicipio())
-						.message("Removido Inserido com sucesso.").showInformation();
+		    //Activate Defaultbehavior for no-Button:
+		    Button noButton = (Button) alert.getDialogPane().lookupButton( ButtonType.NO );
+		    noButton.setDefaultButton( true );
+		    
+		    Optional<ButtonType> result = alert.showAndWait();
+			if (result.isPresent() && result.get() == ButtonType.YES) {
+				boolean deletado = cM.remover(selectedPerson);				
 				if (deletado) {
 					contatoTable.getItems().remove(selectedIndex);
 					refreshPersonTable();
+					Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+		            dialog.setHeaderText(selectedPerson.getNome() + "\n" + selectedPerson.getMunicipio());
+		            dialog.setContentText("Removido com sucesso.");
+		            dialog.setResizable(true);
+		            dialog.getDialogPane().setPrefSize(480, 320);
+		            dialog.showAndWait();
 				}
+
 			}
 		}
 	}
@@ -318,12 +336,12 @@ public class CadastroContatoController implements Initializable {
 			okClicked = true;
 			dialogStage.close();
 		} else {
-			Dialogs.create()
-			.owner(dialogStage)
-			.title("Aviso")
-			.masthead("Item não selecionado")
-			.message("Selecione um item na tabela.")
-			.showInformation();
+			Alert dialog = new Alert(Alert.AlertType.WARNING);
+            dialog.setHeaderText("Item não selecionado");
+            dialog.setContentText("Selecione um item na tabela.");
+            dialog.setResizable(true);
+            dialog.getDialogPane().setPrefSize(480, 320);
+            dialog.showAndWait();
 		}
 		
 	}
