@@ -55,7 +55,7 @@ public class lerXML_JAXB {
     	        return name.endsWith("-procNfe.xml");   
     	    }  
     	};  
-        String local = "E:/xml2";
+        String local = "E:/xml";
     	File arquivos = new File(local);  
     	String[] nomeArquivos = arquivos.list(filtro);  
     	StringBuilder sb = new StringBuilder();

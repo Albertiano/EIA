@@ -82,12 +82,7 @@
 			<artifactId>EIAXml</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.axis2</groupId>
-			<artifactId>axis2</artifactId>
-			<version>1.6.1</version>
-		</dependency>
-
+		
 		<dependency>
 			<groupId>axis</groupId>
 			<artifactId>axis-wsdl4j</artifactId>
@@ -108,6 +103,13 @@
 			<artifactId>axiom-impl</artifactId>
 			<version>1.2.13</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.axis2</groupId>
 			<artifactId>axis2-transport-local</artifactId>

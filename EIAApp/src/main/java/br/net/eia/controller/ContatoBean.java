@@ -63,7 +63,7 @@ public class ContatoBean implements Serializable{
 	}
 	
 	public void carregar(){
-		this.contatos = (List<Contato>) contatosRepo.filtrar(null, 101, search, null, null, null);
+		this.contatos = (List<Contato>) contatosRepo.filtrar(null, Emitente.Token(), search, null, null, null);
 	}
 	
 	public void preparar(AjaxBehaviorEvent event){

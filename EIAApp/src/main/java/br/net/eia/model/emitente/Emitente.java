@@ -56,6 +56,10 @@ public class Emitente extends BaseEntity implements Serializable{
     public Emitente(){
     	
     }
+    
+    public static Integer Token(){
+    	return 101;
+    }
 
 	public String getCodigo() {
 		return codigo;

@@ -3,367 +3,487 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" 
 	xmlns:p="http://primefaces.org/ui">
-	
+
 <ui:composition template=".././template.xhtml">
-	
+
 	<ui:define name="content">
-		       <div id="top" class="row">
-				<div class="col-sm-3">
-					<h2>Contatos</h2>
-				</div>
-				<div class="col-sm-6">
-					<form jsf:id="form" jsf:prependId="false">
-						<div class="input-group h2">
-							<input class="form-control" id="search" type="text" placeholder="Pesquisar"
-								jsf:value="#{contatoBean.search}"/>
-							<span class="input-group-btn">
-								<button class="btn btn-primary" jsf:id="button" jsf:action="#{contatoBean.carregar}">
-										<span class="glyphicon glyphicon-search"></span>
-								</button>
-							</span>
-						</div>
-					</form>
-				</div>
-				<div class="col-sm-3">
-					<form jsf:id="form-new" jsf:prependId="false">
+		<div id="top" class="row">
+			<div class="col-sm-3">
+				<h2>Contatos</h2>
+			</div>
+			<div class="col-sm-6">
+				<form jsf:id="form" jsf:prependId="false">
+					<div class="input-group h2">
+						<input class="form-control" id="search" type="text"
+							placeholder="Pesquisar" jsf:value="#{contatoBean.search}" /> <span
+							class="input-group-btn">
+							<button class="btn btn-primary" jsf:id="button"
+								jsf:action="#{contatoBean.carregar}">
+								<span class="glyphicon glyphicon-search"></span>
+							</button>
+						</span>
+					</div>
+				</form>
+			</div>
+			<div class="col-sm-3">
+				<form jsf:id="form-new" jsf:prependId="false">
 					<f:ajax event="click" render="edit-form"
-		            				listener="#{contatoBean.preparar}">
+						listener="#{contatoBean.preparar}">
 						<button jsf:action="#" class="btn btn-primary pull-right h2"
 							data-toggle="modal" data-target="#edit-modal">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Novo Registro																	
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Novo
+							Registro
 						</button>
 					</f:ajax>
-					</form>
-				</div>
-			</div> <!-- /#top -->
-		  
-		 	<hr />
-		 	
-		 <div id="list" class="row">
-			
+				</form>
+			</div>
+		</div>
+		<!-- /#top -->
+
+		<hr />
+
+		<div id="list" class="row">
+
 			<div id="table" class="table-responsive col-sm-12">
-			
-				  <p:dataTable id="tabela" var="contato" value="#{contatoBean.contatos}" 
-								reflow="true" paginator="false" tableStyle="table-layout: auto;" 
-								tableStyleClass="table table-striped table-hover">
-									<f:facet name="header">
-						           	 Registros
-						        	</f:facet>
-								<p:column headerText="Tipo">
+
+				<p:dataTable id="tabela" var="contato"
+					value="#{contatoBean.contatos}" reflow="true" paginator="false"
+					tableStyle="table-layout: auto;"
+					tableStyleClass="table table-striped table-hover">
+					<f:facet name="header">
+						<!-- Registros -->
+					</f:facet>
+					<p:column headerText="Tipo">
 									#{contato.tpContato}
 								</p:column>
-								<p:column headerText="Nome">
-									<h:outputText value="#{contato.nome}" />
-								</p:column>
-								<p:column headerText="Municipio">
-									<h:outputText value="#{contato.municipio}" />
-								</p:column>
-								<p:column headerText="UF">
-									<h:outputText value="#{contato.municipio.UF}" />
-								</p:column>
-								<p:column headerText="Fone">
-									<h:outputText value="#{contato.fone}" />
-								</p:column>
-								<p:column headerText="Celular">
-									<h:outputText value="#{contato.celular}" />
-								</p:column>
-								<p:column headerText="Ações">
-								  <form jsf:id="form-actions" jsf:prependId="false">						
-													<f:ajax event="click" execute="edit-form" render="edit-form"
-						                				listener="#{contatoBean.preparar}">
-														<button jsf:action="#" class="btn btn-warning btn-xs"
-															data-toggle="modal" data-target="#edit-modal">
-															<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-															<f:param name="id" value="#{contato.id}" />							
-														</button>
-													</f:ajax>	
-													<f:ajax event="click" execute="delete-form" render="delete-form"
-						                				listener="#{contatoBean.preparar}">											
-														<button jsf:action="#" class="btn btn-danger btn-xs" data-toggle="modal"
-															data-target="#delete-modal"> <span
-															class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-															<f:param name="id" value="#{contato.id}" />							
-														</button>
-													</f:ajax>	
-									</form>
-								</p:column>
-							</p:dataTable>
-					
-				</div>
-			
-		</div> <!-- /#list -->
-			
+					<p:column headerText="Nome">
+						<h:outputText value="#{contato.nome}" />
+					</p:column>
+					<p:column headerText="Municipio">
+						<h:outputText value="#{contato.municipio}" />
+					</p:column>
+					<p:column headerText="UF">
+						<h:outputText value="#{contato.municipio.UF}" />
+					</p:column>
+					<p:column headerText="Fantasia">
+						<h:outputText value="#{contato.fantasia}" />
+					</p:column>
+					<p:column headerText="Fone">
+						<h:outputText value="#{contato.fone}" />
+					</p:column>
+					<p:column headerText="Ações">
+						<form jsf:id="form-actions" jsf:prependId="false">
+							<f:ajax event="click" execute="edit-form" render="edit-form"
+								listener="#{contatoBean.preparar}">
+								<button jsf:action="#" class="btn btn-warning btn-xs"
+									data-toggle="modal" data-target="#edit-modal">
+									<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+									<f:param name="id" value="#{contato.id}" />
+								</button>
+							</f:ajax>
+							<f:ajax event="click" execute="delete-form" render="delete-form"
+								listener="#{contatoBean.preparar}">
+								<button jsf:action="#" class="btn btn-danger btn-xs"
+									data-toggle="modal" data-target="#delete-modal">
+									<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+									<f:param name="id" value="#{contato.id}" />
+								</button>
+							</f:ajax>
+						</form>
+					</p:column>
+				</p:dataTable>
+
+			</div>
+
+		</div>
+		<!-- /#list -->
+
 		<!-- Edit Modal -->
-		<div class="modal modal-wide fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&#215;</span></button>
-		        <h4 class="modal-title" id="modalLabel">Edição de Registro</h4>
-		      </div>
-		      <div class="modal-body">
-		        <div class="container">
+		<div class="modal modal-wide fade" id="edit-modal" tabindex="-1"
+			role="dialog" aria-labelledby="modalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Fechar">
+							<span aria-hidden="true">&#215;</span>
+						</button>
+						<h4 class="modal-title" id="modalLabel">Edição de Registro</h4>
+					</div>
+					<div class="modal-body">
+						<div class="container-fluid">
+							<form role="form" class="form-horizontal" jsf:id="edit-form"
+								jsf:prependId="false">
+								<div class="panel panel-primary">
+									<div class="panel-heading">
+										<h3 class="panel-title">Dados Basicos</h3>
+									</div>
+									<div class="panel-body">
+										<div class="row">
+											<div class="form-group">
+												<label class="col-md-1 control-label" for="tp-contato">Tipo</label>
+												<div class="col-md-2">
+													<select size="1" jsf:id="tp-contato" name="tp-contato"
+														class="form-control"
+														jsf:value="#{contatoBean.contato.tpContato}">
+														<f:selectItem itemLabel="Selecione"
+															noSelectionOption="true" />
+														<f:selectItems value="#{contatoBean.tpContatos}" var="a"
+															itemValue="#{a}" itemLabel="#{a}" />
+														<f:ajax execute="@this" render="@this" />
+													</select>
+												</div>
+												<div class="col-md-2">
+													<select size="1" jsf:id="doc" name="doc"
+														class="form-control"
+														jsf:value="#{contatoBean.contato.tpDoc}">
+														<f:selectItem itemLabel="Selecione"
+															noSelectionOption="true" />
+														<f:selectItems value="#{contatoBean.tpDoc}" var="a"
+															itemValue="#{a}" itemLabel="#{a}" />
+														<f:ajax execute="@this" render="@this" />
+													</select>
+												</div>
+												<label for="num-doc" class="col-md-1 control-label">Nº</label>
+												<div class="col-md-2">
+													<input type="text" jsf:id="num-doc" name="num-doc"
+														class="form-control" placeholder="CPF/CNPJ"
+														jsf:value="#{contatoBean.contato.numDoc}">
+													<f:ajax execute="@this" render="@this doc"
+														listener="#{contatoBean.formataCNPJCPF}" />
+													</input>
+												</div>
+												<label for="ie" class="col-md-2 control-label">Insc.
+													Estadual</label>
+												<div class="col-md-2">
+													<div class="input-group">
+														<input type="text" jsf:id="ie" name="ie"
+															class="form-control" placeholder="Insc. Estadual"
+															jsf:value="#{contatoBean.contato.IE}">	
+															<f:ajax execute="@this" render="@this" />
+														</input>
+													</div>
+												</div>
+											</div>
+											<!-- / form-group -->
 
-							<ul class="nav nav-tabs">
-								<li class="active"><a href="#dados-tab" data-toggle="tab">Dados<i class="fa"></i></a></li>
-								<li><a href="#contato-tab" data-toggle="tab">Contato<i class="fa"></i></a></li>
-							</ul>
+										</div>
+										<!-- / row -->
 
-							<form role="form"  class="form-horizontal" jsf:id="edit-form" jsf:prependId="false">
-							
-							<div class="tab-content">
-        <div class="tab-pane active" id="dados-tab">
-					
-					<div class="row">
-						<div class="form-group">					
-							<label class="col-md-1 control-label" for="tp-contato">Tipo</label>
-							<div class="col-md-2">
-								<select size="1" jsf:id="tp-contato" name="tp-contato" class="form-control"
-									jsf:value="#{contatoBean.contato.tpContato}">
-									<f:selectItem itemLabel="Selecione"  noSelectionOption="true"/>
-									<f:selectItems value="#{contatoBean.tpContatos}" var="a"  
-		                            itemValue="#{a}" itemLabel="#{a}"/>                            
-		                            <f:ajax execute="@this" render="@this" />
-								</select>
-							</div>				
-							<div class="col-md-2">
-								<select size="1" jsf:id="doc" name="doc" class="form-control" 
-									jsf:value="#{contatoBean.contato.tpDoc}">
-									<f:selectItem itemLabel="Selecione"  noSelectionOption="true"/>
-									<f:selectItems value="#{contatoBean.tpDoc}" var="a"  
-		                            itemValue="#{a}" itemLabel="#{a}"/>                           
-		                            <f:ajax execute="@this" render="@this" />
-								</select>
-							</div>		
-							<label for="num-doc" class="col-md-1 control-label">Nº</label>			
-							<div class="col-md-2">
-								<input type="text" jsf:id="num-doc" name="num-doc" class="form-control" placeholder="CPF/CNPJ"
-										jsf:value="#{contatoBean.contato.numDoc}">
-									<f:ajax execute="@this" render="@this doc" listener="#{contatoBean.formataCNPJCPF}"/>
-								</input>
-							</div>
-							<label for="ie" class="col-md-2 control-label">Insc. Estadual</label>
-							<div class="col-md-2">
-								<div class="input-group">
-									<input type="text" jsf:id="ie" name="ie" class="form-control" placeholder="Isento"
-											jsf:value="#{contatoBean.contato.IE}">
-										<f:ajax execute="@this" render="@this" />
-									</input>
-									<span class="input-group-addon">
-										<input checked="checked" type="checkbox" />
-									</span>
-								</div>
-							</div>
-						</div><!-- / form-group -->
-						
-					</div> <!-- / row -->
-					
-					<div class="row">
-						<div class="form-group">
-							<label class="col-sm-1 control-label" for="nome">Nome</label>
-							<div class="col-sm-11">
-								<input jsf:id="nome" name="nome" placeholder="Nome"
-									class="form-control input-md" jsf:required="true" type="text" 
-									jsf:value="#{contatoBean.contato.nome}">
-									<f:ajax event="blur" execute="@this" render="@this men"/>
-								</input>
-								<p:message id="men" for="nome"/>
-		
-							</div>
-						</div><!-- / form-group -->
-					</div>
-					
-					<div class="row">
-						<div class="form-group">
-							<label class="col-sm-1 control-label" for="logradouro">Endereço</label>
-							<div class="col-sm-9">
-								<input jsf:id="logradouro" name="logradouro" placeholder="Endereço"
-									class="form-control input-md" type="text" 
-										jsf:value="#{contatoBean.contato.logradouro}">
-									<f:ajax execute="@this" render="@this" />
-								</input>
-							</div>
-							<label class="col-sm-1 control-label" for="numero">Nº</label>
-							<div class="col-sm-1">
-								<input jsf:id="numero" name="numero" placeholder="Numero"
-									class="form-control input-md" type="text" 
-										jsf:value="#{contatoBean.contato.numero}">
-									<f:ajax execute="@this" render="@this" />
-								</input>
-							</div>
-						</div><!-- / form-group -->
-					</div>
-					
-					<div class="row">
-						<div class="form-group">
-							<label class="col-sm-1 control-label" for="complemento">Complemento</label>
-							<div class="col-sm-3">
-								<input jsf:id="complemento" name="complemento" placeholder="Complemento"
-									class="form-control input-md" type="text" 
-										jsf:value="#{contatoBean.contato.complemento}">
-									<f:ajax execute="@this" render="@this" />
-								</input>
-			
-							</div>
-							<label class="col-sm-2 control-label" for="bairro">Bairro</label>
-							<div class="col-sm-2">
-								<input jsf:id="bairro" name="bairro" placeholder="Bairro"
-									class="form-control input-md" type="text" 
-										jsf:value="#{contatoBean.contato.bairro}">
-									<f:ajax execute="@this" render="@this" />
-								</input>
-		
-							</div>
-							<label class="col-sm-2 control-label" for="cep">CEP</label>
-							<div class="col-sm-2">
-								<input jsf:id="cep" name="cep" placeholder="CEP"
-									class="form-control input-md" type="text" 
-										jsf:value="#{contatoBean.contato.cep}">
-									<f:ajax execute="@this" render="@this" listener="#{contatoBean.formataCEP}"/>
-								</input>
-		
-							</div>
-						</div><!-- / form-group -->
-					</div>
-					
-					<div class="row">
-						<div class="form-group">
-							<label class="col-sm-1 control-label" for="pais">Pais</label>
-							<div class="col-sm-3">
-								<select size="1" jsf:id="pais" name="pais" class="form-control" 
-									jsf:value="#{contatoBean.contato.pais}">
-									<f:selectItems value="#{contatoBean.paises}" var="a"  
-		                            itemValue="#{a}" itemLabel="#{a}"/>
-		                            <f:selectItem itemLabel="Selecione"  noSelectionOption="true"/>
-		                            <f:ajax execute="@this" render="@this" />
-								</select>					</div>
-							<label class="col-sm-1 control-label" for="uf">UF</label>
-							<div class="col-sm-1">
-								<select size="1" jsf:id="uf" name="uf" class="form-control" 
-									jsf:value="#{contatoBean.contato.uf}">
-									<f:selectItem itemLabel="Selecione"  noSelectionOption="true"/>
-									<f:selectItems value="#{contatoBean.UFs}" var="a"  
-		                            itemValue="#{a}" itemLabel="#{a}"/>
-		                            <f:ajax event="change" execute="@this" render="@this municipio"/>
-								</select>	
-							</div>
-							<label class="col-sm-2 control-label" for="municipio">Municipio</label>
-							<div class="col-sm-4">
-								<select size="1" jsf:id="municipio" name="municipio" class="form-control" 
-									jsf:value="#{contatoBean.contato.municipio}" jsf:converter="municipioConverter">
-									<f:selectItem itemLabel="Selecione"  noSelectionOption="true"/>
-									<f:selectItems value="#{contatoBean.municipios}" var="a"  
-		                            itemValue="#{a}" itemLabel="#{a}"/>
-		                            <f:ajax event="change" execute="@this" render="@this"/>
-								</select>
-							</div>
-						</div><!-- / form-group -->
-					</div>
-					
-					<div class="row">
-						<div class="form-group">
-							<label class="col-sm-1 control-label" for="fone">Telefone</label>
-							<div class="col-sm-3">
-								<input jsf:id="fone" name="fone" placeholder="Fone"
-									class="form-control input-md" type="text" 
-										jsf:value="#{contatoBean.contato.fone}">
-									<f:ajax execute="@this" render="@this" />
-								</input>
-		
-							</div>
-							<label class="col-sm-1 control-label" for="email">E-mail</label>
-							<div class="col-sm-7">
-								<input jsf:id="email" name="email" placeholder="e-mail"
-									class="form-control input-md"  type="email" 
-										jsf:value="#{contatoBean.contato.email}">
-									<f:ajax execute="@this" render="@this" />
-								</input>
-		
-							</div>
-						</div><!-- / form-group -->
-					</div>
-					
-					<div class="row">
-						<div class="form-group">
-							<label class="col-sm-1 control-label" for="obs">Observações</label>
-							<div class="col-sm-11">
-								<textarea jsf:id="obs" name="obs" placeholder="Observações"
-									class="form-control input-md" rows="3"
-										jsf:value="#{contatoBean.contato.obs}">
+										<div class="row">
+											<div class="form-group">
+												<label class="col-sm-1 control-label" for="nome">Nome</label>
+												<div class="col-sm-11">
+													<input jsf:id="nome" name="nome" placeholder="Nome"
+														class="form-control input-md" jsf:required="true"
+														type="text" jsf:value="#{contatoBean.contato.nome}">
+													<f:ajax event="blur" execute="@this" render="@this men" />
+													</input>
+													<p:message id="men" for="nome" />
+
+												</div>
+											</div>
+											<!-- / form-group -->
+										</div>
+
+										<div class="row">
+											<div class="form-group">
+												<label class="col-sm-1 control-label" for="logradouro">Endereço</label>
+												<div class="col-sm-9">
+													<input jsf:id="logradouro" name="logradouro"
+														placeholder="Endereço" class="form-control input-md"
+														type="text" jsf:value="#{contatoBean.contato.logradouro}">
+													<f:ajax execute="@this" render="@this" />
+													</input>
+												</div>
+												<label class="col-sm-1 control-label" for="numero">Nº</label>
+												<div class="col-sm-1">
+													<input jsf:id="numero" name="numero" placeholder="Numero"
+														class="form-control input-md" type="text"
+														jsf:value="#{contatoBean.contato.numero}">
+													<f:ajax execute="@this" render="@this" />
+													</input>
+												</div>
+											</div>
+											<!-- / form-group -->
+										</div>
+
+										<div class="row">
+											<div class="form-group">
+												<label class="col-sm-1 control-label" for="complemento">Complemento</label>
+												<div class="col-sm-3">
+													<input jsf:id="complemento" name="complemento"
+														placeholder="Complemento" class="form-control input-md"
+														type="text" jsf:value="#{contatoBean.contato.complemento}">
+													<f:ajax execute="@this" render="@this" />
+													</input>
+
+												</div>
+												<label class="col-sm-2 control-label" for="bairro">Bairro</label>
+												<div class="col-sm-2">
+													<input jsf:id="bairro" name="bairro" placeholder="Bairro"
+														class="form-control input-md" type="text"
+														jsf:value="#{contatoBean.contato.bairro}">
+													<f:ajax execute="@this" render="@this" />
+													</input>
+
+												</div>
+												<label class="col-sm-2 control-label" for="cep">CEP</label>
+												<div class="col-sm-2">
+													<input jsf:id="cep" name="cep" placeholder="CEP"
+														class="form-control input-md" type="text"
+														jsf:value="#{contatoBean.contato.cep}">
+													<f:ajax execute="@this" render="@this"
+														listener="#{contatoBean.formataCEP}" />
+													</input>
+
+												</div>
+											</div>
+											<!-- / form-group -->
+										</div>
+
+										<div class="row">
+											<div class="form-group">
+												<label class="col-sm-1 control-label" for="pais">Pais</label>
+												<div class="col-sm-3">
+													<select size="1" jsf:id="pais" name="pais"
+														class="form-control"
+														jsf:value="#{contatoBean.contato.pais}">
+														<f:selectItems value="#{contatoBean.paises}" var="a"
+															itemValue="#{a}" itemLabel="#{a}" />
+														<f:selectItem itemLabel="Selecione"
+															noSelectionOption="true" />
+														<f:ajax execute="@this" render="@this" />
+													</select>
+												</div>
+												<label class="col-sm-1 control-label" for="uf">UF</label>
+												<div class="col-sm-1">
+													<select size="1" jsf:id="uf" name="uf" class="form-control"
+														jsf:value="#{contatoBean.contato.uf}">
+														<f:selectItem itemLabel="Selecione"
+															noSelectionOption="true" />
+														<f:selectItems value="#{contatoBean.UFs}" var="a"
+															itemValue="#{a}" itemLabel="#{a}" />
+														<f:ajax event="change" execute="@this"
+															render="@this municipio" />
+													</select>
+												</div>
+												<label class="col-sm-2 control-label" for="municipio">Municipio</label>
+												<div class="col-sm-4">
+													<select size="1" jsf:id="municipio" name="municipio"
+														class="form-control"
+														jsf:value="#{contatoBean.contato.municipio}"
+														jsf:converter="municipioConverter">
+														<f:selectItem itemLabel="Selecione"
+															noSelectionOption="true" />
+														<f:selectItems value="#{contatoBean.municipios}" var="a"
+															itemValue="#{a}" itemLabel="#{a}" />
+														<f:ajax event="change" execute="@this" render="@this" />
+													</select>
+												</div>
+											</div>
+											<!-- / form-group -->
+										</div>
+
+										<div class="row">
+											<div class="form-group">
+												<label class="col-sm-1 control-label" for="fone">Telefone</label>
+												<div class="col-sm-3">
+													<input jsf:id="fone" name="fone" placeholder="Fone"
+														class="form-control input-md" type="text"
+														jsf:value="#{contatoBean.contato.fone}">
+													<f:ajax execute="@this" render="@this" />
+													</input>
+
+												</div>
+												<label class="col-sm-1 control-label" for="email">E-mail</label>
+												<div class="col-sm-7">
+													<input jsf:id="email" name="email" placeholder="e-mail"
+														class="form-control input-md" type="email"
+														jsf:value="#{contatoBean.contato.email}">
+													<f:ajax execute="@this" render="@this" />
+													</input>
+
+												</div>
+											</div>
+											<!-- / form-group -->
+										</div>
+
+										<div class="row">
+											<div class="form-group">
+												<label class="col-sm-1 control-label" for="obs">Observações</label>
+												<div class="col-sm-11">
+													<textarea jsf:id="obs" name="obs" placeholder="Observações"
+														class="form-control input-md" rows="3"
+														jsf:value="#{contatoBean.contato.obs}">
 									<f:ajax execute="@this" render="@this" />
 								</textarea>
-		
-							</div>
-						</div><!-- / form-group -->
-					</div>
-				
-					<div class="row">
-						<div class="alert #{contatoBean.mensClass} alert-dismissible" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&#215;</span>
-							</button>
-							<h:messages id="globalMessage"/>
-						</div>
-						
-					</div>
-				</div>
-		<div class="tab-pane" id="contato-tab">
-			asdffdsfsdfsdafsd
-		</div>
-	</div>
-				</form>
-				
-			</div>
-		   </div><!-- / Fim modal-body -->
-		   <div class="modal-footer">
-		      <div class="row">
-								<div class="col-sm-12">
-									<div class="text-center">
-										<form jsf:id="form-buttons" jsf:prependId="false">								  
-												<button jsf:actionListener="#{contatoBean.gravar}" class="btn btn-primary">
-													Gravar
-													<f:ajax execute="edit-form" render="edit-form" />
-												</button>
-											<button class="btn btn-default" data-dismiss="modal">Fechar</button>
-										</form>
+
+												</div>
+											</div>
+											<!-- / form-group -->
+										</div>
+
 									</div>
 								</div>
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											<h3 class="panel-title">Adicionais</h3>
+										</div>
+										
+										<div class="panel-body">
+											<div class="row">
+											
+												<div class="form-group">
+													<label class="col-sm-1 control-label" for="fantasia">Fantasia</label>
+													<div class="col-sm-3">
+														<input jsf:id="fantasia" name="fantasia"
+															placeholder="Fantasia" class="form-control input-md"
+															type="text" jsf:value="#{contatoBean.contato.fantasia}">
+															<f:ajax execute="@this" render="@this" />
+														</input>
+													</div>
+													
+												</div>
+												<!-- / form-group -->
+											</div>
+											
+											<div class="row">
+											
+												<div class="form-group">
+													<label class="col-sm-1 control-label" for="contato">Contato</label>
+													<div class="col-sm-3">
+														<input jsf:id="contato" name="contato"
+															placeholder="Contato" class="form-control input-md"
+															type="text" jsf:value="#{contatoBean.contato.contato}">
+															<f:ajax execute="@this" render="@this" />
+														</input>
+													</div>
+													
+												</div>
+												<!-- / form-group -->
+											</div>
+										
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-1 control-label" for="foneRes">Telefone</label>
+													<div class="col-sm-3">
+														<input jsf:id="fone" name="foneRes" 
+															placeholder="Fone" class="form-control input-md" 
+															type="text" jsf:value="#{contatoBean.contato.foneRes}">
+															<f:ajax execute="@this" render="@this" />
+														</input>
+	
+													</div>
+												</div>
+												<!-- / form-group -->
+											</div>
+											
+											<div class="row">
+												<div class="form-group">
+													<label class="col-sm-1 control-label" for="foneRes">Celular</label>
+													<div class="col-sm-3">
+														<input jsf:id="celular" name="celular" 
+															placeholder="Celular" class="form-control input-md" 
+															type="text" jsf:value="#{contatoBean.contato.celular}">
+															<f:ajax execute="@this" render="@this" />
+														</input>
+	
+													</div>
+												</div>
+												<!-- / form-group -->
+											</div>
+											
+									</div>
+									</div>
+									
+								<div class="row">
+									<div class="alert #{contatoBean.mensClass} alert-dismissible"
+										role="alert">
+										<button type="button" class="close" data-dismiss="alert"
+											aria-label="Close">
+											<span aria-hidden="true">&#215;</span>
+										</button>
+										<h:messages id="globalMessage" />
+									</div>
+								</div>
+								
+							</form>
+
+
+
+						</div>
+					</div>
+					<!-- / Fim modal-body -->
+					<div class="modal-footer">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="text-center">
+									<form jsf:id="form-buttons" jsf:prependId="false">
+										<button jsf:actionListener="#{contatoBean.gravar}"
+											class="btn btn-primary">
+											Gravar
+											<f:ajax execute="edit-form" render="edit-form" />
+										</button>
+										<button jsf:action="#{contatoBean.carregar}"
+											class="btn btn-default">Fechar</button>
+									</form>
+								</div>
 							</div>
-		   </div>
-		   </div>
-		  </div>
-		</div><!-- / Edit Modal -->
-		
-		<!-- Delete Modal -->
-		<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&#215;</span></button>
-		        <h4 class="modal-title" id="modalLabel">Deseja realmente excluir este Contato?</h4>
-		      </div>
-		      <div class="modal-body">
-		
-				<form role="form"  class="form-horizontal" jsf:id="delete-form" jsf:prependId="false">
-				<p><label>Tipo: &#160;</label>#{contatoBean.contato.tpContato}</p>
-		        <p><label>Nome: &#160;</label>#{contatoBean.contato.nome}</p>
-		        <p><label>Municipio: &#160;</label>#{contatoBean.contato.municipio}</p>
-		        <p><label>UF: &#160;</label>#{contatoBean.contato.uf}</p>
-				</form>
-		        
-		      </div>
-		      <div class="modal-footer">
-		      <form jsf:id="delete-form-buttons" jsf:prependId="false">		
-					<button jsf:action="#{contatoBean.delete}" class="btn btn-primary">Sim</button>
-					<button class="btn btn-default" data-dismiss="modal">Não</button>
-				</form>
-		      </div>
-		    </div>
-		  </div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-    </ui:define>
-    
+		<!-- / Edit Modal -->
+
+
+
+		<!-- Delete Modal -->
+		<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog"
+			aria-labelledby="modalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Fechar">
+							<span aria-hidden="true">&#215;</span>
+						</button>
+						<h4 class="modal-title" id="modalLabel">Deseja realmente
+							excluir este Contato?</h4>
+					</div>
+					<div class="modal-body">
+
+						<form role="form" class="form-horizontal" jsf:id="delete-form"
+							jsf:prependId="false">
+							<p>
+								<label>Tipo: &#160;</label>#{contatoBean.contato.tpContato}
+							</p>
+							<p>
+								<label>Nome: &#160;</label>#{contatoBean.contato.nome}
+							</p>
+							<p>
+								<label>Municipio: &#160;</label>#{contatoBean.contato.municipio}
+							</p>
+							<p>
+								<label>UF: &#160;</label>#{contatoBean.contato.uf}
+							</p>
+						</form>
+
+					</div>
+					<div class="modal-footer">
+						<form jsf:id="delete-form-buttons" jsf:prependId="false">
+							<button jsf:action="#{contatoBean.delete}"
+								class="btn btn-primary">Sim</button>
+							<button class="btn btn-default" data-dismiss="modal">Não</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+
 </ui:composition>
 </html>

@@ -31,3 +31,26 @@ body {
 .tab-content {
 	margin-top: 5px;
 }
+
+.titulo{
+	text-align: center;
+	font-size: large;
+}
+
+.center{
+	text-align: center;
+}
+
+.centralizado{
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.panel-title a {
+    display: block;
+    padding: 10px 15px;
+    margin: -10px -15px;
+}

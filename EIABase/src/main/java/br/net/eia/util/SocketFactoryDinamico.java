@@ -19,7 +19,8 @@ import java.security.cert.X509Certificate;
   
 import javax.net.SocketFactory;  
 import javax.net.ssl.KeyManager;  
-import javax.net.ssl.SSLContext;  
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
 import javax.net.ssl.TrustManager;  
 import javax.net.ssl.TrustManagerFactory;  
 import javax.net.ssl.X509KeyManager;  
@@ -70,31 +71,31 @@ public class SocketFactoryDinamico implements ProtocolSocketFactory {
     }  
   
     @Override
-    public Socket createSocket(String host, int port, InetAddress localAddress,  
-            int localPort, HttpConnectionParams params) throws IOException,  
-            UnknownHostException, ConnectTimeoutException {  
-        if (params == null) {  
-            throw new IllegalArgumentException("Parameters may not be null");  
-        }  
-        int timeout = params.getConnectionTimeout();  
-        SocketFactory socketfactory = getSSLContext().getSocketFactory();  
-        if (timeout == 0) {  
-            return socketfactory.createSocket(host, port, localAddress,  
-                    localPort);  
-        }  
-  
-        Socket socket = socketfactory.createSocket();  
-        SocketAddress localaddr = new InetSocketAddress(localAddress, localPort);  
-        SocketAddress remoteaddr = new InetSocketAddress(host, port);  
-        socket.bind(localaddr);  
-        try {  
-            socket.connect(remoteaddr, timeout);  
-        } catch (Exception e) {  
-            error(e.toString());  
-            throw new ConnectTimeoutException("Possível timeout de conexão", e);  
-        }  
-  
-        return socket;  
+    public Socket createSocket(String host, int port, InetAddress localAddress, int localPort, HttpConnectionParams params) throws IOException {
+    	if (params == null) {
+    		throw new IllegalArgumentException("Parameters may not be null");
+    	}
+    	int timeout = params.getConnectionTimeout();
+
+    	SocketFactory socketfactory = getSSLContext().getSocketFactory();
+    	if (timeout == 0) {
+    		return socketfactory.createSocket(host, port, localAddress,
+    				localPort);
+    	}
+
+    	Socket socket = socketfactory.createSocket();
+    	((SSLSocket) socket).setEnabledProtocols(new String[] {"SSLv3", "TLSv1"});
+    	SocketAddress localaddr = new InetSocketAddress(localAddress, localPort);
+    	SocketAddress remoteaddr = new InetSocketAddress(host, port);
+    	socket.bind(localaddr);
+    	try {
+    		socket.connect(remoteaddr, timeout);
+    	} catch (Exception e) {
+    		error(e.toString());
+    		throw new ConnectTimeoutException("Possível timeout de conexão", e);
+    	}
+
+    	return socket;
     }  
   
     @Override

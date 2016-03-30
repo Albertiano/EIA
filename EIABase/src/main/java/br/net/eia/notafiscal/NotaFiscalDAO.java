@@ -184,7 +184,7 @@ public List<NotaFiscal> pesquisar(Integer xEmitente, Date dateIni, Date dateFim,
 		predicados.add(builder.greaterThanOrEqualTo(root.<Date> get(NotaFiscal_.dhEmi), dateIni));
 	}
 	if(dateFim!=null){
-		predicados.add(builder.lessThanOrEqualTo(root.<Date> get(NotaFiscal_.dhSaiEnt), dateFim));
+		predicados.add(builder.lessThanOrEqualTo(root.<Date> get(NotaFiscal_.dhEmi), dateFim));
 	}			
 	
 	if (!notaFiscal.equalsIgnoreCase("todos")) {

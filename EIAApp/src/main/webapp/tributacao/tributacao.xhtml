@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" 
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template=".././template.xhtml">
+
+	<ui:define name="content">
+		<div id="top" class="row">
+			<div class="col-sm-3">
+				<h2>Tributações</h2>
+			</div>
+			<div class="col-sm-6">
+				<form jsf:id="form" jsf:prependId="false">
+					<div class="input-group h2">
+						<input class="form-control" id="search" type="text"
+							placeholder="Pesquisar" jsf:value="#{tributacaoBean.search}" /> <span
+							class="input-group-btn">
+							<button class="btn btn-primary" jsf:id="button"
+								jsf:action="#{tributacaoBean.carregar}">
+								<span class="glyphicon glyphicon-search"></span>
+							</button>
+						</span>
+					</div>
+				</form>
+			</div>
+			<div class="col-sm-3">
+				<form jsf:id="form-new" jsf:prependId="false">
+					<f:ajax event="click" render="edit-form"
+						listener="#{tributacaoBean.preparar}">
+						<button jsf:action="#" class="btn btn-primary pull-right h2"
+							data-toggle="modal" data-target="#edit-modal">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Novo
+							Registro
+						</button>
+					</f:ajax>
+				</form>
+			</div>
+		</div>
+		<!-- /#top -->
+
+		<hr />
+
+		<div id="list" class="row">
+
+			<div id="table" class="table-responsive col-sm-6">
+
+				<p:dataTable id="tabela" var="registro"
+					value="#{tributacaoBean.registros}" reflow="true" paginator="false"
+					tableStyle="table-layout: auto;"
+					tableStyleClass="table table-striped table-hover">
+					<f:facet name="header">
+						<h3 class="titulo">Registros</h3>
+					</f:facet>
+					<p:column headerText="Nome">
+						<h:outputText value="#{registro.nome}" />
+					</p:column>
+					<p:column headerText="Descrição">
+						<h:outputText value="#{registro.descricao}" />
+					</p:column>					
+					<p:column headerText="Ações">
+						<form jsf:id="form-actions" jsf:prependId="false">
+							<f:ajax event="click" execute="edit-form" render="edit-form"
+								listener="#{tributacaoBean.preparar}">
+								<button jsf:action="#" class="btn btn-warning btn-xs"
+									data-toggle="modal" data-target="#edit-modal">
+									<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+									<f:param name="id" value="#{registro.id}" />
+								</button>
+							</f:ajax>
+							<f:ajax event="click" execute="delete-form" render="delete-form"
+								listener="#{tributacaoBean.preparar}">
+								<button jsf:action="#" class="btn btn-danger btn-xs"
+									data-toggle="modal" data-target="#delete-modal">
+									<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+									<f:param name="id" value="#{registro.id}" />
+								</button>
+							</f:ajax>
+						</form>
+					</p:column>
+				</p:dataTable>
+
+			</div>
+
+		</div>
+		<!-- /#list -->
+		
+		<!-- Edit Modal -->
+		<div class="modal modal-wide fade" id="edit-modal" tabindex="-1"
+			role="dialog" aria-labelledby="modalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Fechar">
+							<span aria-hidden="true">&#215;</span>
+						</button>
+						<h4 class="modal-title" id="modalLabel">Edição de Registro</h4>
+					</div>
+					<!-- Corpo -->
+					<div class="modal-body">
+						<div class="container-fluid">
+							<form role="form" class="form-horizontal" jsf:id="edit-form"
+								jsf:prependId="false">
+								<div class="panel panel-primary">
+									<div class="panel-heading">
+										<h3 class="panel-title">Dados Basicos</h3>
+									</div>
+									<div class="panel-body">
+									
+										<div class="row">
+											<div class="form-group">
+												<label class="col-sm-1 control-label" for="nome">Nome</label>
+												<div class="col-sm-4">
+													<input jsf:id="nome" name="nome" placeholder="Nome"
+														class="form-control input-md" jsf:required="true"
+														type="text" jsf:value="#{tributacaoBean.registro.nome}">
+													<f:ajax event="blur" execute="@this" render="@this men" />
+													</input>
+													<p:message id="men" for="nome" />
+
+												</div>
+											</div>
+											<!-- / form-group -->
+										</div>
+										<div class="row">
+											<div class="form-group">
+												<label class="col-sm-1 control-label" for="nome">Descrição</label>
+												<div class="col-sm-6">
+													<input jsf:id="descricao" name="descricao" placeholder="Descrição"
+														class="form-control input-md" jsf:required="true"
+														type="text" jsf:value="#{tributacaoBean.registro.descricao}">
+													<f:ajax event="blur" execute="@this" render="@this men" />
+													</input>
+												</div>
+											</div>
+											<!-- / form-group -->
+										</div>
+										
+										<div id="list" class="row">
+										
+											<div class="panel panel-primary">
+											  <div class="panel-heading titulo">
+											    <h3 class="panel-title">Destinos</h3>
+											  </div>
+											  <div class="panel-body centralizado">
+											    <p:dataGrid var="registro2" value="#{tributacaoBean.registro.destino}"
+													columns="7" layout="grid" rows="0" paginator="false">
+											        
+											        <div class="panel panel-primary">
+													  <div class="panel-heading titulo">#{registro2.estado}</div>
+													  <div class="panel-body center">
+													    <label for="cfop">CFOP</label>
+														<output id="cfop">#{registro2.tributos.cfop}</output>
+														<p>------------------------</p>
+														<label for="icms">ICMS</label>
+														<output id="icms">#{registro2.tributos.icms.pICMS}</output>														
+													  </div>
+													  <div class="panel-footer center">
+														<form jsf:id="form-actions2" jsf:prependId="false">
+															<f:ajax event="click" execute="editUF" render="editUF" listener="#{tributacaoBean.prepararDest}">
+																<button jsf:action="#" class="btn btn-warning btn-xs"
+																	data-toggle="modal" data-target="#editUF">
+																	<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+																	<f:param name="idDestino" value="#{registro2.id}" />
+																</button>
+															</f:ajax>
+														</form>
+													  </div>
+													</div>
+
+												</p:dataGrid>
+											  </div>
+											</div>
+								
+										</div>
+										<!-- /#list -->
+
+									</div>
+								</div>
+									
+								<div class="row">
+									<div class="alert #{tributacaoBean.mensClass} alert-dismissible"
+										role="alert">
+										<button type="button" class="close" data-dismiss="alert"
+											aria-label="Close">
+											<span aria-hidden="true">&#215;</span>
+										</button>
+										<h:messages id="globalMessage" />
+									</div>
+								</div>
+								
+							</form>
+
+
+
+						</div>
+					</div><!--/ Corpo -->
+					<div class="modal-footer">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="text-center">
+									<form jsf:id="form-buttons" jsf:prependId="false">
+										<button jsf:actionListener="#{tributacaoBean.gravar}"
+											class="btn btn-primary">
+											Gravar
+											<f:ajax execute="edit-form" render="edit-form" />
+										</button>
+										<button jsf:action="#{tributacaoBean.carregar}"
+											class="btn btn-default">Fechar</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- / Edit Modal -->
+			 <!-- Modal -->	
+			 
+			 <div id="editUF" class="modal modal-wide fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+						<span aria-hidden="true">&#215;</span>
+					</button>
+					<h4 class="modal-title" id="modalLabel">Edição de Registro</h4>
+				 </div>
+					<div class="modal-body"><!-- Corpo -->
+						<div class="container-fluid">
+							<form role="form" class="form-horizontal" jsf:id="editUF-form" jsf:prependId="false">
+								<div class="row">
+											<div class="form-group">
+												<label class="col-sm-offset-1 col-sm-1 control-label" for="estado">Estado</label>
+												<div class="col-sm-4">
+													<input jsf:id="estado" name="estado" placeholder="Estado" class="form-control input-md disabled" jsf:required="true" type="text" jsf:value="#{tributacaoBean.destinoAtual.estado}">
+													<f:ajax event="blur" execute="@this" render="@this" />
+													</input>
+												</div>
+												<label class="col-sm-1 control-label" for="cfop">CFOP</label>
+												<div class="col-sm-4">
+													<input jsf:id="cfop" name="cfop" placeholder="CFOP" class="form-control input-md" jsf:required="true" type="text" jsf:value="#{tributacaoBean.destinoAtual.tributos.cfop}">
+													<f:ajax event="blur" execute="@this" render="@this" />
+													</input>
+												</div>
+											</div>
+											<!-- / form-group -->
+								 </div>
+								<div id="accordion" role="tablist" aria-multiselectable="true">
+								  <div class="panel panel-default">
+								    <div class="panel-heading" role="tab" id="tituloICMS">
+								      <h4 class="panel-title">
+								        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseICMS" aria-expanded="false" aria-controls="collapseICMS">
+								          ICMS
+								        </a>
+								      </h4>
+								    </div>
+								    <div id="collapseICMS" class="panel-collapse collapse" role="tabpanel" aria-labelledby="tituloICMS">
+								      <div class="container">
+								      	<div id="accordionICMS" role="tablist" aria-multiselectable="true">
+										  <div class="panel panel-default">
+										    <div class="panel-heading" role="tab" id="tituloICMS">
+										      <h4 class="panel-title">
+										        <a class="collapsed" data-toggle="collapse" data-parent="#accordionICMS" href="#collapseSimplesNacional" aria-expanded="false" aria-controls="collapseSimplesNacional">
+										          Exclusivamente Simples Nacional
+										        </a>
+										      </h4>
+										    </div>
+										    <div id="collapseSimplesNacional" class="panel-collapse collapse" role="tabpanel" aria-labelledby="tituloSimplesNacional">
+										      <div class="container">
+										      	afdsafafsd
+										      </div>
+										    </div>
+										  </div>
+										  <!-- Fim do Painel -->
+										  <div class="panel panel-default">
+										    <div class="panel-heading" role="tab" id="tituloICMSN">
+										      <h4 class="panel-title">
+										        <a class="collapsed" data-toggle="collapse" data-parent="#accordionICMS" href="#collapseICMSN" aria-expanded="false" aria-controls="collapseICMSN">
+										          ICMS
+										        </a>
+										      </h4>
+										    </div>
+										    <div id="collapseICMSN" class="panel-collapse collapse" role="tabpanel" aria-labelledby="tituloICMSN">
+										      <div class="container">
+										      	afdsafafsd
+										      </div>
+										    </div>
+										  </div>
+										  <!-- Fim do Painel -->
+										  <div class="panel panel-default">
+										    <div class="panel-heading" role="tab" id="tituloICMSST">
+										      <h4 class="panel-title">
+										        <a class="collapsed" data-toggle="collapse" data-parent="#accordionICMS" href="#collapseICMSST" aria-expanded="false" aria-controls="collapseICMSST">
+										          ICMS ST
+										        </a>
+										      </h4>
+										    </div>
+										    <div id="collapseICMSST" class="panel-collapse collapse" role="tabpanel" aria-labelledby="tituloICMSST">
+										      <div class="container">
+										      	afdsafafsd
+										      </div>
+										    </div>
+										  </div>
+										  <!-- Fim do Painel -->
+										</div>
+								      </div>
+								    </div>
+								  </div>
+								</div>						
+							</form>
+						</div>
+					</div><!--/ Corpo -->
+					<div class="modal-footer">
+						<form class="text-center" jsf:id="edit-UF-form-buttons" jsf:prependId="false">
+							<button jsf:action="#{tributacaoBean.delete}"
+								class="btn btn-primary">Confirmar</button>
+							<button class="btn btn-default" data-dismiss="modal">Cancelar</button>
+						</form>
+					</div>
+			    </div>
+			  </div>
+			</div><!--/ Modal -->
+			
+			
+			
+		
+			
+
+		<!-- Delete Modal -->
+		<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog"
+			aria-labelledby="modalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Fechar">
+							<span aria-hidden="true">&#215;</span>
+						</button>
+						<h4 class="modal-title" id="modalLabel">Deseja realmente
+							excluir este registro?</h4>
+					</div>
+					<div class="modal-body">
+
+						<p>
+							<label for="nome">Nome: &#160;</label>
+							<output id="nome">#{tributacaoBean.registro.nome}</output>
+						</p>
+						<p>
+							<label for="desc">Descrição: &#160;</label>
+							<output id="desc">#{tributacaoBean.registro.descricao}</output>
+						</p>
+
+					</div>
+					<div class="modal-footer">
+						<form jsf:id="delete-form-buttons" jsf:prependId="false">
+							<button jsf:action="#{tributacaoBean.delete}"
+								class="btn btn-primary">Sim</button>
+							<button class="btn btn-default" data-dismiss="modal">Não</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>
