@@ -48,6 +48,7 @@ public class lerXML_JAXB {
     	double CFOP5401Qtd=0;
     	double CFOP5904Qtd=0;
     	double CFOP5116 = 0;
+    	double CFOPOutros = 0;
     	double faturamento = 0;
     	
     	FilenameFilter filtro = new FilenameFilter() {
@@ -55,7 +56,7 @@ public class lerXML_JAXB {
     	        return name.endsWith("-procNfe.xml");   
     	    }  
     	};  
-        String local = "E:/xml";
+        String local = "C:\\Users\\Albertiano\\NF-e\\2019-07\\Autorizada";
     	File arquivos = new File(local);  
     	String[] nomeArquivos = arquivos.list(filtro);  
     	StringBuilder sb = new StringBuilder();
@@ -93,7 +94,21 @@ public class lerXML_JAXB {
                     CFOP5116 +=Double.parseDouble(nfe.getNFe().getInfNFe().getDet().get(0).getProd().getQTrib());
                     faturamento+=Double.parseDouble(nfe.getNFe().getInfNFe().getDet().get(0).getProd().getVProd());
                     break;
+                case "5920":
+                    faturamento+=Double.parseDouble(nfe.getNFe().getInfNFe().getDet().get(0).getProd().getVProd());
+                    break;
+                case "5921":
+                    faturamento+=Double.parseDouble(nfe.getNFe().getInfNFe().getDet().get(0).getProd().getVProd());
+                    break;
+                case "1921":
+                    faturamento+=Double.parseDouble(nfe.getNFe().getInfNFe().getDet().get(0).getProd().getVProd());
+                    break;
                 default:
+                	if(nfe.getNFe().getInfNFe().getDet().get(0).getProd().getCProd().equalsIgnoreCase("1")) {
+                		CFOPOutros +=Double.parseDouble(nfe.getNFe().getInfNFe().getDet().get(0).getProd().getQTrib());
+                	}
+                	System.out.println(sbAcao);
+                	
                     faturamento+=Double.parseDouble(nfe.getNFe().getInfNFe().getDet().get(0).getProd().getVProd());
                     break;
             }
@@ -103,7 +118,11 @@ public class lerXML_JAXB {
                 .append("CFOP 5401: ")
                 .append(CFOP5401Qtd)
                 .append(" Aguas")
-                .append("\r\n")                
+                .append("\r\n")
+                .append("CFOP Outros: ")
+                .append(CFOPOutros)
+                .append(" Aguas")
+                .append("\r\n")
                 .append("CFOP 5904: ")
                 .append(CFOP5904Qtd)
                 .append(" Aguas")
