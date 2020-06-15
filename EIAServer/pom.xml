@@ -18,7 +18,7 @@
 		<mojarra.version>2.1.7</mojarra.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<spring.framework.version>4.0.1.RELEASE</spring.framework.version>
-		<spring.security.framework.version>3.2.5.RELEASE</spring.security.framework.version>
+		<spring.security.framework.version>5.3.3.RELEASE</spring.security.framework.version>
 		<jersey.version>1.19</jersey.version>
 
 		<hibernate.version>4.3.5.Final</hibernate.version>
