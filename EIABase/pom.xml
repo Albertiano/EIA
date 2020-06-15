@@ -31,7 +31,7 @@
 		<log4j.version>1.2.16</log4j.version>
 		<jta.version>1.1</jta.version>
 		<cglib.version>2.2</cglib.version>
-		<commons-collections.version>3.1</commons-collections.version>
+		<commons-collections.version>3.2.2</commons-collections.version>
 		<validation-api.version>1.0.0.GA</validation-api.version>
 		<hibernate-jpa-2.0-api.version>1.0.1.Final</hibernate-jpa-2.0-api.version>
 		<shiro.version>1.2.1</shiro.version>
