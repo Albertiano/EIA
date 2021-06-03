@@ -15,7 +15,7 @@
 		<maven-compiler-plugin.version>3.0</maven-compiler-plugin.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<primefaces.version>5.2</primefaces.version>
+		<primefaces.version>6.0</primefaces.version>
 		<weld.version>2.2.9.Final</weld.version>
 		<jandex.version>1.2.3.Final</jandex.version>
 		<hibernate-validator.version>5.1.3.Final</hibernate-validator.version>
