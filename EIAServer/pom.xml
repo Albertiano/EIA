@@ -21,7 +21,7 @@
 		<spring.security.framework.version>3.2.5.RELEASE</spring.security.framework.version>
 		<jersey.version>1.19</jersey.version>
 
-		<hibernate.version>4.3.5.Final</hibernate.version>
+		<hibernate.version>5.4.24.Final</hibernate.version>
 		<hibernate.validator.version>4.3.0.Final</hibernate.validator.version>
 		<hibernate-jpa-2.0-api.version>1.0.0.Final</hibernate-jpa-2.0-api.version>
 
